@@ -629,12 +629,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function loadState() {
   const saved = localStorage.getItem(STORAGE_KEY);
-  if (!saved) return structuredClone(seedData);
+  if (!saved) return cloneData(seedData);
   try {
     return JSON.parse(saved);
   } catch {
-    return structuredClone(seedData);
+    return cloneData(seedData);
   }
+}
+
+function cloneData(data) {
+  if (typeof structuredClone === "function") return structuredClone(data);
+  return JSON.parse(JSON.stringify(data));
 }
 
 function saveState() {
