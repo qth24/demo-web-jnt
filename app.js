@@ -1,4 +1,4 @@
-const STORAGE_KEY = "jt-fleet-incident-control-v1";
+const STORAGE_KEY = "jt-fleet-incident-control-v2";
 
 const translations = {
   vi: {
@@ -20,7 +20,7 @@ const translations = {
     login: "Đăng nhập",
     export_ok: "Đã tạo báo cáo JSON trong trình duyệt.",
     logout: "Đăng xuất",
-    quick_incident: "Báo sự cố nhanh",
+    quick_incident: "Báo cáo sự cố",
     export_report: "Xuất báo cáo",
     operations: "Vận hành đội xe",
     policy_area: "Chính sách và pháp chế",
@@ -64,7 +64,7 @@ const translations = {
     login: "Login",
     export_ok: "JSON report generated in browser.",
     logout: "Logout",
-    quick_incident: "Quick incident",
+    quick_incident: "Incident report",
     export_report: "Export report",
     operations: "Fleet operations",
     policy_area: "Policy and compliance",
@@ -108,7 +108,7 @@ const translations = {
     login: "登录",
     export_ok: "已在浏览器生成 JSON 报告。",
     logout: "退出登录",
-    quick_incident: "快速上报",
+    quick_incident: "事故报告",
     export_report: "导出报告",
     operations: "车队运营",
     policy_area: "政策与合规",
@@ -171,16 +171,15 @@ const navItems = [
   { id: "dashboard", label: "Dashboard sự cố", icon: "DB", roles: ["fleet", "branch", "safety", "tech"] },
   { id: "accounts", label: "Tài khoản", icon: "AC", roles: ["fleet", "branch", "safety"] },
   { id: "trucks", label: "Xe tải", icon: "TR", roles: ["fleet", "branch", "safety"] },
-  { id: "drivers", label: "Tài xế", icon: "DR", roles: ["fleet", "branch", "safety", "driver"] },
+  { id: "drivers", label: "Tài xế", icon: "DR", roles: ["fleet", "branch", "safety"] },
   { id: "employees", label: "Nhân viên", icon: "EM", roles: ["branch", "safety", "fleet"] },
   { id: "branches", label: "Chi nhánh", icon: "BR", roles: ["branch", "fleet", "safety"] },
   { id: "incidents", label: "Sự cố", icon: "IN", roles: ["fleet", "branch", "safety", "driver", "tech"] },
   { id: "inspections", label: "Phiếu nghiệm thu", icon: "NT", roles: ["tech", "safety", "fleet"] },
-  { id: "trips", label: "Chuyến hàng", icon: "CH", roles: ["fleet", "branch", "driver", "safety"] },
+  { id: "trips", label: "Chuyến hàng", icon: "CH", roles: ["fleet", "branch", "safety"] },
   { id: "garages", label: "Gara", icon: "GA", roles: ["fleet", "safety", "tech"] },
   { id: "invoices", label: "Hóa đơn", icon: "HD", roles: ["fleet", "safety"] },
-  { id: "categories", label: "Danh mục sự cố", icon: "DM", roles: ["fleet", "safety", "driver"] },
-  { id: "policy", label: "Chính sách & tuân thủ", icon: "PL", roles: ["fleet", "branch", "safety", "driver", "tech"] },
+  { id: "categories", label: "Danh mục sự cố", icon: "DM", roles: ["fleet", "safety"] },
 ];
 
 const navLabels = {
@@ -325,6 +324,7 @@ const fieldLabels = {
   categoryCode: "Mã loại",
   description: "Mô tả",
   guide: "Hướng dẫn xử lý",
+  password: "Mật khẩu mặc định",
 };
 
 const fieldLabelsByLang = {
@@ -381,6 +381,7 @@ const fieldLabelsByLang = {
     categoryCode: "Category code",
     description: "Description",
     guide: "Handling guide",
+    password: "Default password",
   },
   zh: {
     code: "编号",
@@ -434,6 +435,7 @@ const fieldLabelsByLang = {
     categoryCode: "分类编号",
     description: "描述",
     guide: "处理指南",
+    password: "默认密码",
   },
 };
 
@@ -447,7 +449,7 @@ const entityConfigs = {
     addLabel: "Thêm tài khoản",
     source: "accounts",
     columns: ["employeeCode", "name", "role", "phone", "branch", "status"],
-    fields: ["employeeCode", "name", "role", "phone", "email", "branch", "status"],
+    fields: ["role", "employeeCode", "driverCode", "name", "citizenId", "phone", "email", "licenseClass", "licenseExpiry", "department", "position", "branch", "status", "password"],
     filters: ["role", "branch", "status"],
   },
   trucks: {
@@ -478,17 +480,17 @@ const entityConfigs = {
     title: "Quản lý chi nhánh",
     addLabel: "Tạo chi nhánh",
     source: "branches",
-    columns: ["code", "name", "address", "region", "status", "trips", "incidentRate", "productivity"],
-    fields: ["code", "name", "address", "region", "status", "trips", "incidentRate", "productivity"],
-    filters: ["region", "status"],
+    columns: ["code", "name", "address", "status"],
+    fields: ["code", "name", "address", "status"],
+    filters: ["status"],
   },
   incidents: {
     title: "Quản lý sự cố",
     addLabel: "Tạo báo cáo sự cố",
     source: "incidents",
-    columns: ["code", "name", "time", "incidentType", "status", "tripCode", "driverCode", "plate", "approval"],
-    fields: ["code", "time", "gps", "incidentType", "name", "status", "tripCode", "driverCode", "plate", "staffCode", "staffName", "images", "severity", "cost", "fault", "approval"],
-    filters: ["incidentType", "status", "approval"],
+    columns: ["code", "name", "time", "incidentType", "status", "tripCode", "driverCode", "plate"],
+    fields: ["code", "time", "gps", "name", "incidentType", "status", "tripCode", "driverCode", "plate", "staffCode", "staffName", "images"],
+    filters: ["incidentType", "status"],
   },
   inspections: {
     title: "Phiếu nghiệm thu",
@@ -504,7 +506,7 @@ const entityConfigs = {
     source: "trips",
     columns: ["code", "route", "eta", "quantity", "status", "plate", "driverCode", "driverName"],
     fields: ["code", "route", "eta", "quantity", "status", "plate", "driverCode", "driverName"],
-    filters: ["status", "plate", "driverCode"],
+    filters: [],
   },
   garages: {
     title: "Quản lý gara",
@@ -534,9 +536,9 @@ const entityConfigs = {
 
 const seedData = {
   accounts: [
-    { id: 1, employeeCode: "QL001", name: "Nguyễn Minh Quân", role: "Quản lý đội xe", phone: "0901000001", email: "quan@jtexpress.vn", branch: "HCM-01", status: "Hoạt động" },
-    { id: 2, employeeCode: "AT014", name: "Lê Thanh Mai", role: "Nhân viên an toàn", phone: "0901000014", email: "mai@jtexpress.vn", branch: "HCM-01", status: "Hoạt động" },
-    { id: 3, employeeCode: "TX228", name: "Trần Văn Bình", role: "Tài xế", phone: "0901000228", email: "binh@jtexpress.vn", branch: "BD-02", status: "Hoạt động" },
+    { id: 1, employeeCode: "QL001", driverCode: "", name: "Nguyễn Minh Quân", role: "Quản lý đội xe", citizenId: "", phone: "0901000001", email: "quan@jtexpress.vn", licenseClass: "", licenseExpiry: "", department: "Vận hành", position: "Quản lý đội xe", branch: "HCM-01", status: "Hoạt động", password: "123" },
+    { id: 2, employeeCode: "AT014", driverCode: "", name: "Lê Thanh Mai", role: "Nhân viên an toàn", citizenId: "", phone: "0901000014", email: "mai@jtexpress.vn", licenseClass: "", licenseExpiry: "", department: "An toàn", position: "Điều phối sự cố", branch: "HCM-01", status: "Hoạt động", password: "123" },
+    { id: 3, employeeCode: "", driverCode: "TX228", name: "Trần Văn Bình", role: "Tài xế", citizenId: "079088000001", phone: "0901000228", email: "", licenseClass: "FC", licenseExpiry: "2026-06-26", department: "", position: "", branch: "BD-02", status: "Đang chạy", password: "123" },
   ],
   trucks: [
     { id: 1, plate: "51C-892.10", payload: "8 tấn", brand: "Hino", year: "2021", status: "Đang vận hành", insurance: "PJICO 2026", branch: "HCM-01" },
@@ -554,14 +556,14 @@ const seedData = {
     { id: 3, employeeCode: "CN008", name: "Vũ Khánh Linh", phone: "0901000008", email: "linh@jtexpress.vn", department: "Chi nhánh", position: "Quản lý chi nhánh", branch: "HN-03" },
   ],
   branches: [
-    { id: 1, code: "HCM-01", name: "Trung tâm Hồ Chí Minh", address: "KCN Tân Bình, TP.HCM", region: "Miền Nam", status: "Hoạt động", trips: "128", incidentRate: "2.8%", productivity: "96%" },
-    { id: 2, code: "BD-02", name: "Kho Bình Dương", address: "Thuận An, Bình Dương", region: "Miền Nam", status: "Hoạt động", trips: "84", incidentRate: "4.1%", productivity: "91%" },
-    { id: 3, code: "HN-03", name: "Hub Hà Nội", address: "Long Biên, Hà Nội", region: "Miền Bắc", status: "Hoạt động", trips: "102", incidentRate: "1.9%", productivity: "98%" },
+    { id: 1, code: "HCM-01", name: "Trung tâm Hồ Chí Minh", address: "KCN Tân Bình, TP.HCM", status: "Hoạt động" },
+    { id: 2, code: "BD-02", name: "Kho Bình Dương", address: "Thuận An, Bình Dương", status: "Hoạt động" },
+    { id: 3, code: "HN-03", name: "Hub Hà Nội", address: "Long Biên, Hà Nội", status: "Hoạt động" },
   ],
   incidents: [
-    { id: 1, code: "SC-2026-0615-01", name: "Nổ lốp trên QL13", time: "2026-06-15 08:20", gps: "10.957, 106.713", incidentType: "Lốp xe", status: "Đang xử lý", tripCode: "CH-8891", driverCode: "TX228", plate: "61H-445.23", staffCode: "AT014", staffName: "Lê Thanh Mai", images: "3 ảnh hiện trường", severity: "Trung bình", cost: "4200000", fault: "Chưa phán định", approval: "Chi nhánh duyệt" },
-    { id: 2, code: "SC-2026-0614-02", name: "Va chạm nhẹ tại bãi xe", time: "2026-06-14 19:45", gps: "10.803, 106.629", incidentType: "Va chạm", status: "Đã ghi nhận", tripCode: "CH-8874", driverCode: "TX019", plate: "51C-892.10", staffCode: "AT014", staffName: "Lê Thanh Mai", images: "2 ảnh hiện trường", severity: "Nhẹ", cost: "2800000", fault: "Tài xế bất cẩn", approval: "Tài xế chi trả" },
-    { id: 3, code: "SC-2026-0610-03", name: "Hỏng hộp số", time: "2026-06-10 11:10", gps: "21.038, 105.882", incidentType: "Động cơ", status: "Hoàn tất sửa chữa", tripCode: "CH-8720", driverCode: "TX301", plate: "50H-781.88", staffCode: "KT031", staffName: "Hoàng Gia Phúc", images: "5 ảnh, 1 biên bản", severity: "Nặng", cost: "12500000", fault: "Hao mòn kỹ thuật", approval: "Duyệt khẩn cấp" },
+    { id: 1, code: "SC-2026-0615-01", name: "Thủng lốp", time: "2026-06-15 08:20", gps: "10.957, 106.713", incidentType: "Sự cố nhỏ", status: "Đang xử lý", tripCode: "CH-8891", driverCode: "TX228", plate: "61H-445.23", staffCode: "AT014", staffName: "Lê Thanh Mai", images: "Xe bị thủng lốp sau khi qua đoạn đường công trình. 3 ảnh hiện trường." },
+    { id: 2, code: "SC-2026-0614-02", name: "Hết bình Ắc-quy", time: "2026-06-14 19:45", gps: "10.803, 106.629", incidentType: "Sự cố động cơ", status: "Đã ghi nhận", tripCode: "CH-8874", driverCode: "TX019", plate: "51C-892.10", staffCode: "AT014", staffName: "Lê Thanh Mai", images: "Xe không đề máy tại bãi trung chuyển. 2 ảnh hiện trường." },
+    { id: 3, code: "SC-2026-0610-03", name: "Mất Phanh", time: "2026-06-10 11:10", gps: "21.038, 105.882", incidentType: "Sự cố kỹ thuật nghiêm trọng và cần sửa chữa", status: "Hoàn tất sửa chữa", tripCode: "CH-8720", driverCode: "TX301", plate: "50H-781.88", staffCode: "KT031", staffName: "Hoàng Gia Phúc", images: "Phanh phản hồi chậm, xe đã dừng khẩn cấp. 5 ảnh, 1 biên bản." },
   ],
   inspections: [
     { id: 1, code: "NT-7781", date: "2026-06-15", solution: "Thay lốp trước, kiểm tra cân bằng", quote: "4200000", plate: "61H-445.23", invoiceCode: "HD-991", incidentCode: "SC-2026-0615-01", staffCode: "KT031", staffName: "Hoàng Gia Phúc" },
@@ -582,9 +584,9 @@ const seedData = {
     { id: 2, code: "HD-975", garageCode: "GA-02", acceptanceCode: "NT-7719", services: "Sửa hộp số; thay dầu", total: "12500000", paidAt: "2026-06-11", method: "Chuyển khoản", images: "invoice-975.jpg" },
   ],
   categories: [
-    { id: 1, categoryCode: "LS-01", name: "Lốp xe", severity: "Trung bình", description: "Nổ lốp, mòn lốp, mất áp suất.", guide: "Dừng xe an toàn, chụp hiện trường, gọi gara gần nhất." },
-    { id: 2, categoryCode: "VC-02", name: "Va chạm", severity: "Tùy mức độ", description: "Va quẹt, tai nạn giao thông.", guide: "Bật cảnh báo, chụp ảnh, báo nhân viên an toàn và công an nếu cần." },
-    { id: 3, categoryCode: "DC-03", name: "Động cơ", severity: "Nặng", description: "Hỏng hộp số, quá nhiệt, chết máy.", guide: "Không tiếp tục vận hành, yêu cầu cứu hộ và lập hồ sơ bảo hiểm." },
+    { id: 1, categoryCode: "SCN-01", name: "Sự cố nhỏ", severity: "Theo dõi", description: "Thủng lốp, cháy bóng đèn.", guide: "Dừng xe an toàn, chụp hiện trường, kiểm tra theo hướng dẫn." },
+    { id: 2, categoryCode: "DCO-02", name: "Sự cố động cơ", severity: "Cần hỗ trợ", description: "Ắc-quy, rò rỉ dầu, giảm xóc.", guide: "Dừng xe, không cố vận hành, gọi nhân viên an toàn và gara." },
+    { id: 3, categoryCode: "NTK-03", name: "Sự cố kỹ thuật nghiêm trọng và cần sửa chữa", severity: "Khẩn cấp", description: "Mất phanh, thắng không an toàn.", guide: "Dừng khẩn cấp, cảnh báo từ xa, liên hệ cứu hộ và công ty ngay." },
   ],
 };
 
@@ -593,6 +595,30 @@ let currentRole = "fleet";
 let currentView = "dashboard";
 let currentLang = "vi";
 let gpsTick = 0;
+let activeFormKey = "";
+
+const incidentNameMap = {
+  "Thủng lốp": "Sự cố nhỏ",
+  "Cháy bóng đèn": "Sự cố nhỏ",
+  "Hết bình Ắc-quy": "Sự cố động cơ",
+  "Rò rỉ dầu": "Sự cố động cơ",
+  "Hư Hệ thống giảm xóc": "Sự cố động cơ",
+  "Mất Phanh": "Sự cố kỹ thuật nghiêm trọng và cần sửa chữa",
+  "Bể bánh xe": "Sự cố nhỏ",
+  "Xe dừng máy": "Sự cố động cơ",
+  "Hư phanh xe": "Sự cố kỹ thuật nghiêm trọng và cần sửa chữa",
+  "Thắng xe không an toàn": "Sự cố kỹ thuật nghiêm trọng và cần sửa chữa",
+};
+
+function classifyIncident(name) {
+  return incidentNameMap[name] || "Sự cố nhỏ";
+}
+
+function handlingGuide(type) {
+  if (type.includes("nghiêm trọng")) return "Tài xế dừng xe khẩn cấp, bật cảnh báo, liên hệ công ty và chờ cứu hộ/gara. Nhân viên an toàn điều phối kỹ thuật, lập hồ sơ bảo hiểm và theo dõi nghiệm thu.";
+  if (type.includes("động cơ")) return "Tài xế không cố vận hành, chụp ảnh hiện trường và gọi nhân viên an toàn. Nhân viên kiểm tra gara gần nhất, tạo phiếu xử lý và cập nhật trạng thái.";
+  return "Tài xế dừng xe an toàn, kiểm tra cơ bản theo hướng dẫn. Nhân viên an toàn theo dõi, xác nhận ảnh và điều phối nếu cần.";
+}
 
 const els = {
   roleScreen: document.getElementById("role-screen"),
@@ -649,7 +675,7 @@ function saveState() {
 function handleLogin(event) {
   event.preventDefault();
   currentRole = els.loginRole.value;
-  els.userRoleLabel.textContent = roleLabelsByLang[currentLang][currentRole];
+  els.userRoleLabel.textContent = currentRole === "driver" ? "Trần Văn Bình" : roleLabelsByLang[currentLang][currentRole];
   els.roleScreen.classList.add("hidden");
   els.loginScreen.classList.add("hidden");
   els.app.classList.remove("hidden");
@@ -684,7 +710,6 @@ function renderAll() {
   renderNav();
   renderDashboard();
   Object.keys(entityConfigs).forEach(renderEntity);
-  renderPolicy();
   switchView(currentView);
 }
 
@@ -720,7 +745,8 @@ function switchView(viewId) {
   document.querySelectorAll(".nav button").forEach((btn) => btn.classList.toggle("active", btn.dataset.view === viewId));
   const item = navItems.find((nav) => nav.id === viewId);
   els.sectionTitle.textContent = navLabels[currentLang][item?.id] || item?.label || navLabels[currentLang].dashboard;
-  els.sectionEyebrow.textContent = viewId === "policy" ? translations[currentLang].policy_area : translations[currentLang].operations;
+  els.sectionEyebrow.textContent = translations[currentLang].operations;
+  document.getElementById("quick-incident-btn").style.display = viewId === "incidents" ? "" : "none";
 }
 
 function renderDashboard() {
@@ -751,7 +777,7 @@ function renderDashboard() {
       <img src="./images/jnt-ngang.png" alt="J&T Express" style="width:180px;max-width:30%" />
     </div>
     <div class="grid kpi-grid">
-      ${kpi("Tổng số sự cố", "1,248", "+12% so với tháng trước")}
+      ${kpi("Tổng sự cố theo quý trước", "1,248", "+12% so với quý trước")}
       ${kpi("Đang xử lý", activeIncidents, "Hiện tại")}
       ${kpi("Khẩn cấp", String(emergency).padStart(2, "0"), "Cần xử lý ngay", "hot")}
       ${kpi("Đã hoàn thành", "1,201", "96% SLA")}
@@ -779,27 +805,27 @@ function renderDashboard() {
         <div class="donut-wrap">
           <div class="donut" data-total="100%"></div>
           <div class="legend">
-            <div class="legend-row"><span><i class="dot"></i>Giao thông</span><strong>58%</strong></div>
-            <div class="legend-row"><span><i class="dot amber"></i>Hàng hóa</span><strong>23%</strong></div>
-            <div class="legend-row"><span><i class="dot muted"></i>Khác</span><strong>19%</strong></div>
+            <div class="legend-row"><span><i class="dot"></i>Sự cố nhỏ</span><strong>52%</strong></div>
+            <div class="legend-row"><span><i class="dot amber"></i>Sự cố động cơ</span><strong>31%</strong></div>
+            <div class="legend-row"><span><i class="dot muted"></i>Kỹ thuật nghiêm trọng</span><strong>17%</strong></div>
           </div>
         </div>
       </section>
     </div>
     <div class="chart-grid">
       <section class="panel">
-        <h3>Thống kê sự cố trong tuần</h3>
+        <h3>Thống kê sự cố theo tháng</h3>
         <div class="column-chart">
           ${weeklyColumns.map(([day, value]) => `<div class="column"><strong>${value}</strong><div class="column-bar" style="height:${value / 4}px"></div><span>${day}</span></div>`).join("")}
         </div>
       </section>
       <section class="panel">
-        <h3>Thao tác nhanh</h3>
+        <h3>Thống kê theo đối tượng</h3>
         <div class="quick-grid">
-          <button type="button" class="quick-tile" data-add="incidents">Tạo sự cố</button>
-          <button type="button" class="quick-tile" data-view="invoices">Báo cáo tuần</button>
-          <button type="button" class="quick-tile" data-view="trips">Bản đồ nóng</button>
-          <button type="button" class="quick-tile" data-view="policy">Cài đặt</button>
+          <button type="button" class="quick-tile" data-view="drivers">Theo tài xế<br><strong>TX228: 12</strong></button>
+          <button type="button" class="quick-tile" data-view="trucks">Theo xe tải<br><strong>61H-445.23: 8</strong></button>
+          <button type="button" class="quick-tile" data-view="branches">Theo chi nhánh<br><strong>BD-02: 19</strong></button>
+          <button type="button" class="quick-tile" data-view="incidents">Đang xử lý<br><strong>44 sự cố</strong></button>
         </div>
         <h3 style="margin-top:22px">Chi phí phát sinh</h3>
         <strong style="font-size:26px">${formatMoney(totalCost)}</strong>
@@ -810,6 +836,10 @@ function renderDashboard() {
 }
 
 function renderEntity(key) {
+  if (currentRole === "driver" && key === "incidents") {
+    document.getElementById(`${key}-view`).innerHTML = renderDriverIncidentLayout();
+    return;
+  }
   const config = entityConfigs[key];
   const [title, addLabel] = entityLabels[currentLang][key] || [config.title, config.addLabel];
   const rows = state[config.source];
@@ -818,19 +848,107 @@ function renderEntity(key) {
     ${renderEntityHero(key, title, rows.length)}
     <section class="panel">
       <div class="toolbar">
-        <div class="filters">
-          <input data-search="${key}" placeholder="${translations[currentLang].search_placeholder}" />
-          ${config.filters.map((field) => renderFilter(key, field, rows)).join("")}
-        </div>
+        ${renderToolbarControls(key, config, rows)}
         <button type="button" class="primary-btn" data-add="${key}">${addLabel}</button>
+        ${["inspections", "trips", "invoices"].includes(key) ? `<button type="button" class="secondary-btn" data-search-action="${key}">Tìm kiếm</button>` : ""}
       </div>
       <div class="table-wrap" id="${key}-table"></div>
     </section>
+    ${key === "drivers" ? renderLicenseWarnings() : ""}
     ${key === "incidents" ? renderIncidentTools() : ""}
-    ${key === "branches" ? renderBranchSuggestion() : ""}
-    ${key === "garages" ? renderGarageSuggestion() : ""}
+    ${key === "trips" ? renderTripMap() : ""}
   `;
   drawTable(key, rows);
+}
+
+function renderLicenseWarnings() {
+  const drivers = getExpiringDrivers();
+  return `
+    <section class="panel" style="margin-top:16px">
+      <h3>FR17 - Cảnh báo GPLX sắp hết hạn</h3>
+      <p>Hệ thống tự động hiển thị tài xế cần gia hạn giấy phép lái xe trước 15-30 ngày.</p>
+      <div class="timeline">
+        ${drivers.map((driver) => timeline(driver.licenseExpiry, `<strong>${driver.name}</strong> (${driver.driverCode}) · GPLX hạng ${driver.licenseClass} · ${driver.branch}`)).join("") || "<p>Không có tài xế cần cảnh báo.</p>"}
+      </div>
+    </section>
+  `;
+}
+
+function renderDriverIncidentLayout() {
+  return `
+    <div class="driver-shell">
+      <section class="driver-card">
+        <p>Xin chào, Tài xế</p>
+        <h2>Trần Văn Bình</h2>
+        <span class="driver-status">Đang làm việc</span>
+      </section>
+      <section class="driver-card driver-trip">
+        <h3>Chuyến hàng hiện tại <span class="badge red" style="float:right">JT-8892-XQL</span></h3>
+        <div class="driver-grid">
+          <div><span class="eyebrow">Biển số xe</span><strong>29C-123.45</strong></div>
+          <div><span class="eyebrow">Trải trình</span><strong>Hà Nội → HP</strong></div>
+        </div>
+        <div class="route-line">
+          <div class="route-stop"><div><strong>08:30 - Kho trung chuyển Mê Linh</strong><br>Đã xuất kho - Đang vận chuyển</div></div>
+          <div class="route-stop warn"><div><strong>Dự kiến 11:45 - Kho Hải Phòng 02</strong><br>Kho tập kết cuối</div></div>
+        </div>
+      </section>
+      <div class="driver-grid">
+        <section class="driver-card"><strong>Nhiên liệu</strong><div class="bar-track"><div class="bar-fill" style="width:65%"></div></div><h3>65%</h3></section>
+        <section class="driver-card"><strong>Thời gian lái</strong><h3>03:45h</h3><p>Đã lái hôm nay</p></section>
+      </div>
+      <button type="button" class="danger-btn driver-report-btn" data-open-driver-report>Báo cáo sự cố<br><small>Tai nạn, hư hỏng, tắc đường...</small></button>
+      <section class="driver-map"><strong>Vị trí hiện tại<br>Quốc lộ 5, Hải Dương</strong></section>
+      <section class="driver-card emergency-banner">
+        <h2>Tình trạng khẩn cấp!</h2>
+        <p>Vui lòng giữ bình tĩnh và thực hiện các bước cứu hộ ngay lập tức.</p>
+      </section>
+      <section class="driver-card">
+        <h3>Thông báo hướng dẫn xử lý</h3>
+        <div class="guide-step">
+          <strong>Bước 1: Dừng xe an toàn</strong>
+          <p>Tấp vào lề đường, bật đèn khẩn cấp và tắt máy.</p>
+          <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=900&q=70" alt="">
+        </div>
+        <div class="guide-step">
+          <strong>Bước 2: Cảnh báo từ xa</strong>
+          <p>Đặt biển cảnh báo tam giác cách xe 50-100m nếu điều kiện cho phép.</p>
+        </div>
+      </section>
+      <nav class="driver-bottom-nav">
+        <button type="button" class="active">Home</button>
+        <button type="button" data-open-driver-report>Báo cáo</button>
+        <button type="button" data-open-driver-edit>Chỉnh sửa</button>
+        <button type="button">Thông báo</button>
+      </nav>
+    </div>
+  `;
+}
+
+function renderToolbarControls(key, config, rows) {
+  const textSearch = {
+    inspections: ["code", "date", "plate", "incidentCode", "staffCode"],
+    trips: ["code", "route", "status", "plate", "driverCode"],
+    invoices: ["code", "garageCode", "acceptanceCode", "paidAt", "method"],
+  };
+  if (textSearch[key]) {
+    return `<div class="filters search-grid">${textSearch[key].map((field) => `<input data-search-field="${key}" data-field="${field}" placeholder="${labelFor(field)}" />`).join("")}</div>`;
+  }
+  return `<div class="filters"><input data-search="${key}" placeholder="${translations[currentLang].search_placeholder}" />${config.filters.map((field) => renderFilter(key, field, rows)).join("")}</div>`;
+}
+
+function renderTripMap() {
+  return `
+    <section class="panel" style="margin-top:16px">
+      <h3>Định vị chuyến hàng trên bản đồ theo thời gian thực</h3>
+      <p>Cho phép hệ thống theo dõi và hiển thị vị trí hiện tại của xe liên tục thông qua GPS.</p>
+      <div class="map-widget">
+        <div class="gps-truck" id="gps-truck">JT</div>
+        <div class="map-label" style="left:8%;top:12%"><strong>CH-8891</strong><br>61H-445.23 · GPS live</div>
+        <div class="map-label" style="right:8%;bottom:12%"><strong>Điểm đến</strong><br>Kho TP.HCM</div>
+      </div>
+    </section>
+  `;
 }
 
 function renderEntityHero(key, title, count) {
@@ -873,6 +991,7 @@ function renderFilter(key, field, rows) {
 function drawTable(key, rows) {
   const config = entityConfigs[key];
   const search = document.querySelector(`[data-search="${key}"]`)?.value?.toLowerCase() || "";
+  const fieldSearches = [...document.querySelectorAll(`[data-search-field="${key}"]`)].filter((input) => input.value.trim());
   const activeFilters = [...document.querySelectorAll(`[data-filter="${key}"]`)].reduce((acc, select) => {
     if (select.value) acc[select.dataset.field] = select.value;
     return acc;
@@ -880,7 +999,8 @@ function drawTable(key, rows) {
   const filtered = rows.filter((row) => {
     const inSearch = Object.values(row).join(" ").toLowerCase().includes(search);
     const inFilters = Object.entries(activeFilters).every(([field, value]) => row[field] === value);
-    return inSearch && inFilters;
+    const inFieldSearches = fieldSearches.every((input) => String(row[input.dataset.field] || "").toLowerCase().includes(input.value.toLowerCase()));
+    return inSearch && inFilters && inFieldSearches;
   });
   document.getElementById(`${key}-table`).innerHTML = `
     <table>
@@ -898,6 +1018,7 @@ function drawTable(key, rows) {
 }
 
 function renderRow(key, row, columns) {
+  const callAction = key === "incidents" && row.status === "Đang xử lý" ? `<button type="button" class="table-btn" data-call="${row.id}">${translations[currentLang].call}</button>` : "";
   return `
     <tr>
       ${columns.map((field) => `<td>${formatCell(field, row[field])}</td>`).join("")}
@@ -905,7 +1026,7 @@ function renderRow(key, row, columns) {
         <div class="actions">
           <button type="button" class="table-btn" data-detail="${key}" data-id="${row.id}">${translations[currentLang].view}</button>
           <button type="button" class="table-btn" data-edit="${key}" data-id="${row.id}">${translations[currentLang].edit}</button>
-          ${key === "incidents" ? `<button type="button" class="table-btn" data-call="${row.id}">${translations[currentLang].call}</button><button type="button" class="table-btn" data-process="${row.id}">${translations[currentLang].process}</button>` : ""}
+          ${callAction}
           <button type="button" class="table-btn" data-delete="${key}" data-id="${row.id}">${translations[currentLang].delete}</button>
         </div>
       </td>
@@ -926,19 +1047,19 @@ function renderIncidentTools() {
   return `
     <div class="split" style="margin-top:16px">
       <section class="panel">
-        <h3>Luồng xử lý sự cố</h3>
+        <h3>Luồng xử lý báo cáo sự cố</h3>
         <div class="timeline">
-          ${timeline("1 phút", "Tài xế bấm báo sự cố, hệ thống ghi GPS và tạo mã sự cố.")}
-          ${timeline("3 phút", "Feishu Bot gửi cảnh báo cho nhân viên an toàn chi nhánh gần nhất.")}
-          ${timeline("15 phút", "Nhân viên cập nhật hình ảnh, phân loại và gọi trực tiếp tài xế.")}
-          ${timeline("> 5 triệu", "Hệ thống khóa duyệt cấp cơ sở và kích hoạt duyệt khẩn cấp lên Giám đốc.")}
+          ${timeline("1", "Tài xế/nhân viên tạo báo cáo, hệ thống ghi GPS và hình ảnh.")}
+          ${timeline("2", "Hệ thống tự phân loại: sự cố nhỏ, sự cố động cơ, hoặc kỹ thuật nghiêm trọng.")}
+          ${timeline("3", "Nhân viên an toàn liên hệ tài xế và điều phối gara gần nhất.")}
+          ${timeline("4", "Cập nhật trạng thái xử lý cho đến khi xe vận hành bình thường.")}
         </div>
       </section>
       <section class="panel">
-        <h3>Kiểm tra chi phí và kỷ luật</h3>
-        <p class="chip">Hư hỏng dưới 3.000.000 VNĐ: tài xế chi trả và nhắc nhở.</p>
-        <p class="chip">Hư hỏng trên 3.000.000 VNĐ: tài xế chi trả và đình chỉ 01 tuần.</p>
-        <p class="chip">Khấu trừ lương không vượt quá 30% lương tháng.</p>
+        <h3>Quy tắc phân loại tự động</h3>
+        <p class="chip">Thủng lốp, Cháy bóng đèn → Sự cố nhỏ.</p>
+        <p class="chip">Ắc-quy, rò rỉ dầu, giảm xóc → Sự cố động cơ.</p>
+        <p class="chip">Mất phanh, thắng không an toàn → Kỹ thuật nghiêm trọng.</p>
       </section>
     </div>
   `;
@@ -960,22 +1081,6 @@ function renderGarageSuggestion() {
       <p>Với sự cố lốp xe của CH-8891, hệ thống đề xuất <strong>Gara Minh Tâm (GA-01)</strong>, khu vực Miền Nam, trạng thái liên kết, hỗ trợ cứu hộ trong 20 phút.</p>
     </section>
   `;
-}
-
-function renderPolicy() {
-  document.getElementById("policy-view").innerHTML = `
-    <div class="policy-grid">
-      ${policy("Bảo hiểm và hồ sơ giám định", "Bắt buộc chụp hình hiện trường, lập báo cáo chi tiết, lưu GPS, báo đúng thời hạn và phối hợp giám định theo Nghị định 67/2023/NĐ-CP.")}
-      ${policy("Duyệt cứu hộ", "Chi phí cứu hộ ≤ 5.000.000 VNĐ do quản lý chi nhánh duyệt. Báo giá > 5.000.000 VNĐ tự động chuyển duyệt khẩn cấp cấp Giám đốc.")}
-      ${policy("Kỷ luật và khấu trừ", "Hệ thống chỉ mô phỏng đề xuất chế tài, có cảnh báo giới hạn khấu trừ không vượt 30% lương tháng và bảo toàn quyền tạm ứng lương.")}
-      ${policy("Lưu trữ vĩnh viễn", "Toàn bộ lịch sử sự cố, hình ảnh, nghiệm thu, hóa đơn và phán định lỗi được giữ để phân tích nguyên nhân gốc rễ và cải tiến đào tạo, bảo dưỡng.")}
-      ${policy("Nguồn lực triển khai", "Quy trình tận dụng tài xế, nhân viên an toàn, kỹ thuật, quản lý đội xe và Feishu Bot; không yêu cầu thêm tầng nhân sự vận hành.")}
-    </div>
-  `;
-}
-
-function policy(title, text) {
-  return `<article class="policy-card"><h3>${title}</h3><p>${text}</p></article>`;
 }
 
 function kpi(label, value, hint, tone = "") {
@@ -1006,6 +1111,8 @@ function handleDocumentClick(event) {
   const target = event.target.closest("button");
   if (!target) return;
   if (target.dataset.roleChoice) chooseLoginRole(target.dataset.roleChoice);
+  if (target.hasAttribute("data-open-driver-report")) openDriverReport();
+  if (target.hasAttribute("data-open-driver-edit")) openDriverReport(true);
   if (target.dataset.view) switchView(target.dataset.view);
   if (target.dataset.add) openEntityForm(target.dataset.add);
   if (target.dataset.edit) openEntityForm(target.dataset.edit, Number(target.dataset.id));
@@ -1013,20 +1120,27 @@ function handleDocumentClick(event) {
   if (target.dataset.delete) deleteItem(target.dataset.delete, Number(target.dataset.id));
   if (target.hasAttribute("data-close-modal")) closeModal();
   if (target.dataset.call) callDriver(Number(target.dataset.call));
-  if (target.dataset.process) processIncident(Number(target.dataset.process));
 }
 
 document.addEventListener("input", (event) => {
   const key = event.target.dataset.search;
   if (key) drawTable(key, state[entityConfigs[key].source]);
+  const fieldKey = event.target.dataset.searchField;
+  if (fieldKey) drawTable(fieldKey, state[entityConfigs[fieldKey].source]);
 });
 
 document.addEventListener("change", (event) => {
   const key = event.target.dataset.filter;
   if (key) drawTable(key, state[entityConfigs[key].source]);
+  if (event.target.name === "name") {
+    const type = classifyIncident(event.target.value);
+    const select = document.querySelector('[name="incidentType"]');
+    if (select) select.value = type;
+  }
 });
 
 function openEntityForm(key, id = null) {
+  activeFormKey = key;
   const config = entityConfigs[key];
   const [titleLabel, addLabel] = entityLabels[currentLang][key] || [config.title, config.addLabel];
   const existing = id ? state[config.source].find((item) => item.id === id) : {};
@@ -1045,6 +1159,9 @@ function openEntityForm(key, id = null) {
 function renderInput(field, value = "") {
   const textareaFields = ["description", "guide", "services", "images", "address", "solution"];
   const selectOptions = getOptionsForField(field);
+  if (field === "images") {
+    return `<label class="full"><span>Mô tả tình trạng xe và hình ảnh</span><textarea name="${field}" rows="4">${escapeHtml(value)}</textarea></label>`;
+  }
   if (selectOptions.length) {
     return `<label><span>${labelFor(field)}</span><select name="${field}">${selectOptions.map((option) => `<option ${option === value ? "selected" : ""}>${option}</option>`).join("")}</select></label>`;
   }
@@ -1056,11 +1173,15 @@ function renderInput(field, value = "") {
 }
 
 function getOptionsForField(field) {
+  if (field === "status" && activeFormKey === "trips") {
+    return ["Chưa bắt đầu", "Đang vận hành", "Gặp sự cố", "Đang xử lý sự cố", "Hoàn thành", "Không hoàn thành"];
+  }
   const options = {
     role: ["Quản lý đội xe", "Quản lý chi nhánh", "Nhân viên an toàn", "Tài xế", "Bộ phận kỹ thuật"],
-    status: ["Hoạt động", "Sẵn sàng", "Đang vận hành", "Đang chạy", "Đang sửa chữa", "Đang xử lý", "Đã ghi nhận", "Hoàn tất sửa chữa", "Nghỉ phép", "Ngừng hoạt động", "Liên kết", "Ưu tiên", "Chưa bắt đầu", "Không hoàn thành"],
+    status: ["Hoạt động", "Sẵn sàng", "Đang vận hành", "Đang chạy", "Đang sửa chữa", "Đang xử lý", "Đã ghi nhận", "Hoàn tất sửa chữa", "Nghỉ phép", "Ngừng hoạt động", "Liên kết", "Ưu tiên", "Chưa bắt đầu", "Gặp sự cố", "Đang xử lý sự cố", "Hoàn thành", "Không hoàn thành"],
     branch: state.branches.map((item) => item.code),
-    incidentType: state.categories.map((item) => item.name),
+    name: Object.keys(incidentNameMap),
+    incidentType: ["Sự cố nhỏ", "Sự cố động cơ", "Sự cố kỹ thuật nghiêm trọng và cần sửa chữa"],
     severity: ["Nhẹ", "Trung bình", "Nặng", "Tùy mức độ"],
     approval: ["Chi nhánh duyệt", "Duyệt khẩn cấp", "Tài xế chi trả", "Chờ phán định"],
     method: ["Chuyển khoản", "Tiền mặt", "Cấn trừ công nợ"],
@@ -1074,7 +1195,7 @@ function saveEntity(key, id) {
   const form = document.getElementById("entity-form");
   const data = Object.fromEntries(new FormData(form).entries());
   if (key === "incidents") {
-    data.approval = Number(data.cost || 0) > 5000000 ? "Duyệt khẩn cấp" : data.approval || "Chi nhánh duyệt";
+    data.incidentType = classifyIncident(data.name);
   }
   if (id) {
     state[config.source] = state[config.source].map((item) => (item.id === id ? { ...item, ...data } : item));
@@ -1085,12 +1206,20 @@ function saveEntity(key, id) {
   closeModal();
   renderAll();
   toast("Đã lưu thay đổi.");
+  if (key === "incidents") {
+    openModal("Phân loại sự cố tự động", `
+      <div class="alert-box"><strong>${data.incidentType}</strong><br>${handlingGuide(data.incidentType)}</div>
+    `, `<button type="button" class="primary-btn" data-close-modal>Đã hiểu</button>`);
+  }
 }
 
 function openDetail(key, id) {
   const config = entityConfigs[key];
   const [titleLabel] = entityLabels[currentLang][key] || [config.title];
   const item = state[config.source].find((row) => row.id === id);
+  if (key === "drivers") return openDriverProfile(item);
+  if (key === "incidents") return openIncidentDetail(item);
+  if (key === "inspections") return openInspectionDetail(item);
   const prefix = currentLang === "vi" ? "Chi tiết" : currentLang === "en" ? "Details" : "详情";
   openModal(`${prefix} ${titleLabel.toLowerCase()}`, `
     <div class="detail-list">
@@ -1099,6 +1228,92 @@ function openDetail(key, id) {
       `).join("")}
     </div>
   `, `<button type="button" class="primary-btn" data-close-modal>${translations[currentLang].close}</button>`);
+}
+
+function openDriverProfile(driver) {
+  openModal("Driver Profile", `
+    <div class="driver-profile-layout">
+      <section class="panel">
+        <img class="driver-profile-photo" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=70" alt="">
+        <h2>${driver.name}</h2>
+        <p>${driver.driverCode} · ${driver.branch}</p>
+        ${statusBadge(driver.status)}
+        <hr>
+        <p><strong>Contact:</strong> ${driver.phone}</p>
+        <p><strong>Experience:</strong> 4 Years, 2 Months</p>
+      </section>
+      <section class="grid">
+        <div class="grid kpi-grid" style="grid-template-columns:repeat(3,1fr)">
+          ${kpi("Total Trips", "1,284", "Completed")}
+          ${kpi("Completion Rate", "98.5%", "SLA")}
+          ${kpi("Incidents", "3", "Reported")}
+        </div>
+        <section class="panel">
+          <h3>License Details</h3>
+          <div class="detail-list">
+            <div><span>Class</span>${driver.licenseClass}</div>
+            <div><span>Expires</span>${driver.licenseExpiry}</div>
+          </div>
+          <div class="alert-box" style="margin-top:12px">FR17: GPLX sắp hết hạn, cần gia hạn trước 15-30 ngày nếu nằm trong danh sách cảnh báo.</div>
+        </section>
+        <section class="panel"><h3>Reported Incidents</h3>${state.incidents.filter(i => i.driverCode === driver.driverCode).map(i => timeline(i.time, `${i.name} · ${statusBadge(i.status)}`)).join("")}</section>
+      </section>
+    </div>
+  `, `<button type="button" class="primary-btn" data-close-modal>Đóng</button>`);
+}
+
+function openIncidentDetail(incident) {
+  openModal(`Chi tiết sự cố ${incident.code}`, `
+    <div class="incident-detail-layout">
+      <section class="panel">
+        <h2>Thông tin tài xế</h2>
+        <p><strong>Trần Văn Bình</strong> · Xe: ${incident.plate}</p>
+        ${statusBadge(incident.status)}
+        <div class="evidence-grid" style="margin-top:16px">
+          <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=900&q=70" alt="">
+          <div class="guide-step"><strong>+2 ảnh khác</strong><p>${incident.images}</p></div>
+        </div>
+        <h3>Mô tả từ tài xế</h3>
+        <p>${incident.images}</p>
+        <div class="alert-box"><strong>Vị trí GPS</strong><br>${incident.gps}<br><a href="#">Xem trên bản đồ vệ tinh</a></div>
+      </section>
+      <aside class="panel">
+        <div class="incident-map"><strong>Xe sự cố<br>${incident.plate}</strong></div>
+        <h3>Gara gần nhất</h3>
+        ${state.garages.map((g, idx) => `<div class="garage-card"><strong>${g.name}</strong><span>${g.address}</span><span class="badge ${idx === 0 ? "green" : "amber"}">${idx === 0 ? "2.4 km" : idx === 1 ? "4.8 km" : "12.0 km"}</span><button type="button" class="danger-btn">Điều phối</button></div>`).join("")}
+      </aside>
+    </div>
+  `, `<button type="button" class="primary-btn" data-close-modal>Đóng</button>`);
+}
+
+function openInspectionDetail(item) {
+  openModal(`Nghiệm thu sau sửa chữa ${item.code}`, `
+    <div class="inspection-layout">
+      <aside class="panel">
+        <h3>Thông tin phương tiện</h3>
+        <p><strong>Biển số:</strong> ${item.plate}</p>
+        <p><strong>Tài xế:</strong> Nguyễn Văn An</p>
+        <div class="alert-box"><strong>Gara đang sửa chữa</strong><br>Gara Ô Tô Thắng Long<br>Km 12, QL32, Bắc Từ Liêm, HN</div>
+        <h3>Quy trình xử lý</h3>
+        ${timeline("Bước 1", "Báo cáo đã hoàn thành")}
+        ${timeline("Bước 4", "Đưa xe vào gara")}
+        ${timeline("Bước 5", "Nghiệm thu đang thực hiện")}
+      </aside>
+      <section class="panel">
+        <h2>Chi tiết nghiệm thu kỹ thuật</h2>
+        <label class="full"><span>Phương án sửa chữa thực tế</span><textarea rows="5">${item.solution}</textarea></label>
+        <div class="form-grid">
+          <label><span>Tổng chi phí</span><input value="${formatMoney(Number(item.quote || 0))}"></label>
+          <label><span>Hạn bảo hành gara</span><input type="date"></label>
+        </div>
+        <h3>Đính kèm chứng từ & Báo giá</h3>
+        <div class="evidence-grid">
+          <div class="guide-step"><strong>Bao_gia_Gara.pdf</strong><img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=600&q=70" alt=""></div>
+          <div class="guide-step"><strong>Thêm ảnh/PDF</strong><p>Tối đa 5 file</p></div>
+        </div>
+      </section>
+    </div>
+  `, `<button type="button" class="secondary-btn" data-close-modal>Lưu bản nháp</button><button type="button" class="primary-btn" data-close-modal>Xác nhận nghiệm thu</button>`);
 }
 
 function deleteItem(key, id) {
@@ -1118,25 +1333,22 @@ function deleteItem(key, id) {
 }
 
 function openQuickIncident() {
+  activeFormKey = "incidents";
   const next = `SC-2026-${String(Date.now()).slice(-6)}`;
-  openModal("Báo sự cố nhanh", `
+  openModal("Báo cáo sự cố", `
     <form id="entity-form" class="form-grid">
       ${renderInput("code", next)}
       ${renderInput("time", new Date().toLocaleString("vi-VN"))}
       ${renderInput("gps", "10.957, 106.713")}
-      ${renderInput("incidentType", "Lốp xe")}
-      ${renderInput("name", "Sự cố mới từ tài xế")}
+      ${renderInput("name", "Thủng lốp")}
+      ${renderInput("incidentType", "Sự cố nhỏ")}
       ${renderInput("status", "Đã ghi nhận")}
       ${renderInput("tripCode", "CH-8891")}
       ${renderInput("driverCode", "TX228")}
       ${renderInput("plate", "61H-445.23")}
       ${renderInput("staffCode", "AT014")}
       ${renderInput("staffName", "Lê Thanh Mai")}
-      ${renderInput("images", "Chưa tải ảnh")}
-      ${renderInput("severity", "Trung bình")}
-      ${renderInput("cost", "0")}
-      ${renderInput("fault", "Chưa phán định")}
-      ${renderInput("approval", "Chờ phán định")}
+      ${renderInput("images", "Mô tả tình trạng xe, vị trí, ảnh hiện trường hoặc chứng từ bổ sung.")}
     </form>
   `, `
     <button type="button" class="secondary-btn" data-close-modal>${translations[currentLang].cancel}</button>
@@ -1145,18 +1357,49 @@ function openQuickIncident() {
   document.getElementById("save-entity-btn").addEventListener("click", () => saveEntity("incidents"));
 }
 
+function openDriverReport(edit = false) {
+  activeFormKey = "incidents";
+  const next = edit ? "SC-2026-0615-01" : `SC-2026-${String(Date.now()).slice(-6)}`;
+  openModal(edit ? "Chỉnh sửa báo cáo sự cố" : "Báo cáo sự cố", `
+    <form id="entity-form" class="form-grid">
+      ${renderInput("code", next)}
+      ${renderInput("time", new Date().toLocaleString("vi-VN"))}
+      ${renderInput("tripCode", "CH-8891")}
+      ${renderInput("driverCode", "TX228")}
+      ${renderInput("plate", "29C-123.45")}
+      ${renderInput("staffCode", "AT014")}
+      ${renderInput("gps", "21.012, 105.521")}
+      ${renderInput("name", "Thủng lốp")}
+      ${renderInput("incidentType", "Sự cố nhỏ")}
+      ${renderInput("status", "Đã ghi nhận")}
+      <div class="full incident-map"><strong>Vị trí hiện tại<br>123 Đường Duy Tân, Cầu Giấy, Hà Nội</strong></div>
+      ${renderInput("images", "Nhập mô tả chi tiết sự cố, tình trạng xe, hàng hóa và đính kèm ảnh minh chứng.")}
+      <div class="full evidence-grid">
+        <div class="guide-step"><strong>Ảnh hiện trường</strong><img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=800&q=70" alt=""></div>
+        <div class="guide-step"><strong>Thêm ảnh/PDF</strong><p>Camera, ảnh hóa đơn, báo giá hoặc video ngắn.</p></div>
+      </div>
+    </form>
+  `, `
+    <button type="button" class="secondary-btn" data-close-modal>Hủy</button>
+    <button type="button" class="primary-btn" id="save-entity-btn">Gửi báo cáo</button>
+  `);
+  document.getElementById("save-entity-btn").addEventListener("click", () => saveEntity("incidents"));
+}
+
 function callDriver(id) {
   const incident = state.incidents.find((item) => item.id === id);
   const driver = state.drivers.find((item) => item.driverCode === incident.driverCode);
   openModal("Kết nối cuộc gọi tức thì", `
-    <div class="detail-list">
-      <div><span>Tài xế</span>${driver?.name || incident.driverCode}</div>
-      <div><span>Số điện thoại</span>${driver?.phone || "Chưa có"}</div>
-      <div><span>Sự cố</span>${incident.name}</div>
-      <div><span>GPS</span>${incident.gps}</div>
+    <div class="call-screen">
+      <div class="call-avatar">${(driver?.name || "TX").slice(0, 2).toUpperCase()}</div>
+      <div>
+        <h2>${driver?.name || incident.driverCode}</h2>
+        <p>${driver?.phone || "0901000228"}</p>
+        <p>Đang gọi qua hệ thống điều phối J&T...</p>
+      </div>
+      <button type="button" class="danger-btn" data-close-modal>Kết thúc cuộc gọi</button>
     </div>
-    <p style="margin-top:14px">Mô phỏng cuộc gọi đã sẵn sàng. Nhân viên an toàn có thể xác nhận tình trạng, hướng dẫn chụp ảnh hiện trường và điều phối gara.</p>
-  `, `<button type="button" class="success-btn" data-close-modal>${currentLang === "vi" ? "Đã kết nối" : currentLang === "en" ? "Connected" : "已连接"}</button>`);
+  `, ``);
 }
 
 function processIncident(id) {
@@ -1259,7 +1502,7 @@ function applyLanguage(event = null, silent = false) {
   document.getElementById("quick-incident-btn").textContent = translations[lang].quick_incident;
   document.getElementById("export-btn").textContent = translations[lang].export_report;
   updateRoleOptions();
-  els.userRoleLabel.textContent = roleLabelsByLang[lang][currentRole];
+  els.userRoleLabel.textContent = currentRole === "driver" ? "Trần Văn Bình" : roleLabelsByLang[lang][currentRole];
   if (!els.app.classList.contains("hidden")) {
     renderAll();
   } else {
