@@ -1296,6 +1296,7 @@ textarea:focus {
   min-height: 70px;
   font-size: 20px;
   border-radius: 8px;
+  margin-top: 22px;
 }
 
 .driver-map,
@@ -1313,28 +1314,18 @@ textarea:focus {
   align-items: end;
 }
 
-.driver-bottom-nav {
-  position: sticky;
-  bottom: 0;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  padding: 10px;
-  background: #fff;
-  border: 1px solid var(--line);
-}
-
-.driver-bottom-nav button {
-  border: 0;
-  background: transparent;
-  padding: 10px;
-  color: var(--muted);
-  font-weight: 700;
-}
-
-.driver-bottom-nav button.active {
-  background: #ffe1e1;
-  color: var(--jt-red);
+.driver-gps-demo {
+  min-height: 260px;
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(15, 23, 42, 0.36), rgba(15, 23, 42, 0.06)),
+    url("https://images.unsplash.com/photo-1569336415962-a4bd9f69c07a?auto=format&fit=crop&w=1100&q=75");
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  padding: 20px;
+  display: flex;
+  align-items: end;
 }
 
 .emergency-banner {
@@ -1346,20 +1337,28 @@ textarea:focus {
 
 .guide-step {
   display: grid;
-  gap: 8px;
+  gap: 12px;
   background: #fff;
   border: 1px solid #ffd0d0;
   border-radius: 8px;
-  padding: 16px;
+  padding: 20px;
 }
 
 .guide-step img,
-.evidence-grid img,
-.driver-profile-photo {
+.evidence-grid img {
   width: 100%;
   height: 170px;
   object-fit: cover;
   border-radius: 8px;
+}
+
+.driver-profile-photo {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  object-position: center 22%;
+  border-radius: 8px;
+  margin-bottom: 24px;
 }
 
 .incident-detail-layout,
@@ -1368,12 +1367,14 @@ textarea:focus {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
   gap: 18px;
+  width: 100%;
 }
 
 .evidence-grid {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
   gap: 12px;
+  margin-top: 18px;
 }
 
 .garage-card {
@@ -1625,9 +1626,10 @@ tr:hover td {
 }
 
 .modal {
-  width: min(920px, 100%);
+  width: min(1180px, 100%);
   max-height: min(86vh, 840px);
   overflow: auto;
+  overflow-x: hidden;
   background: #fff;
   box-shadow: var(--shadow);
 }
@@ -1649,7 +1651,7 @@ tr:hover td {
 }
 
 .modal-body {
-  padding: 16px;
+  padding: 22px;
 }
 
 .modal-footer {
