@@ -33,6 +33,17 @@ const translations = {
     call: "Gọi",
     process: "Xử lý",
     search_placeholder: "Tìm kiếm theo mã, tên, biển số, trạng thái...",
+    choose_login: "Vui lòng chọn vị trí đăng nhập:",
+    driver_login: "Tài xế đăng nhập",
+    staff_login: "Nhân viên đăng nhập",
+    manager_login: "Quản lý đăng nhập",
+    back: "Quay lại",
+    copyright: "Tất cả quyền được bảo lưu",
+    terms: "Điều khoản sử dụng",
+    privacy: "Chính sách bảo mật",
+    support: "Trung tâm hỗ trợ",
+    all: "Tất cả",
+    no_data: "Không có dữ liệu phù hợp.",
   },
   en: {
     tagline: "Express your online business",
@@ -66,6 +77,17 @@ const translations = {
     call: "Call",
     process: "Process",
     search_placeholder: "Search by code, name, plate, status...",
+    choose_login: "Please choose login position:",
+    driver_login: "Driver login",
+    staff_login: "Staff login",
+    manager_login: "Manager login",
+    back: "Back",
+    copyright: "All rights reserved",
+    terms: "Terms of use",
+    privacy: "Privacy policy",
+    support: "Support center",
+    all: "All",
+    no_data: "No matching data.",
   },
   zh: {
     tagline: "极兔速递 - Jitu Sudi",
@@ -99,6 +121,17 @@ const translations = {
     call: "呼叫",
     process: "处理",
     search_placeholder: "按编号、名称、车牌、状态搜索...",
+    choose_login: "请选择登录身份：",
+    driver_login: "司机登录",
+    staff_login: "员工登录",
+    manager_login: "管理者登录",
+    back: "返回",
+    copyright: "版权所有",
+    terms: "使用条款",
+    privacy: "隐私政策",
+    support: "帮助中心",
+    all: "全部",
+    no_data: "没有匹配数据。",
   },
 };
 
@@ -294,6 +327,120 @@ const fieldLabels = {
   guide: "Hướng dẫn xử lý",
 };
 
+const fieldLabelsByLang = {
+  vi: fieldLabels,
+  en: {
+    code: "Code",
+    name: "Name",
+    employeeCode: "Employee code",
+    driverCode: "Driver code",
+    phone: "Phone",
+    email: "Email",
+    role: "Role",
+    branch: "Branch",
+    status: "Status",
+    plate: "License plate",
+    payload: "Payload",
+    brand: "Brand",
+    year: "Year",
+    insurance: "Insurance",
+    citizenId: "Citizen ID",
+    licenseClass: "License class",
+    licenseExpiry: "License expiry",
+    department: "Department",
+    position: "Position",
+    address: "Address",
+    region: "Region",
+    trips: "Trips",
+    incidentRate: "Incident rate",
+    productivity: "Productivity",
+    time: "Time",
+    gps: "GPS",
+    incidentType: "Incident type",
+    tripCode: "Shipment code",
+    staffCode: "Staff code",
+    staffName: "Staff name",
+    images: "Images",
+    severity: "Severity",
+    cost: "Cost",
+    fault: "Fault assessment",
+    approval: "Approval",
+    date: "Date",
+    solution: "Solution",
+    quote: "Quote",
+    invoiceCode: "Invoice code",
+    services: "Services",
+    total: "Total",
+    paidAt: "Payment date",
+    method: "Method",
+    route: "Route",
+    eta: "ETA",
+    quantity: "Quantity",
+    garageCode: "Garage code",
+    acceptanceCode: "Acceptance code",
+    categoryCode: "Category code",
+    description: "Description",
+    guide: "Handling guide",
+  },
+  zh: {
+    code: "编号",
+    name: "名称",
+    employeeCode: "员工编号",
+    driverCode: "司机编号",
+    phone: "电话",
+    email: "邮箱",
+    role: "角色",
+    branch: "网点",
+    status: "状态",
+    plate: "车牌",
+    payload: "载重",
+    brand: "品牌",
+    year: "生产年份",
+    insurance: "保险",
+    citizenId: "身份证",
+    licenseClass: "驾照等级",
+    licenseExpiry: "驾照到期",
+    department: "部门",
+    position: "职位",
+    address: "地址",
+    region: "区域",
+    trips: "运输数",
+    incidentRate: "事故率",
+    productivity: "效率",
+    time: "时间",
+    gps: "GPS",
+    incidentType: "事故类型",
+    tripCode: "运输编号",
+    staffCode: "员工编号",
+    staffName: "员工姓名",
+    images: "图片",
+    severity: "级别",
+    cost: "费用",
+    fault: "责任判定",
+    approval: "审批",
+    date: "日期",
+    solution: "方案",
+    quote: "报价",
+    invoiceCode: "发票编号",
+    services: "服务",
+    total: "总额",
+    paidAt: "付款日期",
+    method: "方式",
+    route: "路线",
+    eta: "预计时间",
+    quantity: "货量",
+    garageCode: "维修站编号",
+    acceptanceCode: "验收编号",
+    categoryCode: "分类编号",
+    description: "描述",
+    guide: "处理指南",
+  },
+};
+
+function labelFor(field) {
+  return fieldLabelsByLang[currentLang]?.[field] || fieldLabels[field] || field;
+}
+
 const entityConfigs = {
   accounts: {
     title: "Quản lý tài khoản",
@@ -448,11 +595,13 @@ let currentLang = "vi";
 let gpsTick = 0;
 
 const els = {
+  roleScreen: document.getElementById("role-screen"),
   loginScreen: document.getElementById("login-screen"),
   app: document.getElementById("app"),
   loginForm: document.getElementById("login-form"),
   loginRole: document.getElementById("login-role"),
   loginLanguageSelect: document.getElementById("login-language-select"),
+  roleLanguageSelect: document.getElementById("role-language-select"),
   userRoleLabel: document.getElementById("user-role-label"),
   nav: document.getElementById("nav"),
   sectionTitle: document.getElementById("section-title"),
@@ -464,11 +613,13 @@ const els = {
 
 document.addEventListener("DOMContentLoaded", () => {
   els.loginForm.addEventListener("submit", handleLogin);
+  document.getElementById("back-role-btn").addEventListener("click", showRoleScreen);
   document.getElementById("logout-btn").addEventListener("click", logout);
   document.getElementById("quick-incident-btn").addEventListener("click", openQuickIncident);
   document.getElementById("export-btn").addEventListener("click", exportReport);
   els.languageSelect.addEventListener("change", applyLanguage);
   els.loginLanguageSelect.addEventListener("change", applyLanguage);
+  els.roleLanguageSelect.addEventListener("change", applyLanguage);
   document.getElementById("toggle-password").addEventListener("click", togglePassword);
   document.addEventListener("click", handleDocumentClick);
   applyLanguage(null, true);
@@ -494,6 +645,7 @@ function handleLogin(event) {
   event.preventDefault();
   currentRole = els.loginRole.value;
   els.userRoleLabel.textContent = roleLabelsByLang[currentLang][currentRole];
+  els.roleScreen.classList.add("hidden");
   els.loginScreen.classList.add("hidden");
   els.app.classList.remove("hidden");
   currentView = navItems.find((item) => item.roles.includes(currentRole)).id;
@@ -503,7 +655,24 @@ function handleLogin(event) {
 
 function logout() {
   els.app.classList.add("hidden");
+  els.loginScreen.classList.add("hidden");
+  els.roleScreen.classList.remove("hidden");
+}
+
+function showRoleScreen() {
+  els.loginScreen.classList.add("hidden");
+  els.app.classList.add("hidden");
+  els.roleScreen.classList.remove("hidden");
+}
+
+function chooseLoginRole(role) {
+  const demoCodes = { driver: "TX228", safety: "AT014", fleet: "QL001" };
+  currentRole = role;
+  els.loginRole.value = role;
+  document.getElementById("login-code").value = demoCodes[role] || "QL001";
+  els.roleScreen.classList.add("hidden");
   els.loginScreen.classList.remove("hidden");
+  updateRoleOptions();
 }
 
 function renderAll() {
@@ -517,8 +686,27 @@ function renderAll() {
 function renderNav() {
   els.nav.innerHTML = navItems
     .filter((item) => item.roles.includes(currentRole))
-    .map((item) => `<button type="button" data-view="${item.id}"><span class="icon">${item.icon}</span>${navLabels[currentLang][item.id] || item.label}</button>`)
+    .map((item) => `<button type="button" data-view="${item.id}"><span class="icon">${navIcon(item.id)}</span>${navLabels[currentLang][item.id] || item.label}</button>`)
     .join("");
+}
+
+function navIcon(id) {
+  const icons = {
+    dashboard: '<path d="M4 5h7v7H4zM13 5h7v4h-7zM13 11h7v8h-7zM4 14h7v5H4z"/>',
+    accounts: '<path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4z"/><path d="M4 20a8 8 0 0 1 16 0"/>',
+    trucks: '<path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/>',
+    drivers: '<path d="M12 11a4 4 0 1 0-4-4 4 4 0 0 0 4 4z"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/><path d="M8 15l4 3 4-3"/>',
+    employees: '<path d="M8 11a3 3 0 1 0-3-3 3 3 0 0 0 3 3z"/><path d="M16 11a3 3 0 1 0-3-3 3 3 0 0 0 3 3z"/><path d="M2 20a6 6 0 0 1 12 0"/><path d="M10 20a6 6 0 0 1 12 0"/>',
+    branches: '<path d="M4 20V8l8-4 8 4v12"/><path d="M9 20v-7h6v7"/><path d="M4 10h16"/>',
+    incidents: '<path d="M12 3 2 20h20L12 3z"/><path d="M12 9v5"/><path d="M12 17h.01"/>',
+    inspections: '<path d="M7 3h10l3 3v15H4V3h3z"/><path d="M14 3v5h6"/><path d="M8 13h8"/><path d="M8 17h6"/>',
+    trips: '<path d="M5 17 3 12l2-5h14l2 5-2 5z"/><path d="M7 17v3"/><path d="M17 17v3"/><path d="M8 12h8"/>',
+    garages: '<path d="M4 20V9l8-5 8 5v11"/><path d="M8 20v-6h8v6"/><path d="M10 11h4"/>',
+    invoices: '<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6"/><path d="M9 12h6"/><path d="M9 16h4"/>',
+    categories: '<path d="M4 5h7v7H4z"/><path d="M13 5h7v7h-7z"/><path d="M4 14h7v7H4z"/><path d="M13 14h7v7h-7z"/>',
+    policy: '<path d="M12 3 5 6v6c0 4 3 7 7 9 4-2 7-5 7-9V6z"/><path d="m9 12 2 2 4-5"/>',
+  };
+  return `<svg viewBox="0 0 24 24" aria-hidden="true">${icons[id] || icons.dashboard}</svg>`;
 }
 
 function switchView(viewId) {
@@ -531,53 +719,89 @@ function switchView(viewId) {
 }
 
 function renderDashboard() {
-  const totalCost = state.incidents.reduce((sum, item) => sum + Number(item.cost || 0), 0);
-  const activeIncidents = state.incidents.filter((item) => item.status !== "Hoàn tất sửa chữa").length;
-  const expiring = getExpiringDrivers().length;
-  const emergency = state.incidents.filter((item) => Number(item.cost || 0) > 5000000).length;
-  const byType = groupCount(state.incidents, "incidentType");
-  const byBranch = groupCount(state.trucks, "branch");
+  const totalCost = 685000000 + state.incidents.reduce((sum, item) => sum + Number(item.cost || 0), 0);
+  const activeIncidents = 42 + state.incidents.filter((item) => item.status !== "Hoàn tất sửa chữa").length;
+  const expiring = 126 + getExpiringDrivers().length;
+  const emergency = 5 + state.incidents.filter((item) => Number(item.cost || 0) > 5000000).length;
+  const weeklyColumns = [
+    ["T2", 186],
+    ["T3", 244],
+    ["T4", 318],
+    ["T5", 271],
+    ["T6", 392],
+    ["T7", 228],
+  ];
+  const incoming = [
+    ["!!", "Tai nạn giao thông - Đội xe Quận 7", "#INC-28491 · 15 phút trước", "KHẨN CẤP", "Xe: 51C-123.45"],
+    ["BX", "Thất thoát hàng hóa - Kho HCM-01", "#INC-28485 · 1 giờ trước", "TRUNG BÌNH", "Giá trị: Cao"],
+    ["AT", "Vi phạm quy trình ATLĐ - Bưu cục 22", "#INC-28477 · 3 giờ trước", "THẤP", "Thanh tra định kỳ"],
+  ];
 
   document.getElementById("dashboard-view").innerHTML = `
+    <div class="dashboard-intro">
+      <div>
+        <h3>Dashboard An toàn</h3>
+        <p>Chào buổi sáng, ${roleLabelsByLang[currentLang][currentRole]}. Kiểm tra các sự cố mới nhất bên dưới.</p>
+      </div>
+      <img src="./images/jnt-ngang.png" alt="J&T Express" style="width:180px;max-width:30%" />
+    </div>
     <div class="grid kpi-grid">
-      ${kpi("Sự cố đang mở", activeIncidents, "Tự động gửi Feishu Bot đến nhân viên an toàn")}
-      ${kpi("GPLX sắp hết hạn", expiring, "Cảnh báo trước 15-30 ngày")}
-      ${kpi("Chi phí phát sinh", formatMoney(totalCost), "Theo dõi ngoài bảo hiểm và phán định lỗi")}
-      ${kpi("Duyệt khẩn cấp", emergency, "Báo giá vượt 5.000.000 VNĐ")}
+      ${kpi("Tổng số sự cố", "1,248", "+12% so với tháng trước")}
+      ${kpi("Đang xử lý", activeIncidents, "Hiện tại")}
+      ${kpi("Khẩn cấp", String(emergency).padStart(2, "0"), "Cần xử lý ngay", "hot")}
+      ${kpi("Đã hoàn thành", "1,201", "96% SLA")}
     </div>
-    <div class="content-grid" style="margin-top:16px">
+    <div class="chart-grid">
       <section class="panel">
-        <h3>Bản đồ vận hành thời gian thực</h3>
-        <div class="map-widget" id="map-widget">
-          <div class="gps-truck" id="gps-truck">JT</div>
-          <div class="map-label" style="left:7%;top:12%"><strong>HCM-01</strong><br>96% năng suất · gara ưu tiên GA-03</div>
-          <div class="map-label" style="right:7%;top:18%"><strong>BD-02</strong><br>Sự cố mở: ${activeIncidents} · cần theo dõi</div>
-          <div class="map-label" style="left:37%;bottom:9%"><strong>Xe live</strong><br>CH-8891 · 61H-445.23 · GPS cập nhật</div>
+        <h3>Sự cố cần tiếp nhận ngay</h3>
+        <div class="incident-cards">
+          ${incoming.map((item, index) => `
+            <article class="incident-card">
+              <div class="incident-icon">${item[0]}</div>
+              <div>
+                <strong>${item[1]}</strong><br>
+                <span style="color:var(--muted)">${item[2]}</span><br>
+                <span class="badge ${index === 0 ? "red" : index === 1 ? "amber" : "blue"}">${item[3]}</span>
+                <span style="margin-left:8px;color:#6b4b4b">${item[4]}</span>
+              </div>
+              <button type="button" class="${index === 0 ? "danger-btn" : "secondary-btn"}" data-view="incidents">Tiếp nhận</button>
+            </article>
+          `).join("")}
         </div>
       </section>
       <section class="panel">
-        <h3>Tỷ lệ loại sự cố</h3>
-        ${renderBars(byType)}
-        <h3 style="margin-top:22px">Cảnh báo GPLX</h3>
-        <div class="timeline">
-          ${getExpiringDrivers().map((driver) => timeline(driver.licenseExpiry, `${driver.name} (${driver.driverCode}) cần gia hạn GPLX hạng ${driver.licenseClass}`)).join("") || "<p>Không có cảnh báo.</p>"}
+        <h3>Phân loại sự cố</h3>
+        <div class="donut-wrap">
+          <div class="donut" data-total="100%"></div>
+          <div class="legend">
+            <div class="legend-row"><span><i class="dot"></i>Giao thông</span><strong>58%</strong></div>
+            <div class="legend-row"><span><i class="dot amber"></i>Hàng hóa</span><strong>23%</strong></div>
+            <div class="legend-row"><span><i class="dot muted"></i>Khác</span><strong>19%</strong></div>
+          </div>
         </div>
       </section>
     </div>
-    <div class="split" style="margin-top:16px">
+    <div class="chart-grid">
       <section class="panel">
-        <h3>Sự cố mới nhất</h3>
-        <div class="timeline">
-          ${state.incidents.map((item) => timeline(item.time, `<strong>${item.code}</strong> · ${item.name}<br>${statusBadge(item.status)} ${approvalBadge(item.approval)}`)).join("")}
+        <h3>Thống kê sự cố trong tuần</h3>
+        <div class="column-chart">
+          ${weeklyColumns.map(([day, value]) => `<div class="column"><strong>${value}</strong><div class="column-bar" style="height:${value / 4}px"></div><span>${day}</span></div>`).join("")}
         </div>
       </section>
       <section class="panel">
-        <h3>Phân bổ xe theo chi nhánh</h3>
-        ${renderBars(byBranch)}
+        <h3>Thao tác nhanh</h3>
+        <div class="quick-grid">
+          <button type="button" class="quick-tile" data-add="incidents">Tạo sự cố</button>
+          <button type="button" class="quick-tile" data-view="invoices">Báo cáo tuần</button>
+          <button type="button" class="quick-tile" data-view="trips">Bản đồ nóng</button>
+          <button type="button" class="quick-tile" data-view="policy">Cài đặt</button>
+        </div>
+        <h3 style="margin-top:22px">Chi phí phát sinh</h3>
+        <strong style="font-size:26px">${formatMoney(totalCost)}</strong>
+        <p style="color:var(--muted)">Bao gồm cứu hộ, sửa chữa và chi phí ngoài bảo hiểm.</p>
       </section>
     </div>
   `;
-  updateGps();
 }
 
 function renderEntity(key) {
@@ -586,6 +810,7 @@ function renderEntity(key) {
   const rows = state[config.source];
   const view = document.getElementById(`${key}-view`);
   view.innerHTML = `
+    ${renderEntityHero(key, title, rows.length)}
     <section class="panel">
       <div class="toolbar">
         <div class="filters">
@@ -603,11 +828,38 @@ function renderEntity(key) {
   drawTable(key, rows);
 }
 
+function renderEntityHero(key, title, count) {
+  const descriptions = {
+    accounts: "Quản lý tài khoản theo mã nhân viên, vai trò, chi nhánh và trạng thái hoạt động.",
+    trucks: "Theo dõi biển số, tải trọng, bảo hiểm, trạng thái vận hành và lịch sửa chữa xe tải.",
+    drivers: "Quản lý hồ sơ tài xế, giấy phép lái xe, cảnh báo sắp hết hạn và chi nhánh phụ trách.",
+    employees: "Danh sách nhân viên an toàn, kỹ thuật và quản lý chi nhánh tham gia xử lý sự cố.",
+    branches: "Theo dõi chi nhánh, khu vực, năng suất, tỷ lệ sự cố và trạng thái hoạt động.",
+    incidents: "Điều phối sự cố, kết nối tài xế, cập nhật hình ảnh, chi phí và luồng duyệt.",
+    inspections: "Lập và kiểm tra phiếu nghiệm thu sau sửa chữa trước khi thanh toán gara.",
+    trips: "Theo dõi chuyến hàng, tuyến đường, GPS và trạng thái vận hành theo thời gian thực.",
+    garages: "Quản lý gara liên kết, đề xuất gara gần nhất theo khu vực và loại sự cố.",
+    invoices: "Kiểm soát hóa đơn thanh toán, hạng mục sửa chữa, phương thức và ảnh chứng từ.",
+    categories: "Chuẩn hóa loại sự cố, mức độ và hướng dẫn xử lý ban đầu cho tài xế.",
+  };
+  const image = ["trucks", "trips", "incidents", "garages", "inspections"].includes(key) ? "./images/xetai.jpg" : "./images/jnt-ngang.png";
+  return `
+    <section class="entity-hero">
+      <div class="entity-hero-copy">
+        <span class="eyebrow">${count} bản ghi đang quản lý</span>
+        <h3>${title}</h3>
+        <p>${descriptions[key] || "Theo dõi dữ liệu vận hành và xử lý nghiệp vụ trong hệ thống."}</p>
+      </div>
+      <img src="${image}" alt="" />
+    </section>
+  `;
+}
+
 function renderFilter(key, field, rows) {
   const values = [...new Set(rows.map((row) => row[field]).filter(Boolean))];
   return `
     <select data-filter="${key}" data-field="${field}">
-      <option value="">${fieldLabels[field] || field}: Tất cả</option>
+      <option value="">${labelFor(field)}: ${translations[currentLang].all}</option>
       ${values.map((value) => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`).join("")}
     </select>
   `;
@@ -629,12 +881,12 @@ function drawTable(key, rows) {
     <table>
       <thead>
         <tr>
-          ${config.columns.map((field) => `<th>${fieldLabels[field] || field}</th>`).join("")}
+          ${config.columns.map((field) => `<th>${labelFor(field)}</th>`).join("")}
           <th>${currentLang === "vi" ? "Thao tác" : currentLang === "en" ? "Actions" : "操作"}</th>
         </tr>
       </thead>
       <tbody>
-        ${filtered.map((row) => renderRow(key, row, config.columns)).join("") || `<tr><td colspan="${config.columns.length + 1}">Không có dữ liệu phù hợp.</td></tr>`}
+        ${filtered.map((row) => renderRow(key, row, config.columns)).join("") || `<tr><td colspan="${config.columns.length + 1}">${translations[currentLang].no_data}</td></tr>`}
       </tbody>
     </table>
   `;
@@ -708,7 +960,6 @@ function renderGarageSuggestion() {
 function renderPolicy() {
   document.getElementById("policy-view").innerHTML = `
     <div class="policy-grid">
-      ${policy("Màu sắc và nhận diện", "Sử dụng đỏ J&T #E61C24 và trắng làm màu chủ đạo. Thông báo tự động kèm thông điệp: Giao đúng giờ, Nhận chu toàn / Express your online business / 极兔速递 - Jitu Sudi.")}
       ${policy("Bảo hiểm và hồ sơ giám định", "Bắt buộc chụp hình hiện trường, lập báo cáo chi tiết, lưu GPS, báo đúng thời hạn và phối hợp giám định theo Nghị định 67/2023/NĐ-CP.")}
       ${policy("Duyệt cứu hộ", "Chi phí cứu hộ ≤ 5.000.000 VNĐ do quản lý chi nhánh duyệt. Báo giá > 5.000.000 VNĐ tự động chuyển duyệt khẩn cấp cấp Giám đốc.")}
       ${policy("Kỷ luật và khấu trừ", "Hệ thống chỉ mô phỏng đề xuất chế tài, có cảnh báo giới hạn khấu trừ không vượt 30% lương tháng và bảo toàn quyền tạm ứng lương.")}
@@ -722,8 +973,8 @@ function policy(title, text) {
   return `<article class="policy-card"><h3>${title}</h3><p>${text}</p></article>`;
 }
 
-function kpi(label, value, hint) {
-  return `<article class="kpi"><span>${label}</span><strong>${value}</strong><small>${hint}</small></article>`;
+function kpi(label, value, hint, tone = "") {
+  return `<article class="kpi ${tone}"><span>${label}</span><strong>${value}</strong><small>${hint}</small></article>`;
 }
 
 function renderBars(group) {
@@ -749,6 +1000,7 @@ function handleDocumentClick(event) {
   }
   const target = event.target.closest("button");
   if (!target) return;
+  if (target.dataset.roleChoice) chooseLoginRole(target.dataset.roleChoice);
   if (target.dataset.view) switchView(target.dataset.view);
   if (target.dataset.add) openEntityForm(target.dataset.add);
   if (target.dataset.edit) openEntityForm(target.dataset.edit, Number(target.dataset.id));
@@ -789,13 +1041,13 @@ function renderInput(field, value = "") {
   const textareaFields = ["description", "guide", "services", "images", "address", "solution"];
   const selectOptions = getOptionsForField(field);
   if (selectOptions.length) {
-    return `<label><span>${fieldLabels[field] || field}</span><select name="${field}">${selectOptions.map((option) => `<option ${option === value ? "selected" : ""}>${option}</option>`).join("")}</select></label>`;
+    return `<label><span>${labelFor(field)}</span><select name="${field}">${selectOptions.map((option) => `<option ${option === value ? "selected" : ""}>${option}</option>`).join("")}</select></label>`;
   }
   if (textareaFields.includes(field)) {
-    return `<label class="full"><span>${fieldLabels[field] || field}</span><textarea name="${field}" rows="3">${escapeHtml(value)}</textarea></label>`;
+    return `<label class="full"><span>${labelFor(field)}</span><textarea name="${field}" rows="3">${escapeHtml(value)}</textarea></label>`;
   }
   const type = field.includes("date") || field === "paidAt" || field === "licenseExpiry" ? "date" : "text";
-  return `<label><span>${fieldLabels[field] || field}</span><input name="${field}" type="${type}" value="${escapeHtml(value)}" /></label>`;
+  return `<label><span>${labelFor(field)}</span><input name="${field}" type="${type}" value="${escapeHtml(value)}" /></label>`;
 }
 
 function getOptionsForField(field) {
@@ -832,11 +1084,13 @@ function saveEntity(key, id) {
 
 function openDetail(key, id) {
   const config = entityConfigs[key];
+  const [titleLabel] = entityLabels[currentLang][key] || [config.title];
   const item = state[config.source].find((row) => row.id === id);
-  openModal(`Chi tiết ${config.title.toLowerCase()}`, `
+  const prefix = currentLang === "vi" ? "Chi tiết" : currentLang === "en" ? "Details" : "详情";
+  openModal(`${prefix} ${titleLabel.toLowerCase()}`, `
     <div class="detail-list">
       ${Object.entries(item).filter(([field]) => field !== "id").map(([field, value]) => `
-        <div><span>${fieldLabels[field] || field}</span>${formatCell(field, value)}</div>
+        <div><span>${labelFor(field)}</span>${formatCell(field, value)}</div>
       `).join("")}
     </div>
   `, `<button type="button" class="primary-btn" data-close-modal>${translations[currentLang].close}</button>`);
@@ -985,6 +1239,7 @@ function applyLanguage(event = null, silent = false) {
   currentLang = lang;
   els.languageSelect.value = lang;
   els.loginLanguageSelect.value = lang;
+  els.roleLanguageSelect.value = lang;
   document.documentElement.lang = lang;
   document.querySelectorAll("[data-i18n]").forEach((node) => {
     node.textContent = translations[lang][node.dataset.i18n] || node.textContent;

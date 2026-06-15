@@ -7,13 +7,50 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div id="login-screen" class="login-screen">
+    <div id="role-screen" class="role-screen">
+      <main class="role-shell">
+        <section class="role-left">
+          <div class="role-topline">
+            <img src="./images/jnt-ngang.png" alt="J&T Express" class="role-logo" />
+            <label class="language-inline">
+              <span>◎</span>
+              <select id="role-language-select" aria-label="Language">
+                <option value="vi">Tiếng Việt</option>
+                <option value="en">English</option>
+                <option value="zh">中文</option>
+              </select>
+            </label>
+          </div>
+          <div class="role-picker">
+            <h1 data-i18n="choose_login">Vui lòng chọn vị trí đăng nhập:</h1>
+            <button type="button" class="role-choice driver-choice" data-role-choice="driver" data-i18n="driver_login">Tài xế đăng nhập</button>
+            <button type="button" class="role-choice staff-choice" data-role-choice="safety" data-i18n="staff_login">Nhân viên đăng nhập</button>
+            <button type="button" class="role-choice manager-choice" data-role-choice="fleet" data-i18n="manager_login">Quản lý đăng nhập</button>
+          </div>
+        </section>
+        <section class="role-visual">
+          <img src="./images/logo.jpg" alt="J&T Express" class="role-hero-logo" />
+          <div>
+            <h2 data-i18n-html="hero_title">Giao hàng nhanh chóng<br />Kết nối thành công</h2>
+            <p data-i18n="hero_desc">Đăng nhập để quản lý sự cố, theo dõi đội xe và trải nghiệm dịch vụ tốt nhất từ J&T Express.</p>
+          </div>
+          <img src="./images/xetai.jpg" alt="J&T Express truck" class="role-truck" />
+        </section>
+        <footer class="role-footer">
+          <span>© 2026 J&T Express. <span data-i18n="copyright">Tất cả quyền được bảo lưu</span></span>
+          <nav>
+            <a href="#" data-i18n="terms">Điều khoản sử dụng</a>
+            <a href="#" data-i18n="privacy">Chính sách bảo mật</a>
+            <a href="#" data-i18n="support">Trung tâm hỗ trợ</a>
+          </nav>
+        </footer>
+      </main>
+    </div>
+
+    <div id="login-screen" class="login-screen hidden">
       <section class="login-panel">
         <div class="login-topline">
-          <div class="jt-logo">
-            <strong>J&T</strong><span>EXPRESS</span>
-            <small>Express Your Online Business</small>
-          </div>
+          <img src="./images/jnt-ngang.png" alt="J&T Express" class="login-logo" />
           <label class="language-inline">
             <span>◎</span>
             <select id="login-language-select" aria-label="Language">
@@ -24,6 +61,7 @@
           </label>
         </div>
         <div class="login-copy">
+          <button type="button" id="back-role-btn" class="link-btn back-login">← <span data-i18n="back">Quay lại</span></button>
           <h1 data-i18n="login_title">Đăng nhập</h1>
           <p data-i18n="login_welcome">Chào mừng bạn quay trở lại!</p>
         </div>
@@ -66,9 +104,7 @@
       </section>
       <section class="login-visual" aria-label="J&T Express visual">
         <div class="login-hero-content">
-          <div class="jt-logo white">
-            <strong>J&T</strong><span>EXPRESS</span>
-          </div>
+          <img src="./images/logo.jpg" alt="J&T Express" class="login-hero-logo" />
           <div class="hero-rule"></div>
           <h2 data-i18n-html="hero_title">Giao hàng nhanh chóng<br />Kết nối thành công</h2>
           <p data-i18n="hero_desc">Đăng nhập để quản lý sự cố, theo dõi đội xe và trải nghiệm dịch vụ tốt nhất từ J&T Express.</p>
@@ -88,6 +124,7 @@
           <span class="parcel parcel-a"></span>
           <span class="parcel parcel-b"></span>
           <span class="parcel parcel-c"></span>
+          <img src="./images/xetai.jpg" alt="" class="hero-truck-photo" />
         </div>
       </section>
     </div>
@@ -95,7 +132,7 @@
     <div id="app" class="app hidden">
       <aside class="sidebar">
         <div class="brand-lockup compact">
-          <div class="brand-mark">J&T</div>
+          <img src="./images/jnt-ngang.png" alt="J&T Express" class="app-logo" />
           <div>
             <strong>Fleet Control</strong>
             <span id="user-role-label">Quản lý đội xe</span>
