@@ -1436,7 +1436,7 @@ function openDriverProfile(driver) {
         <section class="panel"><h3>Sự cố đã báo cáo</h3>${state.incidents.filter(i => i.driverCode === driver.driverCode).map(i => timeline(i.time, `${i.name} · ${statusBadge(i.status)}`)).join("")}</section>
       </section>
     </div>
-  `, `<button type="button" class="primary-btn" data-close-modal>Đóng</button>`);
+  `, `<button type="button" class="primary-btn" data-close-modal>Đóng</button>`, { hideHeaderClose: true });
 }
 
 function openIncidentDetail(incident) {
