@@ -734,7 +734,7 @@ function renderAll() {
 function renderNav() {
   if (currentRole === "driver") {
     const driverItems = [
-      { id: "home", label: "Home" },
+      { id: "home", label: "Trang chủ" },
       { id: "report", label: "Báo cáo" },
       { id: "edit", label: "Chỉnh sửa" },
       { id: "notify", label: "Thông báo" },
@@ -778,7 +778,7 @@ function switchView(viewId) {
   document.querySelectorAll(".view").forEach((view) => view.classList.toggle("active", view.id === `${viewId}-view`));
   if (currentRole === "driver") {
     renderNav();
-    els.sectionTitle.textContent = { home: "Home", report: "Báo cáo sự cố", edit: "Cập nhật sự cố", notify: "Thông báo hướng dẫn" }[activeDriverTab];
+    els.sectionTitle.textContent = { home: "Trang chủ", report: "Báo cáo sự cố", edit: "Cập nhật sự cố", notify: "Thông báo hướng dẫn" }[activeDriverTab];
     els.sectionEyebrow.textContent = "Tài xế";
     document.getElementById("quick-incident-btn").style.display = "none";
     return;
@@ -1125,7 +1125,9 @@ function drawTable(key, rows) {
 }
 
 function renderRow(key, row, columns) {
-  const callAction = key === "incidents" && row.status === "Đang xử lý" ? `<button type="button" class="table-btn" data-call="${row.id}">${translations[currentLang].call}</button>` : "";
+  const showIncidentOps = key === "incidents" && ["Đang xử lý", "Đã ghi nhận"].includes(row.status);
+  const callAction = showIncidentOps ? `<button type="button" class="table-btn" data-call="${row.id}">${translations[currentLang].call}</button>` : "";
+  const dispatchAction = showIncidentOps ? `<button type="button" class="table-btn">Điều phối</button>` : "";
   return `
     <tr>
       ${columns.map((field) => `<td>${formatCell(field, row[field])}</td>`).join("")}
@@ -1134,6 +1136,7 @@ function renderRow(key, row, columns) {
           <button type="button" class="table-btn" data-detail="${key}" data-id="${row.id}">${translations[currentLang].view}</button>
           <button type="button" class="table-btn" data-edit="${key}" data-id="${row.id}">${translations[currentLang].edit}</button>
           ${callAction}
+          ${dispatchAction}
           <button type="button" class="table-btn" data-delete="${key}" data-id="${row.id}">${translations[currentLang].delete}</button>
         </div>
       </td>
@@ -1200,7 +1203,7 @@ function handleDocumentClick(event) {
     activeDriverTab = target.dataset.driverTab;
     renderNav();
     renderEntity("incidents");
-    els.sectionTitle.textContent = { home: "Home", report: "Báo cáo sự cố", edit: "Cập nhật sự cố", notify: "Thông báo hướng dẫn" }[activeDriverTab];
+    els.sectionTitle.textContent = { home: "Trang chủ", report: "Báo cáo sự cố", edit: "Cập nhật sự cố", notify: "Thông báo hướng dẫn" }[activeDriverTab];
   }
   if (target.hasAttribute("data-open-driver-report")) openDriverReport();
   if (target.hasAttribute("data-open-driver-edit")) openDriverReport(true);
@@ -1384,7 +1387,7 @@ function openIncidentDetail(incident) {
         ${state.garages.map((g, idx) => `<div class="garage-card"><strong>${g.name}</strong><span>${g.address}</span><span class="badge ${idx === 0 ? "green" : "amber"}">${idx === 0 ? "2.4 km" : idx === 1 ? "4.8 km" : "12.0 km"}</span><button type="button" class="danger-btn">Điều phối</button></div>`).join("")}
       </aside>
     </div>
-  `, `<button type="button" class="primary-btn" data-close-modal>Đóng</button>`);
+  `, `<button type="button" class="primary-btn" data-close-modal>Đóng</button>`, { hideHeaderClose: true });
 }
 
 function openInspectionDetail(item) {
@@ -1397,8 +1400,8 @@ function openInspectionDetail(item) {
         <div class="alert-box"><strong>Gara đang sửa chữa</strong><br>Gara Ô Tô Thắng Long<br>Km 12, QL32, Bắc Từ Liêm, HN</div>
         <h3>Quy trình xử lý</h3>
         ${timeline("Bước 1", "Báo cáo đã hoàn thành")}
-        ${timeline("Bước 4", "Đưa xe vào gara")}
-        ${timeline("Bước 5", "Nghiệm thu đang thực hiện")}
+        ${timeline("Bước 2", "Đưa xe vào gara")}
+        ${timeline("Bước 3", "Nghiệm thu đang thực hiện")}
       </aside>
       <section class="panel">
         <h2>Chi tiết nghiệm thu kỹ thuật</h2>
@@ -1528,13 +1531,13 @@ function processIncident(id) {
   });
 }
 
-function openModal(title, body, footer = "") {
+function openModal(title, body, footer = "", options = {}) {
   els.modalRoot.classList.remove("hidden");
   els.modalRoot.innerHTML = `
     <div class="modal" role="dialog" aria-modal="true">
       <header>
         <h3>${title}</h3>
-        <button type="button" class="ghost-btn" data-close-modal>${translations[currentLang].close}</button>
+        ${options.hideHeaderClose ? "" : `<button type="button" class="ghost-btn" data-close-modal>${translations[currentLang].close}</button>`}
       </header>
       <div class="modal-body">${body}</div>
       <div class="modal-footer">${footer}</div>
@@ -1582,12 +1585,13 @@ function exportReport() {
 }
 
 function applyLanguage(event = null, silent = false) {
-  const lang = event?.target?.value || currentLang;
-  currentLang = lang;
-  els.languageSelect.value = lang;
-  els.loginLanguageSelect.value = lang;
-  els.roleLanguageSelect.value = lang;
-  document.documentElement.lang = lang;
+  const selectedValue = event?.target?.value || els.languageSelect.value || "vi";
+  const lang = "vi";
+  currentLang = "vi";
+  els.languageSelect.value = selectedValue;
+  els.loginLanguageSelect.value = selectedValue;
+  els.roleLanguageSelect.value = selectedValue;
+  document.documentElement.lang = "vi";
   document.querySelectorAll("[data-i18n]").forEach((node) => {
     node.textContent = translations[lang][node.dataset.i18n] || node.textContent;
   });
@@ -1607,7 +1611,7 @@ function applyLanguage(event = null, silent = false) {
   } else {
     renderNav();
   }
-  if (!silent) toast(`Ngôn ngữ: ${els.languageSelect.options[els.languageSelect.selectedIndex].text}`);
+  if (!silent) toast("Giao diện demo giữ mặc định tiếng Việt.");
 }
 
 function updateRoleOptions() {

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>J&T Driver Mobile</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main id="login-screen" class="login-screen">
+      <section class="login-card">
+        <img src="../images/jnt-ngang.png" alt="J&T Express" class="login-logo" />
+        <h1>Đăng nhập tài xế</h1>
+        <p>Truy cập lệnh điều động, báo cáo sự cố và hướng dẫn xử lý.</p>
+        <form id="login-form" class="login-form">
+          <label>
+            <span>Mã tài xế</span>
+            <input value="TX228" autocomplete="username" />
+          </label>
+          <label>
+            <span>Mật khẩu</span>
+            <input value="123" type="password" autocomplete="current-password" />
+          </label>
+          <button type="submit">Đăng nhập</button>
+        </form>
+      </section>
+    </main>
+
+    <main id="app" class="app hidden">
+      <header class="app-header">
+        <div>
+          <img src="../images/jnt-ngang.png" alt="" />
+          <strong>J&T Express</strong>
+        </div>
+        <button type="button" class="icon-button" aria-label="Thông báo">⌕</button>
+      </header>
+
+      <section id="view" class="view"></section>
+
+      <nav class="bottom-nav" aria-label="Điều hướng tài xế">
+        <button type="button" class="active" data-view="home">
+          <span>⌂</span>
+          Trang chủ
+        </button>
+        <button type="button" data-view="report">
+          <span>△</span>
+          Báo cáo
+        </button>
+        <button type="button" data-view="edit">
+          <span>✎</span>
+          Cập nhật
+        </button>
+        <button type="button" data-view="notify">
+          <span>☷</span>
+          Thông báo
+        </button>
+      </nav>
+    </main>
+
+    <div id="toast" class="toast hidden"></div>
+    <script src="./app.js"></script>
+  </body>
+</html>
