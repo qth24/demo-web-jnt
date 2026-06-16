@@ -42,10 +42,12 @@ const navByRole = {
 };
 
 const els = {
+  roleScreen: document.getElementById("role-screen"),
   loginScreen: document.getElementById("login-screen"),
   loginForm: document.getElementById("login-form"),
   loginRole: document.getElementById("login-role"),
   loginCode: document.getElementById("login-code"),
+  backRole: document.getElementById("back-role"),
   app: document.getElementById("app"),
   appTitle: document.getElementById("app-title"),
   bell: document.getElementById("bell-button"),
@@ -56,6 +58,17 @@ const els = {
   modalRoot: document.getElementById("modal-root"),
 };
 
+document.addEventListener("click", (event) => {
+  const roleChoice = event.target.closest("[data-role-choice]");
+  if (!roleChoice) return;
+  chooseRole(roleChoice.dataset.roleChoice);
+});
+
+els.backRole.addEventListener("click", () => {
+  els.loginScreen.classList.add("hidden");
+  els.roleScreen.classList.remove("hidden");
+});
+
 els.loginRole.addEventListener("change", () => {
   els.loginCode.value = els.loginRole.value === "driver" ? "TX228" : "KT031";
 });
@@ -64,6 +77,7 @@ els.loginForm.addEventListener("submit", (event) => {
   event.preventDefault();
   state.role = els.loginRole.value;
   state.view = "home";
+  els.roleScreen.classList.add("hidden");
   els.loginScreen.classList.add("hidden");
   els.app.classList.remove("hidden");
   els.appTitle.textContent = state.role === "driver" ? "Trần Văn Bình" : "Hoàng Gia Phúc";
@@ -71,6 +85,14 @@ els.loginForm.addEventListener("submit", (event) => {
   render();
   toast(state.role === "driver" ? "Xin chào Trần Văn Bình" : "Xin chào Hoàng Gia Phúc");
 });
+
+function chooseRole(role) {
+  state.role = role;
+  els.loginRole.value = role;
+  els.loginCode.value = role === "driver" ? "TX228" : "KT031";
+  els.roleScreen.classList.add("hidden");
+  els.loginScreen.classList.remove("hidden");
+}
 
 els.nav.addEventListener("click", (event) => {
   const button = event.target.closest("[data-view]");

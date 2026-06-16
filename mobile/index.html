@@ -7,11 +7,30 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <main id="login-screen" class="login-screen">
+    <main id="role-screen" class="login-screen">
+      <section class="login-card role-card">
+        <img src="../images/jnt-ngang.png" alt="J&T Express" class="login-logo" />
+        <h1>Chọn vai trò đăng nhập</h1>
+        <p>Vui lòng chọn tài khoản để hệ thống mở đúng luồng mobile.</p>
+        <div class="role-actions">
+          <button type="button" class="role-choice driver-role" data-role-choice="driver">
+            <span>TX</span>
+            Tài xế đăng nhập
+          </button>
+          <button type="button" class="role-choice tech-role" data-role-choice="tech">
+            <span>KT</span>
+            Nhân viên kỹ thuật
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <main id="login-screen" class="login-screen hidden">
       <section class="login-card">
         <img src="../images/jnt-ngang.png" alt="J&T Express" class="login-logo" />
         <h1>Đăng nhập</h1>
         <p>Chọn tài khoản tài xế hoặc nhân viên kỹ thuật để vào đúng luồng xử lý.</p>
+        <button type="button" class="back-button" id="back-role">← Quay lại chọn vai trò</button>
         <form id="login-form" class="login-form">
           <label>
             <span>Vai trò</span>
