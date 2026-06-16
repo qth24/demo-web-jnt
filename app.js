@@ -1,4 +1,4 @@
-const STORAGE_KEY = "jt-fleet-incident-control-v2";
+const STORAGE_KEY = "jt-fleet-incident-control-v3";
 
 const translations = {
   vi: {
@@ -635,6 +635,7 @@ const els = {
   loginRole: document.getElementById("login-role"),
   loginLanguageSelect: document.getElementById("login-language-select"),
   roleLanguageSelect: document.getElementById("role-language-select"),
+  appBrandTitle: document.getElementById("app-brand-title"),
   userRoleLabel: document.getElementById("user-role-label"),
   nav: document.getElementById("nav"),
   sectionTitle: document.getElementById("section-title"),
@@ -682,13 +683,23 @@ function saveState() {
 function handleLogin(event) {
   event.preventDefault();
   currentRole = els.loginRole.value;
-  els.userRoleLabel.textContent = currentRole === "driver" ? "Trần Văn Bình" : roleLabelsByLang[currentLang][currentRole];
+  updateAppIdentity();
   els.roleScreen.classList.add("hidden");
   els.loginScreen.classList.add("hidden");
   els.app.classList.remove("hidden");
   currentView = navItems.find((item) => item.roles.includes(currentRole)).id;
   renderAll();
   toast(`Đăng nhập với vai trò ${roleLabels[currentRole]}`);
+}
+
+function updateAppIdentity() {
+  const names = {
+    driver: "Trần Văn Bình",
+    safety: "Hoàng Minh Châu",
+    fleet: "Nguyễn Văn Thông",
+  };
+  els.appBrandTitle.textContent = names[currentRole] || "J&T Express";
+  els.userRoleLabel.textContent = currentRole === "driver" ? "Tài xế" : roleLabelsByLang[currentLang][currentRole];
 }
 
 function logout() {
@@ -767,7 +778,7 @@ function switchView(viewId) {
   document.querySelectorAll(".view").forEach((view) => view.classList.toggle("active", view.id === `${viewId}-view`));
   if (currentRole === "driver") {
     renderNav();
-    els.sectionTitle.textContent = { home: "Home", report: "Báo cáo sự cố", edit: "Chỉnh sửa báo cáo", notify: "Thông báo hướng dẫn" }[activeDriverTab];
+    els.sectionTitle.textContent = { home: "Home", report: "Báo cáo sự cố", edit: "Cập nhật sự cố", notify: "Thông báo hướng dẫn" }[activeDriverTab];
     els.sectionEyebrow.textContent = "Tài xế";
     document.getElementById("quick-incident-btn").style.display = "none";
     return;
@@ -793,9 +804,9 @@ function renderDashboard() {
     ["T7", 228],
   ];
   const incoming = [
-    ["!!", "Tai nạn giao thông - Đội xe Quận 7", "#INC-28491 · 15 phút trước", "KHẨN CẤP", "Xe: 51C-123.45"],
-    ["BX", "Thất thoát hàng hóa - Kho HCM-01", "#INC-28485 · 1 giờ trước", "TRUNG BÌNH", "Giá trị: Cao"],
-    ["AT", "Vi phạm quy trình ATLĐ - Bưu cục 22", "#INC-28477 · 3 giờ trước", "THẤP", "Thanh tra định kỳ"],
+    ["!!", "Tai nạn xe tải - Đội xe Quận 7", "#INC-30001 · 10 phút trước", "KHẨN CẤP", "Xe: 51C-456.78"],
+    ["DC", "Hư hỏng xe tải - Kho HCM-02", "#INC-30002 · 45 phút trước", "TRUNG BÌNH", "Lỗi: Động cơ"],
+    ["GPS", "Vi phạm tốc độ xe tải - Tuyến vận chuyển 5", "#INC-30003 · 2 giờ trước", "THẤP", "Ghi nhận qua GPS"],
   ];
 
   document.getElementById("dashboard-view").innerHTML = `
@@ -885,7 +896,6 @@ function renderEntity(key) {
       <div class="table-wrap" id="${key}-table"></div>
     </section>
     ${key === "drivers" ? renderLicenseWarnings() : ""}
-    ${key === "incidents" ? renderIncidentTools() : ""}
     ${key === "trips" ? renderTripMap() : ""}
   `;
   drawTable(key, rows);
@@ -919,7 +929,7 @@ function renderDriverIncidentLayout() {
         <h3>Chuyến hàng hiện tại <span class="badge red" style="float:right">JT-8892-XQL</span></h3>
         <div class="driver-grid">
           <div><span class="eyebrow">Biển số xe</span><strong>29C-123.45</strong></div>
-          <div><span class="eyebrow">Trải trình</span><strong>Hà Nội → HP</strong></div>
+          <div><span class="eyebrow">Hành trình</span><strong>Hà Nội → HP</strong></div>
         </div>
         <div class="route-line">
           <div class="route-stop"><div><strong>08:30 - Kho trung chuyển Mê Linh</strong><br>Đã xuất kho - Đang vận chuyển</div></div>
@@ -930,36 +940,38 @@ function renderDriverIncidentLayout() {
         <section class="driver-card"><strong>Nhiên liệu</strong><div class="bar-track"><div class="bar-fill" style="width:65%"></div></div><h3>65%</h3></section>
         <section class="driver-card"><strong>Thời gian lái</strong><h3>03:45h</h3><p>Đã lái hôm nay</p></section>
       </div>
-      <button type="button" class="danger-btn driver-report-btn" data-open-driver-report>Báo cáo sự cố<br><small>Tai nạn, hư hỏng, tắc đường...</small></button>
       <section class="driver-map"><strong>Vị trí hiện tại<br>Quốc lộ 5, Hải Dương</strong></section>
-      <section class="driver-card emergency-banner">
-        <h2>Tình trạng khẩn cấp!</h2>
-        <p>Vui lòng giữ bình tĩnh và thực hiện các bước cứu hộ ngay lập tức.</p>
-      </section>
-      <section class="driver-card">
-        <h3>Thông báo hướng dẫn xử lý</h3>
-        <div class="guide-step">
-          <strong>Bước 1: Dừng xe an toàn</strong>
-          <p>Tấp vào lề đường, bật đèn khẩn cấp và tắt máy.</p>
-          <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=900&q=70" alt="">
-        </div>
-        <div class="guide-step">
-          <strong>Bước 2: Cảnh báo từ xa</strong>
-          <p>Đặt biển cảnh báo tam giác cách xe 50-100m nếu điều kiện cho phép.</p>
-        </div>
-      </section>
+      <div class="driver-action-stack">
+        <button type="button" class="danger-btn driver-report-btn" data-driver-tab="report">Báo cáo sự cố<br><small>Tai nạn, hư hỏng, tắc đường...</small></button>
+      </div>
     </div>
   `;
 }
 
 function renderDriverReportPage(edit = false) {
   activeFormKey = "incidents";
+  const evidenceImage = edit
+    ? "./images/anhminhchung.png"
+    : "./images/quoclo5.png";
   return `
-    <div class="driver-shell">
+    <div class="driver-shell driver-report-layout">
       <section class="driver-card">
-        <h2>${edit ? "Chỉnh sửa báo cáo sự cố" : "Báo cáo sự cố"}</h2>
+        <h2>${edit ? "Cập nhật sự cố" : "Báo cáo sự cố"}</h2>
         <p>${edit ? "Bổ sung mô tả, hình ảnh và thông tin mới cho báo cáo đã gửi." : "Gửi thông tin sự cố xe tải đến nhân viên an toàn."}</p>
       </section>
+      ${edit ? "" : `
+        <section class="driver-emergency-row">
+          <div class="driver-card emergency-banner">
+            <h2>Tình trạng khẩn cấp!</h2>
+            <p>Vui lòng giữ bình tĩnh và thực hiện các bước cứu hộ ngay lập tức.</p>
+          </div>
+          <div class="emergency-actions">
+            <div class="emergency-action">Cứu hộ<br>114</div>
+            <div class="emergency-action">Cấp cứu<br>115</div>
+            <div class="emergency-action">Công an<br>113</div>
+          </div>
+        </section>
+      `}
       <section class="driver-card">
         <div class="form-grid">
           ${renderInput("code", edit ? "SC-2026-0615-01" : `SC-2026-${String(Date.now()).slice(-6)}`)}
@@ -967,15 +979,15 @@ function renderDriverReportPage(edit = false) {
           ${renderInput("tripCode", "CH-8891")}
           ${renderInput("driverCode", "TX228")}
           ${renderInput("plate", "29C-123.45")}
-          ${renderInput("name", "Thủng lốp")}
-          ${renderInput("incidentType", "Sự cố nhỏ")}
           ${renderInput("status", edit ? "Đang xử lý" : "Đã ghi nhận")}
           <div class="full driver-gps-demo"><strong>Vị trí hiện tại<br>123 Đường Duy Tân, Cầu Giấy, Hà Nội</strong></div>
           ${renderInput("images", "Mô tả tình trạng xe, hàng hóa, vị trí và hình ảnh minh chứng.")}
-          <div class="full evidence-grid">
-            <div class="guide-step"><strong>Ảnh minh chứng</strong><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=70" alt=""></div>
-            <div class="guide-step"><strong>Thêm ảnh/PDF</strong><p>Camera, biên bản, báo giá hoặc video ngắn.</p></div>
-          </div>
+          ${edit ? `
+            <div class="full evidence-grid">
+              <div class="guide-step"><strong>Ảnh minh chứng</strong><img src="${evidenceImage}" alt=""></div>
+              <div class="guide-step"><strong>Thêm ảnh/PDF</strong><p>Camera, biên bản, báo giá hoặc video ngắn.</p></div>
+            </div>
+          ` : ""}
         </div>
         <button type="button" class="danger-btn driver-report-btn" data-driver-submit>${edit ? "Lưu cập nhật" : "Gửi báo cáo"}</button>
       </section>
@@ -985,27 +997,35 @@ function renderDriverReportPage(edit = false) {
 
 function renderDriverNotifyPage() {
   return `
-    <div class="driver-shell">
+    <div class="driver-shell driver-report-layout">
       <section class="driver-card emergency-banner">
-        <h2>Tình trạng khẩn cấp!</h2>
+        <h2>Thông báo: Loại sự cố: sự cố nhỏ</h2>
         <p>Vui lòng giữ bình tĩnh và thực hiện các bước cứu hộ ngay lập tức.</p>
       </section>
       <section class="driver-card">
-        <h3>Hướng dẫn an toàn tức thì</h3>
-        <div class="guide-step">
-          <strong>Bước 1: Kiểm tra nguồn điện</strong>
-          <p>Đảm bảo phích cắm được cắm chặt và đèn tín hiệu adapter sáng màu xanh.</p>
-          <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=900&q=70" alt="">
-        </div>
-        <div class="guide-step">
-          <strong>Bước 2: Dừng xe an toàn</strong>
-          <p>Tấp vào lề, bật hazard và đặt cảnh báo từ xa nếu điều kiện cho phép.</p>
-          <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=70" alt="">
-        </div>
-        <div class="guide-step">
-          <strong>Bước 3: Thông báo cho công ty</strong>
-          <p>Gửi báo cáo sự cố kèm ảnh và chờ nhân viên an toàn điều phối.</p>
-          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=70" alt="">
+        <h3>Tự thay lốp dự phòng</h3>
+        <p>Dưới đây là quy trình 3 bước thực hiện nhanh chóng:</p>
+        <div class="driver-notify-grid">
+          <div class="guide-step">
+            <strong>1. Nới lỏng ốc bánh xe</strong>
+            <p><strong>Nới lỏng:</strong> Dùng tròng tuýp quay ngược chiều kim đồng hồ để nới lỏng các hạt ốc bánh xe bị thủng khi xe còn chạm đất.</p>
+            <p><strong>Lưu ý:</strong> Chỉ nới lỏng khoảng 1 vòng, tuyệt đối không tháo rời hoàn toàn ốc ở bước này.</p>
+            <img src="./images/noilongoc.png" alt="">
+          </div>
+          <div class="guide-step">
+            <strong>2. Kích gầm và tháo bánh thủng</strong>
+            <p><strong>Đặt kích:</strong> Đặt kích vào đúng phần khung kim loại chịu lực dưới gầm xe, gần bánh bị thủng.</p>
+            <p><strong>Nâng xe:</strong> Kích gầm lên cho đến khi bánh xe thủng nhấc cao hơn mặt đất khoảng 2 - 3 cm.</p>
+            <p><strong>Tháo bánh:</strong> Tháo rời hoàn toàn các ốc, nhấc bánh thủng ra ngoài và đặt ngay dưới gầm xe để phòng hờ sập kích.</p>
+            <img src="./images/kichgamvathaobanhthung.png" alt="">
+          </div>
+          <div class="guide-step">
+            <strong>3. Lắp lốp dự phòng và siết ốc</strong>
+            <p><strong>Lắp lốp:</strong> Nhấc lốp dự phòng vào cụm may-ơ và dùng tay vặn các hạt ốc vào trước.</p>
+            <p><strong>Siết chéo:</strong> Dùng tròng siết nhẹ các ốc theo hình ngôi sao để lốp vào đều.</p>
+            <p><strong>Hạ kích:</strong> Hạ từ từ kích gầm xuống cho bánh xe chạm đất hoàn toàn, sau đó siết thật chặt lại các ốc một lần cuối.</p>
+            <img src="./images/laplopduphong.png" alt="">
+          </div>
         </div>
       </section>
     </div>
@@ -1052,7 +1072,7 @@ function renderEntityHero(key, title, count) {
     invoices: "Kiểm soát hóa đơn thanh toán, hạng mục sửa chữa, phương thức và ảnh chứng từ.",
     categories: "Chuẩn hóa loại sự cố, mức độ và hướng dẫn xử lý ban đầu cho tài xế.",
   };
-  const image = ["trucks", "trips", "incidents", "garages", "inspections"].includes(key) ? "./images/xetai.jpg" : "./images/jnt-ngang.png";
+  const image = ["trucks", "trips", "incidents", "garages", "inspections"].includes(key) ? "./images/xetaijnt.png" : "./images/jnt-ngang.png";
   return `
     <section class="entity-hero">
       <div class="entity-hero-copy">
@@ -1130,28 +1150,6 @@ function formatCell(field, value) {
   return text;
 }
 
-function renderIncidentTools() {
-  return `
-    <div class="split" style="margin-top:16px">
-      <section class="panel">
-        <h3>Luồng xử lý báo cáo sự cố</h3>
-        <div class="timeline">
-          ${timeline("1", "Tài xế/nhân viên tạo báo cáo, hệ thống ghi GPS và hình ảnh.")}
-          ${timeline("2", "Hệ thống tự phân loại: sự cố nhỏ, sự cố động cơ, hoặc kỹ thuật nghiêm trọng.")}
-          ${timeline("3", "Nhân viên an toàn liên hệ tài xế và điều phối gara gần nhất.")}
-          ${timeline("4", "Cập nhật trạng thái xử lý cho đến khi xe vận hành bình thường.")}
-        </div>
-      </section>
-      <section class="panel">
-        <h3>Quy tắc phân loại tự động</h3>
-        <p class="chip">Thủng lốp, Cháy bóng đèn → Sự cố nhỏ.</p>
-        <p class="chip">Ắc-quy, rò rỉ dầu, giảm xóc → Sự cố động cơ.</p>
-        <p class="chip">Mất phanh, thắng không an toàn → Kỹ thuật nghiêm trọng.</p>
-      </section>
-    </div>
-  `;
-}
-
 function renderBranchSuggestion() {
   return `
     <section class="panel" style="margin-top:16px">
@@ -1202,7 +1200,7 @@ function handleDocumentClick(event) {
     activeDriverTab = target.dataset.driverTab;
     renderNav();
     renderEntity("incidents");
-    els.sectionTitle.textContent = { home: "Home", report: "Báo cáo sự cố", edit: "Chỉnh sửa báo cáo", notify: "Thông báo hướng dẫn" }[activeDriverTab];
+    els.sectionTitle.textContent = { home: "Home", report: "Báo cáo sự cố", edit: "Cập nhật sự cố", notify: "Thông báo hướng dẫn" }[activeDriverTab];
   }
   if (target.hasAttribute("data-open-driver-report")) openDriverReport();
   if (target.hasAttribute("data-open-driver-edit")) openDriverReport(true);
@@ -1239,9 +1237,12 @@ function openEntityForm(key, id = null) {
   const [titleLabel, addLabel] = entityLabels[currentLang][key] || [config.title, config.addLabel];
   const existing = id ? state[config.source].find((item) => item.id === id) : {};
   const title = id ? `${currentLang === "vi" ? "Cập nhật" : currentLang === "en" ? "Update" : "更新"} ${titleLabel.toLowerCase()}` : addLabel;
+  const fields = key === "accounts" && !id
+    ? ["role", "driverCode", "name", "citizenId", "phone", "licenseClass", "licenseExpiry", "status", "branch", "password"]
+    : config.fields;
   openModal(title, `
     <form id="entity-form" class="form-grid">
-      ${config.fields.map((field) => renderInput(field, existing[field])).join("")}
+      ${fields.map((field) => renderInput(field, field === "password" ? "123" : existing[field])).join("")}
     </form>
   `, `
     <button type="button" class="secondary-btn" data-close-modal>${translations[currentLang].cancel}</button>
@@ -1281,6 +1282,7 @@ function getOptionsForField(field) {
     method: ["Chuyển khoản", "Tiền mặt", "Cấn trừ công nợ"],
     insurance: ["PJICO 2026", "Bảo Việt 2026", "PVI 2026", "Chưa cập nhật"],
   };
+  if (activeFormKey === "accounts" && field === "role") return ["Tài xế", "Nhân viên an toàn", "Quản lý đội xe"];
   return options[field] || [];
 }
 
@@ -1300,7 +1302,7 @@ function saveEntity(key, id) {
   closeModal();
   renderAll();
   toast("Đã lưu thay đổi.");
-  if (key === "incidents") {
+  if (key === "incidents" && currentRole !== "driver") {
     openModal("Phân loại sự cố tự động", `
       <div class="alert-box"><strong>${data.incidentType}</strong><br>${handlingGuide(data.incidentType)}</div>
     `, `<button type="button" class="primary-btn" data-close-modal>Đã hiểu</button>`);
@@ -1326,9 +1328,9 @@ function openDetail(key, id) {
 
 function openDriverProfile(driver) {
   const driverPhotos = {
-    TX228: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=900&q=80",
-    TX019: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=80",
-    TX301: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=900&q=80",
+    TX228: "./images/tranvanbinh.png",
+    TX019: "./images/tranvanbinh.png",
+    TX301: "./images/tranvanbinh.png",
   };
   openModal("Hồ sơ tài xế", `
     <div class="driver-profile-layout">
@@ -1369,7 +1371,7 @@ function openIncidentDetail(incident) {
         <p><strong>Trần Văn Bình</strong> · Xe: ${incident.plate}</p>
         ${statusBadge(incident.status)}
         <div class="evidence-grid" style="margin-top:16px">
-          <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=900&q=70" alt="">
+          <img src="./images/SC-2026-0615-01.png" alt="">
           <div class="guide-step"><strong>+2 ảnh khác</strong><p>${incident.images}</p></div>
         </div>
         <h3>Mô tả từ tài xế</h3>
@@ -1451,7 +1453,7 @@ function openQuickIncident() {
     </form>
   `, `
     <button type="button" class="secondary-btn" data-close-modal>${translations[currentLang].cancel}</button>
-    <button type="button" class="primary-btn" id="save-entity-btn">Feishu Bot</button>
+    <button type="button" class="primary-btn" id="save-entity-btn">Báo Cáo</button>
   `);
   document.getElementById("save-entity-btn").addEventListener("click", () => saveEntity("incidents"));
 }
@@ -1459,7 +1461,7 @@ function openQuickIncident() {
 function openDriverReport(edit = false) {
   activeFormKey = "incidents";
   const next = edit ? "SC-2026-0615-01" : `SC-2026-${String(Date.now()).slice(-6)}`;
-  openModal(edit ? "Chỉnh sửa báo cáo sự cố" : "Báo cáo sự cố", `
+  openModal(edit ? "Cập nhật sự cố" : "Báo cáo sự cố", `
     <form id="entity-form" class="form-grid">
       ${renderInput("code", next)}
       ${renderInput("time", new Date().toLocaleString("vi-VN"))}
@@ -1468,15 +1470,13 @@ function openDriverReport(edit = false) {
       ${renderInput("plate", "29C-123.45")}
       ${renderInput("staffCode", "AT014")}
       ${renderInput("gps", "21.012, 105.521")}
-      ${renderInput("name", "Thủng lốp")}
-      ${renderInput("incidentType", "Sự cố nhỏ")}
       ${renderInput("status", "Đã ghi nhận")}
       <div class="full incident-map"><strong>Vị trí hiện tại<br>123 Đường Duy Tân, Cầu Giấy, Hà Nội</strong></div>
       ${renderInput("images", "Nhập mô tả chi tiết sự cố, tình trạng xe, hàng hóa và đính kèm ảnh minh chứng.")}
-      <div class="full evidence-grid">
-        <div class="guide-step"><strong>Ảnh hiện trường</strong><img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=800&q=70" alt=""></div>
+      ${edit ? `<div class="full evidence-grid">
+        <div class="guide-step"><strong>Ảnh minh chứng</strong><img src="./images/anhminhchung.png" alt=""></div>
         <div class="guide-step"><strong>Thêm ảnh/PDF</strong><p>Camera, ảnh hóa đơn, báo giá hoặc video ngắn.</p></div>
-      </div>
+      </div>` : ""}
     </form>
   `, `
     <button type="button" class="secondary-btn" data-close-modal>Hủy</button>
@@ -1601,7 +1601,7 @@ function applyLanguage(event = null, silent = false) {
   document.getElementById("quick-incident-btn").textContent = translations[lang].quick_incident;
   document.getElementById("export-btn").textContent = translations[lang].export_report;
   updateRoleOptions();
-  els.userRoleLabel.textContent = currentRole === "driver" ? "Trần Văn Bình" : roleLabelsByLang[lang][currentRole];
+  updateAppIdentity();
   if (!els.app.classList.contains("hidden")) {
     renderAll();
   } else {

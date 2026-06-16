@@ -117,7 +117,7 @@ button {
   display: grid;
   align-content: start;
   gap: 34px;
-  padding: 102px 46px 40px;
+  padding: 150px 46px 40px;
   background: var(--jt-red);
   color: #fff;
 }
@@ -131,13 +131,6 @@ button {
   border-left: 0;
   border-top: 0;
   transform: skewX(-18deg);
-}
-
-.role-hero-logo {
-  width: 250px;
-  height: 110px;
-  object-fit: cover;
-  object-position: center;
 }
 
 .role-visual h2 {
@@ -158,9 +151,8 @@ button {
   align-self: end;
   width: min(430px, 96%);
   margin: 24px auto 0;
-  border-radius: 10px;
-  mix-blend-mode: screen;
-  box-shadow: 0 24px 46px rgba(80, 0, 0, 0.18);
+  border-radius: 0;
+  filter: drop-shadow(0 24px 28px rgba(80, 0, 0, 0.22));
 }
 
 .role-footer {
@@ -447,9 +439,9 @@ button {
   width: 74px;
   height: 44px;
   object-fit: contain;
-  background: #fff;
-  border: 1px solid #ffd2d4;
-  padding: 4px;
+  background: transparent;
+  border: 0;
+  padding: 0;
 }
 
 .brand-lockup.compact .brand-mark {
@@ -577,13 +569,6 @@ button {
   margin-top: 90px;
 }
 
-.login-hero-logo {
-  width: 270px;
-  height: 118px;
-  object-fit: cover;
-  object-position: center;
-}
-
 .hero-rule {
   width: 64px;
   height: 2px;
@@ -615,25 +600,18 @@ button {
 
 .hero-truck-photo {
   position: absolute;
-  left: 5%;
-  bottom: 24px;
-  width: 250px;
-  border-radius: 12px;
-  opacity: 0.28;
-  mix-blend-mode: screen;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: min(500px, 100%);
+  margin: auto;
+  border-radius: 0;
+  opacity: 1;
+  filter: drop-shadow(0 24px 28px rgba(80, 0, 0, 0.22));
 }
 
 .hero-illustration::after {
-  content: "";
-  position: absolute;
-  left: 12%;
-  right: 0;
-  bottom: 18px;
-  height: 90px;
-  border: 2px solid rgba(255, 255, 255, 0.16);
-  border-left: 0;
-  border-top: 0;
-  transform: skewX(-18deg);
+  content: none;
 }
 
 .phone-mock {
@@ -1292,11 +1270,48 @@ textarea:focus {
   gap: 12px;
 }
 
+.driver-grid strong {
+  display: block;
+  margin-top: 6px;
+}
+
 .driver-report-btn {
   min-height: 70px;
   font-size: 20px;
   border-radius: 8px;
   margin-top: 22px;
+}
+
+.driver-action-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.driver-report-layout {
+  max-width: 1120px;
+}
+
+.driver-emergency-row {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(320px, 1.5fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+.emergency-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.emergency-action {
+  background: #fff;
+  border: 1px solid #ffd0d0;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  color: var(--jt-red);
+  font-weight: 800;
 }
 
 .driver-map,
@@ -1305,7 +1320,7 @@ textarea:focus {
   border-radius: 8px;
   background:
     linear-gradient(135deg, rgba(20, 83, 45, 0.72), rgba(15, 23, 42, 0.55)),
-    url("https://images.unsplash.com/photo-1569336415962-a4bd9f69c07a?auto=format&fit=crop&w=1000&q=70");
+    url("./images/quoclo5.png");
   background-size: cover;
   background-position: center;
   color: #fff;
@@ -1319,7 +1334,7 @@ textarea:focus {
   border-radius: 8px;
   background:
     linear-gradient(135deg, rgba(15, 23, 42, 0.36), rgba(15, 23, 42, 0.06)),
-    url("https://images.unsplash.com/photo-1569336415962-a4bd9f69c07a?auto=format&fit=crop&w=1100&q=75");
+    url("./images/quoclo5.png");
   background-size: cover;
   background-position: center;
   color: #fff;
@@ -1344,6 +1359,10 @@ textarea:focus {
   padding: 20px;
 }
 
+.guide-step p {
+  margin: 0;
+}
+
 .guide-step img,
 .evidence-grid img {
   width: 100%;
@@ -1352,11 +1371,18 @@ textarea:focus {
   border-radius: 8px;
 }
 
+.driver-notify-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
 .driver-profile-photo {
   width: 100%;
   height: 320px;
-  object-fit: cover;
-  object-position: center 22%;
+  object-fit: contain;
+  object-position: center;
+  background: #f1f5f9;
   border-radius: 8px;
   margin-bottom: 24px;
 }
@@ -1736,6 +1762,11 @@ tr:hover td {
   .content-grid,
   .split,
   .chart-grid,
+  .driver-emergency-row,
+  .driver-notify-grid,
+  .incident-detail-layout,
+  .inspection-layout,
+  .driver-profile-layout,
   .entity-hero,
   .policy-grid {
     grid-template-columns: 1fr;
@@ -1795,6 +1826,9 @@ tr:hover td {
   .detail-list,
   .kpi-grid,
   .social-login,
+  .driver-grid,
+  .emergency-actions,
+  .evidence-grid,
   .quick-grid {
     grid-template-columns: 1fr;
   }
