@@ -18,8 +18,8 @@
             Tài xế đăng nhập
           </button>
           <button type="button" class="role-choice tech-role" data-role-choice="tech">
-            <span>KT</span>
-            Nhân viên kỹ thuật
+            <span>NV</span>
+            Nhân viên
           </button>
         </div>
       </section>
@@ -29,15 +29,13 @@
       <section class="login-card">
         <img src="../images/jnt-ngang.png" alt="J&T Express" class="login-logo" />
         <h1>Đăng nhập</h1>
-        <p>Chọn tài khoản tài xế hoặc nhân viên kỹ thuật để vào đúng luồng xử lý.</p>
+        <p>Chọn tài khoản tài xế hoặc nhân viên để vào đúng luồng xử lý.</p>
         <button type="button" class="back-button" id="back-role">← Quay lại chọn vai trò</button>
         <form id="login-form" class="login-form">
           <label>
             <span>Vai trò</span>
-            <select id="login-role">
-              <option value="driver">Tài xế - Trần Văn Bình</option>
-              <option value="tech">Nhân viên kỹ thuật - Hoàng Gia Phúc</option>
-            </select>
+            <div class="readonly-field" id="login-role-display">Tài xế - Trần Văn Bình</div>
+            <input id="login-role" type="hidden" value="driver" />
           </label>
           <label>
             <span>Mã đăng nhập</span>
@@ -48,6 +46,29 @@
             <input value="123" type="password" autocomplete="current-password" />
           </label>
           <button type="submit">Đăng nhập</button>
+          <button type="button" class="register-link" id="open-register">Bạn chưa có tài khoản? <strong>Đăng kí</strong></button>
+        </form>
+      </section>
+    </main>
+
+    <main id="register-screen" class="login-screen hidden">
+      <section class="login-card">
+        <img src="../images/jnt-ngang.png" alt="J&T Express" class="login-logo" />
+        <h1>Đăng ký tài khoản</h1>
+        <p>Nhập thông tin để tạo tài khoản tài xế hoặc nhân viên.</p>
+        <button type="button" class="back-button" id="back-login">← Quay lại đăng nhập</button>
+        <form class="login-form">
+          <label><span>Vai trò</span><select><option>Tài xế</option><option>Nhân viên</option></select></label>
+          <label><span>Mã tài xế / Nhân viên</span><input placeholder="VD: TX228 hoặc NV014" /></label>
+          <label><span>Tên</span><input /></label>
+          <label><span>CCCD</span><input /></label>
+          <label><span>Số điện thoại</span><input /></label>
+          <label><span>Email (Đối với khối văn phòng)</span><input type="email" /></label>
+          <label><span>Hạng GPLX</span><input /></label>
+          <label><span>Hạn GPLX</span><input type="date" /></label>
+          <label><span>Chi nhánh</span><select><option>HCM-01</option><option>BD-02</option><option>HN-03</option></select></label>
+          <label><span>Mật khẩu mặc định</span><input value="123" /></label>
+          <button type="button" id="submit-register">Đăng kí</button>
         </form>
       </section>
     </main>

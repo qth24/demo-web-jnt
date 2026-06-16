@@ -649,6 +649,7 @@ document.addEventListener("DOMContentLoaded", () => {
   els.loginForm.addEventListener("submit", handleLogin);
   document.getElementById("back-role-btn").addEventListener("click", showRoleScreen);
   document.getElementById("logout-btn").addEventListener("click", logout);
+  document.getElementById("open-register-btn").addEventListener("click", openRegisterForm);
   document.getElementById("quick-incident-btn").addEventListener("click", openQuickIncident);
   document.getElementById("export-btn").addEventListener("click", exportReport);
   els.languageSelect.addEventListener("change", applyLanguage);
@@ -881,6 +882,10 @@ function renderEntity(key) {
     document.getElementById(`${key}-view`).innerHTML = renderDriverIncidentLayout();
     return;
   }
+  if (key === "accounts" && currentRole === "fleet") {
+    document.getElementById(`${key}-view`).innerHTML = renderManagerAccountProfile();
+    return;
+  }
   const config = entityConfigs[key];
   const [title, addLabel] = entityLabels[currentLang][key] || [config.title, config.addLabel];
   const rows = state[config.source];
@@ -905,10 +910,36 @@ function renderLicenseWarnings() {
   const drivers = getExpiringDrivers();
   return `
     <section class="panel" style="margin-top:16px">
-      <h3>FR17 - Cảnh báo GPLX sắp hết hạn</h3>
+      <h3>Cảnh báo GPLX sắp hết hạn</h3>
       <p>Hệ thống tự động hiển thị tài xế cần gia hạn giấy phép lái xe trước 15-30 ngày.</p>
       <div class="timeline">
         ${drivers.map((driver) => timeline(driver.licenseExpiry, `<strong>${driver.name}</strong> (${driver.driverCode}) · GPLX hạng ${driver.licenseClass} · ${driver.branch}`)).join("") || "<p>Không có tài xế cần cảnh báo.</p>"}
+      </div>
+    </section>
+  `;
+}
+
+function renderManagerAccountProfile() {
+  return `
+    <section class="account-profile-card">
+      <div class="account-avatar-area">
+        <img src="./images/logo.jpg" alt="">
+        <strong>Chức vụ:</strong>
+        <span>Quản lý đội xe</span>
+        <strong>Ngày gia nhập:</strong>
+        <span>18/7/2022</span>
+        <button type="button" class="danger-btn">Xóa</button>
+      </div>
+      <div class="account-info-area">
+        <h2>THÔNG TIN TÀI KHOẢN</h2>
+        <div class="account-info-grid">
+          <strong>Họ và tên:</strong><span>Nguyễn Văn Thông</span>
+          <strong>Số điện thoại:</strong><span>0987654321</span>
+          <strong>Email:</strong><span>nguyenvanthong@jtexpress.vn</span>
+          <strong>Mã số nhân viên:</strong><span>QL001</span>
+          <strong>Số đơn hàng đã xử lý:</strong><span>169</span>
+        </div>
+        <button type="button" class="secondary-btn">Sửa</button>
       </div>
     </section>
   `;
@@ -1254,6 +1285,30 @@ function openEntityForm(key, id = null) {
   document.getElementById("save-entity-btn").addEventListener("click", () => saveEntity(key, id));
 }
 
+function openRegisterForm() {
+  openModal("Đăng ký tài khoản", `
+    <form id="register-form" class="form-grid">
+      <label><span>Vai trò</span><select name="role"><option>Tài xế</option><option>Nhân viên</option><option>Quản lý đội xe</option></select></label>
+      <label><span>Mã tài xế / Nhân viên</span><input name="code" placeholder="VD: TX228 hoặc NV014" /></label>
+      <label><span>Tên</span><input name="name" /></label>
+      <label><span>CCCD</span><input name="citizenId" /></label>
+      <label><span>Số điện thoại</span><input name="phone" /></label>
+      <label><span>Email (Đối với khối văn phòng)</span><input name="email" type="email" /></label>
+      <label><span>Hạng GPLX</span><input name="licenseClass" /></label>
+      <label><span>Hạn GPLX</span><input name="licenseExpiry" type="date" /></label>
+      <label><span>Chi nhánh</span><select name="branch"><option>HCM-01</option><option>BD-02</option><option>HN-03</option></select></label>
+      <label><span>Mật khẩu mặc định</span><input name="password" value="123" /></label>
+    </form>
+  `, `
+    <button type="button" class="secondary-btn" data-close-modal>Hủy</button>
+    <button type="button" class="primary-btn" id="submit-register-btn">Đăng kí</button>
+  `);
+  document.getElementById("submit-register-btn").addEventListener("click", () => {
+    closeModal();
+    toast("Đã gửi thông tin đăng ký tài khoản.");
+  });
+}
+
 function renderInput(field, value = "") {
   const textareaFields = ["description", "guide", "services", "images", "address", "solution"];
   const selectOptions = getOptionsForField(field);
@@ -1358,7 +1413,7 @@ function openDriverProfile(driver) {
             <div><span>Hạng</span>${driver.licenseClass}</div>
             <div><span>Hết hạn</span>${driver.licenseExpiry}</div>
           </div>
-          <div class="alert-box" style="margin-top:12px">FR17: GPLX sắp hết hạn, cần gia hạn trước 15-30 ngày nếu nằm trong danh sách cảnh báo.</div>
+          <div class="alert-box" style="margin-top:12px">GPLX sắp hết hạn, cần gia hạn trước 15-30 ngày nếu nằm trong danh sách cảnh báo.</div>
         </section>
         <section class="panel"><h3>Sự cố đã báo cáo</h3>${state.incidents.filter(i => i.driverCode === driver.driverCode).map(i => timeline(i.time, `${i.name} · ${statusBadge(i.status)}`)).join("")}</section>
       </section>

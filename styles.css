@@ -561,6 +561,13 @@ button {
   font-size: 14px;
 }
 
+.inline-link {
+  display: inline;
+  padding: 0;
+  color: var(--jt-red);
+  font-weight: 800;
+}
+
 .login-hero-content {
   position: relative;
   z-index: 1;
@@ -1437,6 +1444,55 @@ textarea:focus {
   border-left: 4px solid var(--amber);
   background: #fff7ed;
   color: #92400e;
+}
+
+.account-profile-card {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: 32px;
+  align-items: center;
+  max-width: 820px;
+  margin: 40px auto;
+  padding: 28px;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
+.account-avatar-area {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.account-avatar-area img {
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #f0d6d9;
+}
+
+.account-info-area {
+  display: grid;
+  gap: 18px;
+}
+
+.account-info-area h2 {
+  margin: 0;
+  font-size: 26px;
+  text-align: center;
+}
+
+.account-info-grid {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 14px 22px;
+  font-size: 16px;
+}
+
+.account-info-area .secondary-btn {
+  justify-self: end;
 }
 
 .search-grid {

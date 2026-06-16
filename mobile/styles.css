@@ -29,6 +29,19 @@ textarea {
   font: inherit;
 }
 
+input[readonly],
+.readonly-field {
+  background: #f8fafc;
+  color: #334155;
+}
+
+.readonly-field {
+  width: 100%;
+  border: 1px solid #d8dee8;
+  border-radius: 12px;
+  padding: 13px 14px;
+}
+
 button {
   cursor: pointer;
 }
@@ -128,6 +141,19 @@ button {
   background: transparent;
   color: var(--jt-red);
   font-weight: 900;
+}
+
+.register-link {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--muted);
+  text-align: center;
+  box-shadow: none;
+}
+
+.register-link strong {
+  color: var(--jt-red);
 }
 
 label {

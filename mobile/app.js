@@ -44,10 +44,15 @@ const navByRole = {
 const els = {
   roleScreen: document.getElementById("role-screen"),
   loginScreen: document.getElementById("login-screen"),
+  registerScreen: document.getElementById("register-screen"),
   loginForm: document.getElementById("login-form"),
   loginRole: document.getElementById("login-role"),
+  loginRoleDisplay: document.getElementById("login-role-display"),
   loginCode: document.getElementById("login-code"),
   backRole: document.getElementById("back-role"),
+  backLogin: document.getElementById("back-login"),
+  openRegister: document.getElementById("open-register"),
+  submitRegister: document.getElementById("submit-register"),
   app: document.getElementById("app"),
   appTitle: document.getElementById("app-title"),
   bell: document.getElementById("bell-button"),
@@ -69,8 +74,20 @@ els.backRole.addEventListener("click", () => {
   els.roleScreen.classList.remove("hidden");
 });
 
-els.loginRole.addEventListener("change", () => {
-  els.loginCode.value = els.loginRole.value === "driver" ? "TX228" : "KT031";
+els.openRegister.addEventListener("click", () => {
+  els.loginScreen.classList.add("hidden");
+  els.registerScreen.classList.remove("hidden");
+});
+
+els.backLogin.addEventListener("click", () => {
+  els.registerScreen.classList.add("hidden");
+  els.loginScreen.classList.remove("hidden");
+});
+
+els.submitRegister.addEventListener("click", () => {
+  toast("Đã gửi thông tin đăng ký tài khoản.");
+  els.registerScreen.classList.add("hidden");
+  els.loginScreen.classList.remove("hidden");
 });
 
 els.loginForm.addEventListener("submit", (event) => {
@@ -89,6 +106,7 @@ els.loginForm.addEventListener("submit", (event) => {
 function chooseRole(role) {
   state.role = role;
   els.loginRole.value = role;
+  els.loginRoleDisplay.textContent = role === "driver" ? "Tài xế - Trần Văn Bình" : "Nhân viên - Hoàng Gia Phúc";
   els.loginCode.value = role === "driver" ? "TX228" : "KT031";
   els.roleScreen.classList.add("hidden");
   els.loginScreen.classList.remove("hidden");
@@ -227,14 +245,23 @@ function renderReport() {
     <section class="mobile-card">
       <div class="status-strip">● Đang kết nối với nhân viên an toàn</div>
       <div class="mobile-grid" style="margin-top:12px">
+        <div class="metric"><span>Mã</span><strong>SC-2026-0615-01</strong></div>
         <div class="metric"><span>Thời gian</span><strong>01:23:45</strong></div>
+        <div class="metric"><span>Mã chuyến</span><strong>CH-8891</strong></div>
+        <div class="metric"><span>Mã tài xế</span><strong>TX228</strong></div>
         <div class="metric"><span>Biển số xe</span><strong>29C-123.45</strong></div>
+        <div class="metric"><span>Trạng thái</span><strong>Đã ghi nhận</strong></div>
       </div>
     </section>
     <section class="mobile-card"><h2>Vị trí hiện tại</h2><div class="gps-card"><strong>123 Đường Duy Tân, Cầu Giấy, Hà Nội</strong></div></section>
     <section class="mobile-card">
       <form class="form-stack">
-        <label><span>Mã chuyến hàng</span><input value="JT-V98273041-EXP"></label>
+        <label><span>Mã</span><input value="SC-2026-0615-01" readonly></label>
+        <label><span>Thời gian</span><input value="01:23:45" readonly></label>
+        <label><span>Mã chuyến</span><input value="CH-8891" readonly></label>
+        <label><span>Mã tài xế</span><input value="TX228" readonly></label>
+        <label><span>Biển số</span><input value="29C-123.45" readonly></label>
+        <label><span>Trạng thái</span><input value="Đã ghi nhận" readonly></label>
         <label><span>Mô tả tình trạng</span><textarea placeholder="Nhập chi tiết sự cố, tình trạng xe, hàng hóa..."></textarea></label>
         <button type="button" class="danger-button" data-submit-report>Gửi báo cáo</button>
       </form>
