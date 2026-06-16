@@ -882,6 +882,10 @@ function renderEntity(key) {
     document.getElementById(`${key}-view`).innerHTML = renderDriverIncidentLayout();
     return;
   }
+  if (key === "accounts") {
+    document.getElementById(`${key}-view`).innerHTML = renderAccountProfile(getCurrentAccount());
+    return;
+  }
   const config = entityConfigs[key];
   const [title, addLabel] = entityLabels[currentLang][key] || [config.title, config.addLabel];
   const rows = state[config.source];
@@ -913,6 +917,37 @@ function renderLicenseWarnings() {
       </div>
     </section>
   `;
+}
+
+function getCurrentAccount() {
+  if (currentRole === "fleet") {
+    return {
+      employeeCode: "QL001",
+      name: "Nguyễn Văn Thông",
+      role: "Quản lý đội xe",
+      phone: "0987654321",
+      email: "nguyenvanthong@jtexpress.vn",
+    };
+  }
+  if (currentRole === "safety") {
+    return {
+      employeeCode: "AT014",
+      name: "Hoàng Minh Châu",
+      role: "Nhân viên an toàn",
+      phone: "0901000014",
+      email: "chaunhm@jtexpress.vn",
+    };
+  }
+  if (currentRole === "branch") {
+    return {
+      employeeCode: "CN008",
+      name: "Vũ Khánh Linh",
+      role: "Quản lý chi nhánh",
+      phone: "0901000008",
+      email: "linh@jtexpress.vn",
+    };
+  }
+  return state.accounts.find((account) => account.role === roleLabels[currentRole]) || state.accounts[0];
 }
 
 function renderAccountProfile(account) {
