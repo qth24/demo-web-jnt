@@ -882,10 +882,6 @@ function renderEntity(key) {
     document.getElementById(`${key}-view`).innerHTML = renderDriverIncidentLayout();
     return;
   }
-  if (key === "accounts" && currentRole === "fleet") {
-    document.getElementById(`${key}-view`).innerHTML = renderManagerAccountProfile();
-    return;
-  }
   const config = entityConfigs[key];
   const [title, addLabel] = entityLabels[currentLang][key] || [config.title, config.addLabel];
   const rows = state[config.source];
@@ -919,25 +915,29 @@ function renderLicenseWarnings() {
   `;
 }
 
-function renderManagerAccountProfile() {
+function renderAccountProfile(account) {
+  const role = account.role || "Quản lý đội xe";
+  const joinedAt = role === "Tài xế" ? "12/4/2023" : role.includes("Nhân viên") ? "22/9/2022" : "18/7/2022";
+  const handled = role === "Tài xế" ? "87" : role.includes("Nhân viên") ? "143" : "169";
+  const code = account.employeeCode || account.driverCode || "QL001";
   return `
     <section class="account-profile-card">
       <div class="account-avatar-area">
         <img src="./images/logo.jpg" alt="">
         <strong>Chức vụ:</strong>
-        <span>Quản lý đội xe</span>
+        <span>${escapeHtml(role)}</span>
         <strong>Ngày gia nhập:</strong>
-        <span>18/7/2022</span>
+        <span>${joinedAt}</span>
         <button type="button" class="danger-btn">Xóa</button>
       </div>
       <div class="account-info-area">
         <h2>THÔNG TIN TÀI KHOẢN</h2>
         <div class="account-info-grid">
-          <strong>Họ và tên:</strong><span>Nguyễn Văn Thông</span>
-          <strong>Số điện thoại:</strong><span>0987654321</span>
-          <strong>Email:</strong><span>nguyenvanthong@jtexpress.vn</span>
-          <strong>Mã số nhân viên:</strong><span>QL001</span>
-          <strong>Số đơn hàng đã xử lý:</strong><span>169</span>
+          <strong>Họ và tên:</strong><span>${escapeHtml(account.name || "Nguyễn Văn Thông")}</span>
+          <strong>Số điện thoại:</strong><span>${escapeHtml(account.phone || "0987654321")}</span>
+          <strong>Email:</strong><span>${escapeHtml(account.email || "nguyenvanthong@jtexpress.vn")}</span>
+          <strong>Mã số nhân viên:</strong><span>${escapeHtml(code)}</span>
+          <strong>Số đơn hàng đã xử lý:</strong><span>${handled}</span>
         </div>
         <button type="button" class="secondary-btn">Sửa</button>
       </div>
@@ -1371,6 +1371,9 @@ function openDetail(key, id) {
   const config = entityConfigs[key];
   const [titleLabel] = entityLabels[currentLang][key] || [config.title];
   const item = state[config.source].find((row) => row.id === id);
+  if (key === "accounts") {
+    return openModal("Thông tin tài khoản", renderAccountProfile(item), `<button type="button" class="primary-btn" data-close-modal>Đóng</button>`);
+  }
   if (key === "drivers") return openDriverProfile(item);
   if (key === "incidents") return openIncidentDetail(item);
   if (key === "inspections") return openInspectionDetail(item);
