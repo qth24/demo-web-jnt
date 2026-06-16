@@ -1448,12 +1448,12 @@ textarea:focus {
 
 .account-profile-card {
   display: grid;
-  grid-template-columns: 250px minmax(0, 1fr);
-  gap: 32px;
+  grid-template-columns: 375px minmax(0, 1fr);
+  gap: 48px;
   align-items: center;
-  max-width: 820px;
-  margin: 40px auto;
-  padding: 28px;
+  max-width: 1230px;
+  margin: 60px auto;
+  padding: 42px;
   background: #fff;
   border: 1px solid var(--line);
 }
@@ -1461,13 +1461,14 @@ textarea:focus {
 .account-avatar-area {
   display: grid;
   justify-items: center;
-  gap: 8px;
+  gap: 12px;
   text-align: center;
+  font-size: 24px;
 }
 
 .account-avatar-area img {
-  width: 128px;
-  height: 128px;
+  width: 192px;
+  height: 192px;
   border-radius: 50%;
   object-fit: cover;
   border: 1px solid #f0d6d9;
@@ -1475,24 +1476,33 @@ textarea:focus {
 
 .account-info-area {
   display: grid;
-  gap: 18px;
+  gap: 27px;
 }
 
 .account-info-area h2 {
   margin: 0;
-  font-size: 26px;
+  font-size: 39px;
   text-align: center;
 }
 
 .account-info-grid {
   display: grid;
-  grid-template-columns: 190px 1fr;
-  gap: 14px 22px;
-  font-size: 16px;
+  grid-template-columns: 285px 1fr;
+  gap: 21px 33px;
+  font-size: 24px;
 }
 
 .account-info-area .secondary-btn {
   justify-self: end;
+  min-width: 110px;
+  min-height: 62px;
+  font-size: 24px;
+}
+
+.account-avatar-area .danger-btn {
+  min-width: 110px;
+  min-height: 62px;
+  font-size: 24px;
 }
 
 .search-grid {
