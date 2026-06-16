@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="360" viewBox="0 0 980 360">
+  <rect width="980" height="360" fill="#e8f0e8"/>
+  <path d="M0 90 C120 60 180 128 284 105 S470 42 590 88 760 170 980 120" fill="none" stroke="#b9d2bb" stroke-width="48"/>
+  <path d="M0 238 C115 210 220 260 330 230 S505 158 660 205 810 290 980 250" fill="none" stroke="#c9dfca" stroke-width="54"/>
+  <path d="M140 0 C126 68 150 126 120 196 S70 284 88 360" fill="none" stroke="#d9c6a5" stroke-width="30"/>
+  <path d="M740 0 C710 80 748 144 730 214 S672 304 690 360" fill="none" stroke="#d9c6a5" stroke-width="34"/>
+  <path d="M24 286 L236 232 L385 244 L532 194 L706 212 L932 164" fill="none" stroke="#f8fafc" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M24 286 L236 232 L385 244 L532 194 L706 212 L932 164" fill="none" stroke="#e23b3f" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="28 16"/>
+  <path d="M106 105 L258 82 L426 116 L594 82 L834 122" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round"/>
+  <path d="M106 105 L258 82 L426 116 L594 82 L834 122" fill="none" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" stroke-dasharray="18 12"/>
+  <g fill="#d1d5db" opacity=".8">
+    <rect x="305" y="26" width="86" height="46" rx="4"/>
+    <rect x="420" y="275" width="120" height="54" rx="4"/>
+    <rect x="790" y="42" width="95" height="58" rx="4"/>
+    <rect x="565" y="118" width="76" height="44" rx="4"/>
+    <rect x="170" y="278" width="90" height="50" rx="4"/>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="18" fill="#334155">
+    <text x="54" y="70">BD-02</text>
+    <text x="778" y="310">HCM-01</text>
+    <text x="424" y="170">QL13</text>
+    <text x="682" y="188">Song Sai Gon</text>
+  </g>
+  <circle cx="236" cy="232" r="13" fill="#2563eb" stroke="#fff" stroke-width="5"/>
+  <circle cx="706" cy="212" r="13" fill="#16a34a" stroke="#fff" stroke-width="5"/>
+  <g transform="translate(522 166)">
+    <path d="M26 0 C40 0 52 12 52 26 C52 45 26 76 26 76 S0 45 0 26 C0 12 12 0 26 0Z" fill="#e61c24"/>
+    <circle cx="26" cy="26" r="11" fill="#fff"/>
+  </g>
+  <g font-family="Arial, sans-serif">
+    <rect x="565" y="154" width="220" height="74" rx="8" fill="#fff" stroke="#d1d5db"/>
+    <text x="583" y="182" font-size="18" font-weight="700" fill="#111827">CH-8891</text>
+    <text x="583" y="207" font-size="14" fill="#475569">61H-445.23 - vi tri su co</text>
+  </g>
+</svg>

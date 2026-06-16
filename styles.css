@@ -1627,6 +1627,16 @@ tr:hover td {
   background-size: 34px 34px;
 }
 
+.trip-map-image {
+  display: block;
+  width: 100%;
+  min-height: 360px;
+  max-height: 420px;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  background: #edf2f7;
+}
+
 .gps-truck {
   position: absolute;
   display: grid;

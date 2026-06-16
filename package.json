@@ -1,0 +1,24 @@
+{
+  "name": "demo-web-jnt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "build:figma-prototype": "node tools/build-figma-prototype.js",
+    "test": "echo \"No automated tests configured\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qth24/demo-web-jnt.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qth24/demo-web-jnt/issues"
+  },
+  "homepage": "https://github.com/qth24/demo-web-jnt#readme",
+  "devDependencies": {
+    "playwright": "^1.61.0"
+  }
+}

@@ -1002,10 +1002,7 @@ function renderDriverIncidentLayout() {
           <div class="route-stop warn"><div><strong>Dự kiến 11:45 - Kho Hải Phòng 02</strong><br>Kho tập kết cuối</div></div>
         </div>
       </section>
-      <div class="driver-grid">
-        <section class="driver-card"><strong>Nhiên liệu</strong><div class="bar-track"><div class="bar-fill" style="width:65%"></div></div><h3>65%</h3></section>
-        <section class="driver-card"><strong>Thời gian lái</strong><h3>03:45h</h3><p>Đã lái hôm nay</p></section>
-      </div>
+      <section class="driver-card"><strong>Thời gian lái</strong><h3>03:45h</h3><p>Đã lái hôm nay</p></section>
       <section class="driver-map"><strong>Vị trí hiện tại<br>Quốc lộ 5, Hải Dương</strong></section>
       <div class="driver-action-stack">
         <button type="button" class="danger-btn driver-report-btn" data-driver-tab="report">Báo cáo sự cố<br><small>Tai nạn, hư hỏng, tắc đường...</small></button>
@@ -1025,19 +1022,6 @@ function renderDriverReportPage(edit = false) {
         <h2>${edit ? "Cập nhật sự cố" : "Báo cáo sự cố"}</h2>
         <p>${edit ? "Bổ sung mô tả, hình ảnh và thông tin mới cho báo cáo đã gửi." : "Gửi thông tin sự cố xe tải đến nhân viên an toàn."}</p>
       </section>
-      ${edit ? "" : `
-        <section class="driver-emergency-row">
-          <div class="driver-card emergency-banner">
-            <h2>Tình trạng khẩn cấp!</h2>
-            <p>Vui lòng giữ bình tĩnh và thực hiện các bước cứu hộ ngay lập tức.</p>
-          </div>
-          <div class="emergency-actions">
-            <div class="emergency-action">Cứu hộ<br>114</div>
-            <div class="emergency-action">Cấp cứu<br>115</div>
-            <div class="emergency-action">Công an<br>113</div>
-          </div>
-        </section>
-      `}
       <section class="driver-card">
         <div class="form-grid">
           ${renderInput("code", edit ? "SC-2026-0615-01" : `SC-2026-${String(Date.now()).slice(-6)}`)}
@@ -1113,13 +1097,9 @@ function renderToolbarControls(key, config, rows) {
 function renderTripMap() {
   return `
     <section class="panel" style="margin-top:16px">
-      <h3>Định vị chuyến hàng trên bản đồ theo thời gian thực</h3>
-      <p>Cho phép hệ thống theo dõi và hiển thị vị trí hiện tại của xe liên tục thông qua GPS.</p>
-      <div class="map-widget">
-        <div class="gps-truck" id="gps-truck">JT</div>
-        <div class="map-label" style="left:8%;top:12%"><strong>CH-8891</strong><br>61H-445.23 · GPS live</div>
-        <div class="map-label" style="right:8%;bottom:12%"><strong>Điểm đến</strong><br>Kho TP.HCM</div>
-      </div>
+      <h3>Bản đồ định vị chuyến hàng</h3>
+      <p>Hiển thị vị trí chuyến hàng bằng ảnh bản đồ tĩnh để nhân viên an toàn đối chiếu nhanh.</p>
+      <img class="trip-map-image" src="./images/static-trip-map.svg" alt="Bản đồ định vị chuyến hàng" />
     </section>
   `;
 }
@@ -1337,7 +1317,7 @@ function openRegisterForm() {
   `, `
     <button type="button" class="secondary-btn" data-close-modal>Hủy</button>
     <button type="button" class="primary-btn" id="submit-register-btn">Đăng kí</button>
-  `);
+  `, { hideHeaderClose: true });
   document.getElementById("submit-register-btn").addEventListener("click", () => {
     closeModal();
     toast("Đã gửi thông tin đăng ký tài khoản.");

@@ -1,0 +1,10 @@
+{
+  "name": "J&T Desktop Prototype Importer",
+  "id": "jt-desktop-prototype-importer",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": [
+    "figma"
+  ],
+  "documentAccess": "current-page"
+}

@@ -192,10 +192,7 @@ function renderDriverHome() {
         <div><strong>Dự kiến 11:45 - Kho Hải Phòng 02</strong><small>Kho tập kết cuối</small></div>
       </div>
     </section>
-    <div class="mobile-grid">
-      <section class="mobile-card"><h3>Nhiên liệu</h3><div class="bar"><span style="width:65%"></span></div><strong>65%</strong></section>
-      <section class="mobile-card"><h3>Thời gian lái</h3><strong>03:45h</strong><p>Đã lái hôm nay</p></section>
-    </div>
+    <section class="mobile-card"><h3>Thời gian lái</h3><strong>03:45h</strong><p>Đã lái hôm nay</p></section>
     <section class="mobile-card">
       <h2>Vị trí hiện tại</h2>
       <div class="gps-card"><strong>Quốc lộ 5, Hải Dương</strong></div>
@@ -293,11 +290,11 @@ function renderIncidents() {
 }
 
 function renderInspections() {
-  return `<div class="page-title"><h1>Phiếu nghiệm thu</h1><p>Kiểm tra kết quả sửa chữa và chi phí gara.</p></div>${inspections.map((item) => listCard(item.code, `Sự cố ${item.incident}`, `${item.plate} · ${item.cost}`, item.status)).join("")}`;
+  return `<div class="page-title"><h1>Phiếu nghiệm thu</h1><p>Kiểm tra kết quả sửa chữa và chi phí gara.</p></div><button type="button" class="danger-button full-button">Thêm phiếu nghiệm thu</button>${inspections.map((item) => listCard(item.code, `Sự cố ${item.incident}`, `${item.plate} · ${item.cost}`, item.status)).join("")}`;
 }
 
 function renderInvoices() {
-  return `<div class="page-title"><h1>Hóa đơn</h1><p>Quản lý chứng từ thanh toán sau nghiệm thu.</p></div>${invoices.map((item) => listCard(item.code, `Gara ${item.garage}`, `${item.acceptance} · ${item.method}`, item.total)).join("")}`;
+  return `<div class="page-title"><h1>Hóa đơn</h1><p>Quản lý chứng từ thanh toán sau nghiệm thu.</p></div><button type="button" class="danger-button full-button">Thêm hóa đơn</button>${invoices.map((item) => listCard(item.code, `Gara ${item.garage}`, `${item.acceptance} · ${item.method}`, item.total)).join("")}`;
 }
 
 function listCard(code, title, meta, status) {
