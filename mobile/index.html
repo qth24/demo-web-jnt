@@ -10,12 +10,19 @@
     <main id="login-screen" class="login-screen">
       <section class="login-card">
         <img src="../images/jnt-ngang.png" alt="J&T Express" class="login-logo" />
-        <h1>Đăng nhập tài xế</h1>
-        <p>Truy cập lệnh điều động, báo cáo sự cố và hướng dẫn xử lý.</p>
+        <h1>Đăng nhập</h1>
+        <p>Chọn tài khoản tài xế hoặc nhân viên kỹ thuật để vào đúng luồng xử lý.</p>
         <form id="login-form" class="login-form">
           <label>
-            <span>Mã tài xế</span>
-            <input value="TX228" autocomplete="username" />
+            <span>Vai trò</span>
+            <select id="login-role">
+              <option value="driver">Tài xế - Trần Văn Bình</option>
+              <option value="tech">Nhân viên kỹ thuật - Hoàng Gia Phúc</option>
+            </select>
+          </label>
+          <label>
+            <span>Mã đăng nhập</span>
+            <input id="login-code" value="TX228" autocomplete="username" />
           </label>
           <label>
             <span>Mật khẩu</span>
@@ -30,34 +37,26 @@
       <header class="app-header">
         <div>
           <img src="../images/jnt-ngang.png" alt="" />
-          <strong>J&T Express</strong>
+          <strong id="app-title">J&T Express</strong>
         </div>
-        <button type="button" class="icon-button" aria-label="Thông báo">⌕</button>
+        <button type="button" class="icon-button" id="bell-button" aria-label="Thông báo">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9" />
+            <path d="M10 20a2 2 0 0 0 4 0" />
+          </svg>
+        </button>
       </header>
 
       <section id="view" class="view"></section>
 
-      <nav class="bottom-nav" aria-label="Điều hướng tài xế">
-        <button type="button" class="active" data-view="home">
-          <span>⌂</span>
-          Trang chủ
-        </button>
-        <button type="button" data-view="report">
-          <span>△</span>
-          Báo cáo
-        </button>
-        <button type="button" data-view="edit">
-          <span>✎</span>
-          Cập nhật
-        </button>
-        <button type="button" data-view="notify">
-          <span>☷</span>
-          Thông báo
-        </button>
-      </nav>
+      <nav class="bottom-nav" aria-label="Điều hướng"></nav>
     </main>
 
     <div id="toast" class="toast hidden"></div>
+    <div id="success-pop" class="success-pop hidden" aria-live="polite">
+      <div class="success-icon">✓</div>
+    </div>
+    <div id="modal-root" class="modal-root hidden"></div>
     <script src="./app.js"></script>
   </body>
 </html>

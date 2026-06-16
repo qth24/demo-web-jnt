@@ -24,6 +24,7 @@ body {
 
 button,
 input,
+select,
 textarea {
   font: inherit;
 }
@@ -87,6 +88,7 @@ label {
 }
 
 input,
+select,
 textarea {
   width: 100%;
   border: 1px solid #d8dee8;
@@ -103,6 +105,7 @@ textarea {
 }
 
 input:focus,
+select:focus,
 textarea:focus {
   border-color: var(--jt-red);
   box-shadow: 0 0 0 4px rgba(230, 0, 18, 0.1);
@@ -165,13 +168,35 @@ textarea:focus {
 }
 
 .icon-button {
+  position: relative;
   width: 36px;
   height: 36px;
+  display: grid;
+  place-items: center;
   border: 0;
   border-radius: 50%;
   background: #fff;
   color: #8a5d62;
-  font-size: 20px;
+}
+
+.icon-button::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  margin: -12px 0 0 -5px;
+  border-radius: 50%;
+  background: var(--jt-red);
+}
+
+.icon-button svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .view {
@@ -349,6 +374,66 @@ textarea:focus {
   gap: 10px;
 }
 
+.trip-card h2 {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  margin-top: 0;
+  font-size: 18px;
+}
+
+.route-line {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+  padding-left: 14px;
+  border-left: 3px solid #ffd2d6;
+}
+
+.route-line div {
+  position: relative;
+  display: grid;
+  gap: 3px;
+}
+
+.route-line div::before {
+  content: "";
+  position: absolute;
+  left: -21px;
+  top: 5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+.route-line div:last-child::before {
+  background: var(--jt-red);
+}
+
+.route-line small {
+  color: var(--muted);
+}
+
+.bar {
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #eef2f7;
+}
+
+.bar span {
+  display: block;
+  height: 100%;
+  background: var(--amber);
+}
+
+.full-button {
+  width: 100%;
+  margin-top: 4px;
+}
+
 .gps-card {
   min-height: 188px;
   display: flex;
@@ -428,6 +513,24 @@ textarea:focus {
   gap: 12px;
   padding: 13px 0;
   border-bottom: 1px solid #f0d6d9;
+}
+
+.list-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.list-card h2 {
+  margin: 12px 0 6px;
+  font-size: 18px;
+}
+
+.list-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
 }
 
 .history-item:last-child {
@@ -514,6 +617,77 @@ textarea:focus {
   color: #fff;
   text-align: center;
   box-shadow: 0 16px 32px rgba(15, 23, 42, 0.22);
+}
+
+.success-pop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  background: rgba(15, 23, 42, 0.08);
+}
+
+.success-icon {
+  width: 92px;
+  height: 92px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--green);
+  color: #fff;
+  font-size: 56px;
+  font-weight: 900;
+  box-shadow: 0 22px 48px rgba(22, 185, 129, 0.38);
+  animation: success-pop 0.28s ease-out;
+}
+
+@keyframes success-pop {
+  from {
+    transform: scale(0.72);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.modal-root {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(15, 23, 42, 0.46);
+}
+
+.modal-card {
+  width: min(390px, 100%);
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 26px 70px rgba(15, 23, 42, 0.28);
+}
+
+.dispatch-alert {
+  display: grid;
+  gap: 12px;
+}
+
+.dispatch-alert strong {
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+.dispatch-alert p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
 }
 
 @media (min-width: 560px) {
