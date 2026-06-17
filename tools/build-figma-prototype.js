@@ -6,9 +6,11 @@ const { chromium } = require("playwright");
 const ROOT = path.resolve(__dirname, "..");
 const OUT_DIR = path.join(ROOT, "figma-prototype-plugin");
 const ASSET_DIR = path.join(OUT_DIR, "assets");
+const REPORT_PATH = path.join(OUT_DIR, "prototype-report.json");
 const PORT = Number(process.env.PORT || 4173);
 const BASE_URL = `http://127.0.0.1:${PORT}`;
 const VIEWPORT = { width: 1440, height: 900 };
+const APP_ROLES = ["fleet", "safety"];
 
 const NAV_VIEWS = [
   "dashboard",
@@ -27,6 +29,14 @@ const NAV_VIEWS = [
 
 function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true });
+}
+
+function resetOutput() {
+  fs.rmSync(ASSET_DIR, { recursive: true, force: true });
+  fs.rmSync(path.join(OUT_DIR, "code.js"), { force: true });
+  fs.rmSync(path.join(OUT_DIR, "manifest.json"), { force: true });
+  fs.rmSync(REPORT_PATH, { force: true });
+  ensureDir(ASSET_DIR);
 }
 
 function contentType(filePath) {
@@ -72,6 +82,14 @@ function toName(text) {
     .trim()
     .replace(/\s+/g, " ")
     .slice(0, 48);
+}
+
+function appViewKey(role, view) {
+  return `${role}-${view}`;
+}
+
+function modalKey(role, view, action) {
+  return `${role}-${view}-${action}-modal`;
 }
 
 async function getBox(page, selector, name, target) {
@@ -125,21 +143,81 @@ async function getAllBoxes(page, selector, targetFromElement) {
   );
 }
 
+function buttonTarget(box, context) {
+  const attrs = box.attrs || {};
+  const id = attrs.id || "";
+  const text = toName(box.text);
+  const role = context.role;
+  const self = context.key;
+
+  if (attrs["data-role-choice"]) return `login-${attrs["data-role-choice"]}`;
+  if (attrs["data-view"]) return role ? appViewKey(role, attrs["data-view"]) : attrs["data-view"];
+  if (attrs["data-driver-tab"]) return `driver-${attrs["data-driver-tab"]}`;
+  if (attrs["data-add"]) return role ? modalKey(role, attrs["data-add"], "add") : self;
+  if (attrs["data-edit"]) return role ? modalKey(role, attrs["data-edit"], "edit") : self;
+  if (attrs["data-detail"]) return role ? modalKey(role, attrs["data-detail"], "detail") : self;
+  if (attrs["data-delete"]) return role ? modalKey(role, attrs["data-delete"], "delete") : self;
+  if (attrs["data-call"]) return role ? modalKey(role, "incidents", "call") : self;
+  if ("data-close-modal" in attrs) return context.closeTarget || self;
+  if ("data-driver-submit" in attrs) return context.submitTarget || self;
+
+  if (id === "back-role-btn") return "role";
+  if (id === "toggle-password") return self;
+  if (id === "open-register-btn") return "register-modal";
+  if (id === "submit-register-btn") return "login-fleet";
+  if (id === "logout-btn") return "role";
+  if (id === "quick-incident-btn") return role ? modalKey(role, "incidents", "quick") : self;
+  if (id === "export-btn") return role ? `${role}-export-toast` : self;
+  if (id === "save-entity-btn") return context.saveTarget || context.closeTarget || self;
+  if (id === "confirm-delete-btn") return context.closeTarget || self;
+  if (id === "mark-done-btn") return context.closeTarget || self;
+
+  if (attrs.type === "submit" || text === "Đăng nhập" || text.endsWith("Đăng nhập")) {
+    return context.loginTarget || self;
+  }
+  if (text === "Quên mật khẩu?" || text === "Tìm kiếm" || text === "Điều phối") return self;
+  if (text === "Sửa" || text === "Xóa") return self;
+
+  return context.defaultTarget || self;
+}
+
+async function getButtonHotspots(page, context) {
+  return getAllBoxes(page, "button", (box) => buttonTarget(box, context));
+}
+
+function withoutDuplicateHotspots(hotspots) {
+  const seen = new Set();
+  return hotspots.filter((item) => {
+    const key = [item.target, item.x, item.y, item.w, item.h, item.name].join("|");
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 async function capture(page, key, name, hotspots = []) {
   await page.waitForTimeout(250);
-  const file = `${key}.jpg`;
+  const file = `${key}.png`;
   const filePath = path.join(ASSET_DIR, file);
-  await page.screenshot({ path: filePath, fullPage: true, type: "jpeg", quality: 74 });
+  await page.screenshot({ path: filePath, fullPage: true, type: "png" });
   const size = await page.evaluate(() => ({
     width: Math.max(document.documentElement.scrollWidth, document.body.scrollWidth),
     height: Math.max(document.documentElement.scrollHeight, document.body.scrollHeight),
   }));
+  const buttonCount = await page.$$eval("button", (nodes) =>
+    nodes.filter((node) => {
+      const rect = node.getBoundingClientRect();
+      const style = getComputedStyle(node);
+      return rect.width > 0 && rect.height > 0 && style.visibility !== "hidden" && style.display !== "none";
+    }).length
+  );
   return {
     key,
     name,
     file,
     width: size.width,
     height: size.height,
+    buttonCount,
     hotspots: hotspots.filter(Boolean),
   };
 }
@@ -150,124 +228,127 @@ async function gotoFresh(page) {
   await page.reload({ waitUntil: "networkidle" });
 }
 
-async function loginAsFleet(page) {
+async function loginAsRole(page, role) {
   await gotoFresh(page);
-  await page.click('[data-role-choice="fleet"]');
+  await page.click(`[data-role-choice="${role}"]`);
   await page.click(".login-submit");
   await page.waitForSelector("#app:not(.hidden)");
 }
 
 async function main() {
-  ensureDir(ASSET_DIR);
+  resetOutput();
   const server = await startServer();
   const browser = await chromium.launch();
-  const page = await browser.newPage({ viewport: VIEWPORT, deviceScaleFactor: 1 });
+  const context = await browser.newContext({ viewport: VIEWPORT, deviceScaleFactor: 1, acceptDownloads: true });
+  const page = await context.newPage();
   const screens = [];
+  const pushScreen = (screen) => {
+    screen.hotspots = withoutDuplicateHotspots(screen.hotspots);
+    screens.push(screen);
+  };
+
+  async function captureCurrent(key, name, contextOverrides = {}) {
+    const hotspots = await getButtonHotspots(page, { key, ...contextOverrides });
+    pushScreen(await capture(page, key, name, hotspots));
+  }
+
+  async function openRoleView(role, view) {
+    await loginAsRole(page, role);
+    await page.click(`[data-view="${view}"]`);
+  }
+
+  async function captureEntityModal(role, view, action, selector, label, options = {}) {
+    await openRoleView(role, view);
+    const handle = await page.$(selector);
+    if (!handle) return;
+    await handle.click();
+    const key = modalKey(role, view, action);
+    await captureCurrent(key, `${role.toUpperCase()} - ${label}`, {
+      role,
+      view,
+      closeTarget: appViewKey(role, view),
+      saveTarget: options.saveTarget || appViewKey(role, view),
+      defaultTarget: key,
+    });
+  }
 
   try {
     await gotoFresh(page);
-    screens.push(
-      await capture(page, "role", "01 - Chon vai tro", [
-        await getBox(page, '[data-role-choice="driver"]', "Tai xe dang nhap", "login-driver"),
-        await getBox(page, '[data-role-choice="safety"]', "Nhan vien dang nhap", "login-safety"),
-        await getBox(page, '[data-role-choice="fleet"]', "Quan ly dang nhap", "login-fleet"),
-      ])
-    );
+    await captureCurrent("role", "01 - Chon vai tro");
 
     for (const role of ["driver", "safety", "fleet"]) {
       await gotoFresh(page);
       await page.click(`[data-role-choice="${role}"]`);
-      screens.push(
-        await capture(page, `login-${role}`, `02 - Login ${role}`, [
-          await getBox(page, "#back-role-btn", "Quay lai", "role"),
-          await getBox(page, ".login-submit", "Dang nhap", role === "driver" ? "driver-home" : "dashboard"),
-          await getBox(page, "#open-register-btn", "Dang ki", "register-modal"),
-        ])
-      );
+      await captureCurrent(`login-${role}`, `02 - Login ${role}`, {
+        loginTarget: role === "driver" ? "driver-home" : appViewKey(role, "dashboard"),
+      });
     }
 
     await gotoFresh(page);
     await page.click('[data-role-choice="fleet"]');
     await page.click("#open-register-btn");
-    screens.push(
-      await capture(page, "register-modal", "03 - Modal dang ki", [
-        await getBox(page, "[data-close-modal]", "Huy", "login-fleet"),
-        await getBox(page, "#submit-register-btn", "Dang ki", "login-fleet"),
-      ])
-    );
+    await captureCurrent("register-modal", "03 - Modal dang ki", {
+      closeTarget: "login-fleet",
+      defaultTarget: "login-fleet",
+    });
 
-    await loginAsFleet(page);
-    for (const view of NAV_VIEWS) {
-      await page.click(`[data-view="${view}"]`);
-      const hotspots = [];
-      hotspots.push(...await getAllBoxes(page, ".nav button[data-view]", (box) => box.attrs["data-view"]));
-      hotspots.push(await getBox(page, "#logout-btn", "Dang xuat", "role"));
-      hotspots.push(await getBox(page, "#export-btn", "Xuat bao cao", view));
-      hotspots.push(await getBox(page, "#quick-incident-btn", "Bao cao su co", "quick-incident-modal"));
-      hotspots.push(...await getAllBoxes(page, "[data-add]", (box) => `${box.attrs["data-add"]}-form-modal`));
-      hotspots.push(...await getAllBoxes(page, "[data-detail]", (box) => `${box.attrs["data-detail"]}-detail-modal`));
-      hotspots.push(...await getAllBoxes(page, "[data-edit]", (box) => `${box.attrs["data-edit"]}-form-modal`));
-      hotspots.push(...await getAllBoxes(page, "[data-delete]", () => "delete-modal"));
-      hotspots.push(...await getAllBoxes(page, "[data-call]", () => "call-modal"));
-      screens.push(await capture(page, view, `App - ${view}`, hotspots));
+    for (const role of APP_ROLES) {
+      await loginAsRole(page, role);
+      for (const view of NAV_VIEWS) {
+        await page.click(`[data-view="${view}"]`);
+        await captureCurrent(appViewKey(role, view), `${role.toUpperCase()} - ${view}`, {
+          role,
+          view,
+          defaultTarget: appViewKey(role, view),
+        });
+      }
+
+      await loginAsRole(page, role);
+      const downloadPromise = page.waitForEvent("download", { timeout: 1200 }).catch(() => null);
+      await page.click("#export-btn");
+      const download = await downloadPromise;
+      if (download) await download.delete().catch(() => {});
+      await captureCurrent(`${role}-export-toast`, `${role.toUpperCase()} - Export toast`, {
+        role,
+        view: "dashboard",
+        defaultTarget: appViewKey(role, "dashboard"),
+      });
+
+      await openRoleView(role, "incidents");
+      await page.click("#quick-incident-btn");
+      await captureCurrent(modalKey(role, "incidents", "quick"), `${role.toUpperCase()} - Bao cao su co`, {
+        role,
+        view: "incidents",
+        closeTarget: appViewKey(role, "incidents"),
+        saveTarget: modalKey(role, "incidents", "classification"),
+        defaultTarget: modalKey(role, "incidents", "quick"),
+      });
+
+      await openRoleView(role, "incidents");
+      await page.click("#quick-incident-btn");
+      await page.click("#save-entity-btn");
+      await captureCurrent(modalKey(role, "incidents", "classification"), `${role.toUpperCase()} - Phan loai tu dong`, {
+        role,
+        view: "incidents",
+        closeTarget: appViewKey(role, "incidents"),
+        defaultTarget: appViewKey(role, "incidents"),
+      });
+
+      await captureEntityModal(role, "incidents", "call", "[data-call]", "Goi tai xe");
     }
 
-    await page.click('[data-view="incidents"]');
-    await page.click("#quick-incident-btn");
-    screens.push(
-      await capture(page, "quick-incident-modal", "Modal - Bao cao su co", [
-        await getBox(page, "[data-close-modal]", "Huy", "incidents"),
-        await getBox(page, "#save-entity-btn", "Bao cao", "classification-modal"),
-      ])
-    );
-
-    await loginAsFleet(page);
-    await page.click('[data-view="incidents"]');
-    await page.click('[data-detail="incidents"]');
-    screens.push(
-      await capture(page, "incidents-detail-modal", "Modal - Chi tiet su co", [
-        await getBox(page, "[data-close-modal]", "Dong", "incidents"),
-      ])
-    );
-
-    await loginAsFleet(page);
-    await page.click('[data-view="incidents"]');
-    await page.click('[data-call]');
-    screens.push(
-      await capture(page, "call-modal", "Modal - Goi tai xe", [
-        await getBox(page, "[data-close-modal]", "Ket thuc cuoc goi", "incidents"),
-      ])
-    );
-
-    await loginAsFleet(page);
-    await page.click('[data-view="incidents"]');
-    await page.click('[data-edit="incidents"]');
-    screens.push(
-      await capture(page, "incidents-form-modal", "Modal - Cap nhat su co", [
-        await getBox(page, "[data-close-modal]", "Huy", "incidents"),
-        await getBox(page, "#save-entity-btn", "Luu", "classification-modal"),
-      ])
-    );
-
-    await loginAsFleet(page);
-    await page.click('[data-view="incidents"]');
-    await page.click('[data-delete="incidents"]');
-    screens.push(
-      await capture(page, "delete-modal", "Modal - Xac nhan xoa", [
-        await getBox(page, "[data-close-modal]", "Huy", "incidents"),
-        await getBox(page, "#confirm-delete-btn", "Xoa", "incidents"),
-      ])
-    );
-
-    await loginAsFleet(page);
-    await page.click('[data-view="incidents"]');
-    await page.click("#quick-incident-btn");
-    await page.click("#save-entity-btn");
-    screens.push(
-      await capture(page, "classification-modal", "Modal - Phan loai tu dong", [
-        await getBox(page, "[data-close-modal]", "Da hieu", "incidents"),
-      ])
-    );
+    for (const role of APP_ROLES) {
+      for (const view of NAV_VIEWS.filter((item) => item !== "dashboard" && item !== "accounts")) {
+        await captureEntityModal(role, view, "add", `[data-add="${view}"]`, `${view} add`, {
+          saveTarget: view === "incidents" ? modalKey(role, "incidents", "classification") : appViewKey(role, view),
+        });
+        await captureEntityModal(role, view, "detail", `[data-detail="${view}"]`, `${view} detail`);
+        await captureEntityModal(role, view, "edit", `[data-edit="${view}"]`, `${view} edit`, {
+          saveTarget: view === "incidents" ? modalKey(role, "incidents", "classification") : appViewKey(role, view),
+        });
+        await captureEntityModal(role, view, "delete", `[data-delete="${view}"]`, `${view} delete`);
+      }
+    }
 
     await gotoFresh(page);
     await page.click('[data-role-choice="driver"]');
@@ -280,13 +361,13 @@ async function main() {
       ["notify", "driver-notify"],
     ]) {
       await page.click(`[data-driver-tab="${tab}"]`);
-      const hotspots = [];
-      hotspots.push(...await getAllBoxes(page, ".nav button[data-driver-tab]", (box) => `driver-${box.attrs["data-driver-tab"]}`));
-      hotspots.push(await getBox(page, "#logout-btn", "Dang xuat", "role"));
-      hotspots.push(...await getAllBoxes(page, "[data-driver-submit]", () => key));
-      screens.push(await capture(page, key, `Driver - ${tab}`, hotspots));
+      await captureCurrent(key, `Driver - ${tab}`, {
+        role: null,
+        defaultTarget: key,
+      });
     }
   } finally {
+    await context.close();
     await browser.close();
     server.close();
   }
@@ -296,10 +377,48 @@ async function main() {
 }
 
 function writePlugin(screens) {
-  const embedded = screens.map((screen) => ({
-    ...screen,
-    imageBase64: fs.readFileSync(path.join(ASSET_DIR, screen.file)).toString("base64"),
-  }));
+  const assets = {};
+  for (const screen of screens) {
+    if (!assets[screen.file]) {
+      assets[screen.file] = fs.readFileSync(path.join(ASSET_DIR, screen.file)).toString("base64");
+    }
+  }
+
+  const screenKeys = new Set(screens.map((screen) => screen.key));
+  const missingTargets = [];
+  for (const screen of screens) {
+    for (const hotspot of screen.hotspots) {
+      if (!screenKeys.has(hotspot.target)) {
+        missingTargets.push({ screen: screen.key, hotspot: hotspot.name, target: hotspot.target });
+      }
+    }
+  }
+
+  fs.writeFileSync(
+    REPORT_PATH,
+    JSON.stringify(
+      {
+        generatedAt: new Date().toISOString(),
+        viewport: VIEWPORT,
+        screenCount: screens.length,
+        assetCount: Object.keys(assets).length,
+        hotspotCount: screens.reduce((sum, screen) => sum + screen.hotspots.length, 0),
+        missingTargets,
+        screens: screens.map(({ key, name, file, width, height, buttonCount, hotspots }) => ({
+          key,
+          name,
+          file,
+          width,
+          height,
+          buttonCount,
+          hotspotCount: hotspots.length,
+          hotspots: hotspots.map(({ name, target, x, y, w, h }) => ({ name, target, x, y, w, h })),
+        })),
+      },
+      null,
+      2
+    )
+  );
 
   fs.writeFileSync(
     path.join(OUT_DIR, "manifest.json"),
@@ -319,7 +438,7 @@ function writePlugin(screens) {
 
   fs.writeFileSync(
     path.join(OUT_DIR, "code.js"),
-    `const SCREENS = ${JSON.stringify(embedded)};\n\n${pluginRuntime()}`
+    `const SCREENS = ${JSON.stringify(screens)};\nconst ASSETS = ${JSON.stringify(assets)};\n\n${pluginRuntime()}`
   );
 }
 
@@ -373,20 +492,27 @@ async function run() {
   const gapX = 220;
   const gapY = 180;
   const columnWidth = 1500;
+  let rowY = 0;
+  let rowMaxHeight = 0;
 
   for (let i = 0; i < SCREENS.length; i += 1) {
     const screen = SCREENS[i];
+    const col = i % 3;
+    if (col === 0 && i > 0) {
+      rowY += rowMaxHeight + gapY;
+      rowMaxHeight = 0;
+    }
     log("Importing " + (i + 1) + "/" + SCREENS.length + ": " + screen.name, "Importing screens");
     const frame = figma.createFrame();
     frame.name = screen.name;
     frame.resize(screen.width, screen.height);
-    frame.x = (i % 3) * (columnWidth + gapX);
-    frame.y = Math.floor(i / 3) * (980 + gapY);
+    frame.x = col * (columnWidth + gapX);
+    frame.y = rowY;
     frame.clipsContent = true;
     frame.fills = [{ type: "SOLID", color: { r: 0.945, g: 0.953, b: 0.965 } }];
     page.appendChild(frame);
 
-    const image = figma.createImage(base64ToBytes(screen.imageBase64));
+    const image = figma.createImage(base64ToBytes(ASSETS[screen.file]));
     const rect = figma.createRectangle();
     rect.name = "Screen capture";
     rect.resize(screen.width, screen.height);
@@ -394,6 +520,7 @@ async function run() {
     frame.appendChild(rect);
 
     framesByKey[screen.key] = frame;
+    rowMaxHeight = Math.max(rowMaxHeight, screen.height);
     if (i % 3 === 2) await tick();
   }
 

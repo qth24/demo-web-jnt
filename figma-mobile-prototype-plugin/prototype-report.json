@@ -1,0 +1,2158 @@
+{
+  "generatedAt": "2026-06-16T18:50:08.555Z",
+  "viewport": {
+    "width": 430,
+    "height": 932
+  },
+  "screenCount": 34,
+  "assetCount": 57,
+  "fixedNavAssetCount": 23,
+  "hotspotCount": 170,
+  "missingTargets": [],
+  "screens": [
+    {
+      "key": "role",
+      "name": "Role selection",
+      "file": "role.png",
+      "nav": null,
+      "width": 430,
+      "height": 932,
+      "viewportHeight": 932,
+      "buttonCount": 2,
+      "hotspotCount": 2,
+      "fixedHotspotCount": 0,
+      "hotspots": [
+        {
+          "name": "TX Tài xế đăng nhập",
+          "target": "login-driver",
+          "fixed": false,
+          "x": 45,
+          "y": 402,
+          "w": 340,
+          "h": 74
+        },
+        {
+          "name": "NV Nhân viên đăng nhập",
+          "target": "login-tech",
+          "fixed": false,
+          "x": 45,
+          "y": 490,
+          "w": 340,
+          "h": 74
+        }
+      ]
+    },
+    {
+      "key": "login-driver",
+      "name": "Login - driver",
+      "file": "login-driver.png",
+      "nav": null,
+      "width": 430,
+      "height": 932,
+      "viewportHeight": 932,
+      "buttonCount": 3,
+      "hotspotCount": 3,
+      "fixedHotspotCount": 0,
+      "hotspots": [
+        {
+          "name": "← Quay lại chọn vai trò",
+          "target": "role",
+          "fixed": false,
+          "x": 45,
+          "y": 256,
+          "w": 205,
+          "h": 19
+        },
+        {
+          "name": "Đăng nhập",
+          "target": "driver-home",
+          "fixed": false,
+          "x": 45,
+          "y": 528,
+          "w": 340,
+          "h": 47
+        },
+        {
+          "name": "Bạn chưa có tài khoản? Đăng kí",
+          "target": "register-driver",
+          "fixed": false,
+          "x": 45,
+          "y": 589,
+          "w": 340,
+          "h": 47
+        }
+      ]
+    },
+    {
+      "key": "register-driver",
+      "name": "Register - driver",
+      "file": "register-driver.png",
+      "nav": null,
+      "width": 430,
+      "height": 1348,
+      "viewportHeight": 932,
+      "buttonCount": 2,
+      "hotspotCount": 2,
+      "fixedHotspotCount": 0,
+      "hotspots": [
+        {
+          "name": "← Quay lại đăng nhập",
+          "target": "login-driver",
+          "fixed": false,
+          "x": 45,
+          "y": 215,
+          "w": 193,
+          "h": 19
+        },
+        {
+          "name": "Đăng kí",
+          "target": "driver-register-submitted",
+          "fixed": false,
+          "x": 45,
+          "y": 1046,
+          "w": 340,
+          "h": 47
+        }
+      ]
+    },
+    {
+      "key": "driver-register-submitted",
+      "name": "Register submitted - driver",
+      "file": "driver-register-submitted.png",
+      "nav": null,
+      "width": 430,
+      "height": 932,
+      "viewportHeight": 932,
+      "buttonCount": 3,
+      "hotspotCount": 3,
+      "fixedHotspotCount": 0,
+      "hotspots": [
+        {
+          "name": "← Quay lại chọn vai trò",
+          "target": "role",
+          "fixed": false,
+          "x": 45,
+          "y": 256,
+          "w": 205,
+          "h": 19
+        },
+        {
+          "name": "Đăng nhập",
+          "target": "driver-home",
+          "fixed": false,
+          "x": 45,
+          "y": 528,
+          "w": 340,
+          "h": 47
+        },
+        {
+          "name": "Bạn chưa có tài khoản? Đăng kí",
+          "target": "register-driver",
+          "fixed": false,
+          "x": 45,
+          "y": 589,
+          "w": 340,
+          "h": 47
+        }
+      ]
+    },
+    {
+      "key": "login-tech",
+      "name": "Login - tech",
+      "file": "login-tech.png",
+      "nav": null,
+      "width": 430,
+      "height": 932,
+      "viewportHeight": 932,
+      "buttonCount": 3,
+      "hotspotCount": 3,
+      "fixedHotspotCount": 0,
+      "hotspots": [
+        {
+          "name": "← Quay lại chọn vai trò",
+          "target": "role",
+          "fixed": false,
+          "x": 45,
+          "y": 256,
+          "w": 205,
+          "h": 19
+        },
+        {
+          "name": "Đăng nhập",
+          "target": "tech-home",
+          "fixed": false,
+          "x": 45,
+          "y": 528,
+          "w": 340,
+          "h": 47
+        },
+        {
+          "name": "Bạn chưa có tài khoản? Đăng kí",
+          "target": "register-tech",
+          "fixed": false,
+          "x": 45,
+          "y": 589,
+          "w": 340,
+          "h": 47
+        }
+      ]
+    },
+    {
+      "key": "register-tech",
+      "name": "Register - tech",
+      "file": "register-tech.png",
+      "nav": null,
+      "width": 430,
+      "height": 1348,
+      "viewportHeight": 932,
+      "buttonCount": 2,
+      "hotspotCount": 2,
+      "fixedHotspotCount": 0,
+      "hotspots": [
+        {
+          "name": "← Quay lại đăng nhập",
+          "target": "login-tech",
+          "fixed": false,
+          "x": 45,
+          "y": 215,
+          "w": 193,
+          "h": 19
+        },
+        {
+          "name": "Đăng kí",
+          "target": "tech-register-submitted",
+          "fixed": false,
+          "x": 45,
+          "y": 1046,
+          "w": 340,
+          "h": 47
+        }
+      ]
+    },
+    {
+      "key": "tech-register-submitted",
+      "name": "Register submitted - tech",
+      "file": "tech-register-submitted.png",
+      "nav": null,
+      "width": 430,
+      "height": 932,
+      "viewportHeight": 932,
+      "buttonCount": 3,
+      "hotspotCount": 3,
+      "fixedHotspotCount": 0,
+      "hotspots": [
+        {
+          "name": "← Quay lại chọn vai trò",
+          "target": "role",
+          "fixed": false,
+          "x": 45,
+          "y": 256,
+          "w": 205,
+          "h": 19
+        },
+        {
+          "name": "Đăng nhập",
+          "target": "tech-home",
+          "fixed": false,
+          "x": 45,
+          "y": 528,
+          "w": 340,
+          "h": 47
+        },
+        {
+          "name": "Bạn chưa có tài khoản? Đăng kí",
+          "target": "register-tech",
+          "fixed": false,
+          "x": 45,
+          "y": 589,
+          "w": 340,
+          "h": 47
+        }
+      ]
+    },
+    {
+      "key": "driver-home",
+      "name": "DRIVER - home",
+      "file": "driver-home.png",
+      "nav": {
+        "x": 0,
+        "y": 864,
+        "w": 430,
+        "h": 68,
+        "file": "driver-home-nav.png"
+      },
+      "width": 430,
+      "height": 1027,
+      "viewportHeight": 932,
+      "buttonCount": 6,
+      "hotspotCount": 6,
+      "fixedHotspotCount": 4,
+      "hotspots": [
+        {
+          "name": "bell-button",
+          "target": "driver-home-bell",
+          "fixed": false,
+          "x": 378,
+          "y": 9,
+          "w": 36,
+          "h": 36
+        },
+        {
+          "name": "Báo cáo sự cố",
+          "target": "driver-report",
+          "fixed": false,
+          "x": 12,
+          "y": 888,
+          "w": 406,
+          "h": 47
+        },
+        {
+          "name": "⌂ Trang chủ",
+          "target": "driver-home",
+          "fixed": true,
+          "x": 10,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "△ Báo cáo",
+          "target": "driver-report",
+          "fixed": true,
+          "x": 113,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "✎ Cập nhật",
+          "target": "driver-edit",
+          "fixed": true,
+          "x": 215,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "☷ Thông báo",
+          "target": "driver-notify",
+          "fixed": true,
+          "x": 318,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        }
+      ]
+    },
+    {
+      "key": "driver-report",
+      "name": "DRIVER - report",
+      "file": "driver-report.png",
+      "nav": {
+        "x": 0,
+        "y": 864,
+        "w": 430,
+        "h": 68,
+        "file": "driver-report-nav.png"
+      },
+      "width": 430,
+      "height": 1592,
+      "viewportHeight": 932,
+      "buttonCount": 6,
+      "hotspotCount": 6,
+      "fixedHotspotCount": 4,
+      "hotspots": [
+        {
+          "name": "bell-button",
+          "target": "driver-report-bell",
+          "fixed": false,
+          "x": 378,
+          "y": 9,
+          "w": 36,
+          "h": 36
+        },
+        {
+          "name": "Gửi báo cáo",
+          "target": "driver-report-submitted",
+          "fixed": false,
+          "x": 29,
+          "y": 1422,
+          "w": 372,
+          "h": 47
+        },
+        {
+          "name": "⌂ Trang chủ",
+          "target": "driver-home",
+          "fixed": true,
+          "x": 10,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "△ Báo cáo",
+          "target": "driver-report",
+          "fixed": true,
+          "x": 113,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "✎ Cập nhật",
+          "target": "driver-edit",
+          "fixed": true,
+          "x": 215,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "☷ Thông báo",
+          "target": "driver-notify",
+          "fixed": true,
+          "x": 318,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        }
+      ]
+    },
+    {
+      "key": "driver-edit",
+      "name": "DRIVER - edit",
+      "file": "driver-edit.png",
+      "nav": {
+        "x": 0,
+        "y": 864,
+        "w": 430,
+        "h": 68,
+        "file": "driver-edit-nav.png"
+      },
+      "width": 430,
+      "height": 932,
+      "viewportHeight": 932,
+      "buttonCount": 6,
+      "hotspotCount": 6,
+      "fixedHotspotCount": 4,
+      "hotspots": [
+        {
+          "name": "bell-button",
+          "target": "driver-edit-bell",
+          "fixed": false,
+          "x": 378,
+          "y": 9,
+          "w": 36,
+          "h": 36
+        },
+        {
+          "name": "Lưu cập nhật",
+          "target": "driver-edit-saved",
+          "fixed": false,
+          "x": 29,
+          "y": 703,
+          "w": 149,
+          "h": 47
+        },
+        {
+          "name": "⌂ Trang chủ",
+          "target": "driver-home",
+          "fixed": true,
+          "x": 10,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "△ Báo cáo",
+          "target": "driver-report",
+          "fixed": true,
+          "x": 113,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "✎ Cập nhật",
+          "target": "driver-edit",
+          "fixed": true,
+          "x": 215,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "☷ Thông báo",
+          "target": "driver-notify",
+          "fixed": true,
+          "x": 318,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        }
+      ]
+    },
+    {
+      "key": "driver-notify",
+      "name": "DRIVER - notify",
+      "file": "driver-notify.png",
+      "nav": {
+        "x": 0,
+        "y": 864,
+        "w": 430,
+        "h": 68,
+        "file": "driver-notify-nav.png"
+      },
+      "width": 430,
+      "height": 1285,
+      "viewportHeight": 932,
+      "buttonCount": 5,
+      "hotspotCount": 5,
+      "fixedHotspotCount": 4,
+      "hotspots": [
+        {
+          "name": "bell-button",
+          "target": "driver-notify-bell",
+          "fixed": false,
+          "x": 378,
+          "y": 9,
+          "w": 36,
+          "h": 36
+        },
+        {
+          "name": "⌂ Trang chủ",
+          "target": "driver-home",
+          "fixed": true,
+          "x": 10,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "△ Báo cáo",
+          "target": "driver-report",
+          "fixed": true,
+          "x": 113,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "✎ Cập nhật",
+          "target": "driver-edit",
+          "fixed": true,
+          "x": 215,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "☷ Thông báo",
+          "target": "driver-notify",
+          "fixed": true,
+          "x": 318,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        }
+      ]
+    },
+    {
+      "key": "driver-home-bell",
+      "name": "DRIVER - Bell toast - home",
+      "file": "driver-home-bell.png",
+      "nav": {
+        "x": 0,
+        "y": 864,
+        "w": 430,
+        "h": 68,
+        "file": "driver-home-bell-nav.png"
+      },
+      "width": 430,
+      "height": 1027,
+      "viewportHeight": 932,
+      "buttonCount": 6,
+      "hotspotCount": 6,
+      "fixedHotspotCount": 4,
+      "hotspots": [
+        {
+          "name": "bell-button",
+          "target": "driver-home-bell",
+          "fixed": false,
+          "x": 378,
+          "y": 9,
+          "w": 36,
+          "h": 36
+        },
+        {
+          "name": "Báo cáo sự cố",
+          "target": "driver-report",
+          "fixed": false,
+          "x": 12,
+          "y": 888,
+          "w": 406,
+          "h": 47
+        },
+        {
+          "name": "⌂ Trang chủ",
+          "target": "driver-home",
+          "fixed": true,
+          "x": 10,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "△ Báo cáo",
+          "target": "driver-report",
+          "fixed": true,
+          "x": 113,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "✎ Cập nhật",
+          "target": "driver-edit",
+          "fixed": true,
+          "x": 215,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "☷ Thông báo",
+          "target": "driver-notify",
+          "fixed": true,
+          "x": 318,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        }
+      ]
+    },
+    {
+      "key": "driver-report-bell",
+      "name": "DRIVER - Bell toast - report",
+      "file": "driver-report-bell.png",
+      "nav": {
+        "x": 0,
+        "y": 864,
+        "w": 430,
+        "h": 68,
+        "file": "driver-report-bell-nav.png"
+      },
+      "width": 430,
+      "height": 1592,
+      "viewportHeight": 932,
+      "buttonCount": 6,
+      "hotspotCount": 6,
+      "fixedHotspotCount": 4,
+      "hotspots": [
+        {
+          "name": "bell-button",
+          "target": "driver-report-bell",
+          "fixed": false,
+          "x": 378,
+          "y": 9,
+          "w": 36,
+          "h": 36
+        },
+        {
+          "name": "Gửi báo cáo",
+          "target": "driver-report-submitted",
+          "fixed": false,
+          "x": 29,
+          "y": 1422,
+          "w": 372,
+          "h": 47
+        },
+        {
+          "name": "⌂ Trang chủ",
+          "target": "driver-home",
+          "fixed": true,
+          "x": 10,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "△ Báo cáo",
+          "target": "driver-report",
+          "fixed": true,
+          "x": 113,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "✎ Cập nhật",
+          "target": "driver-edit",
+          "fixed": true,
+          "x": 215,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "☷ Thông báo",
+          "target": "driver-notify",
+          "fixed": true,
+          "x": 318,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        }
+      ]
+    },
+    {
+      "key": "driver-edit-bell",
+      "name": "DRIVER - Bell toast - edit",
+      "file": "driver-edit-bell.png",
+      "nav": {
+        "x": 0,
+        "y": 864,
+        "w": 430,
+        "h": 68,
+        "file": "driver-edit-bell-nav.png"
+      },
+      "width": 430,
+      "height": 932,
+      "viewportHeight": 932,
+      "buttonCount": 6,
+      "hotspotCount": 6,
+      "fixedHotspotCount": 4,
+      "hotspots": [
+        {
+          "name": "bell-button",
+          "target": "driver-edit-bell",
+          "fixed": false,
+          "x": 378,
+          "y": 9,
+          "w": 36,
+          "h": 36
+        },
+        {
+          "name": "Lưu cập nhật",
+          "target": "driver-edit-saved",
+          "fixed": false,
+          "x": 29,
+          "y": 703,
+          "w": 149,
+          "h": 47
+        },
+        {
+          "name": "⌂ Trang chủ",
+          "target": "driver-home",
+          "fixed": true,
+          "x": 10,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "△ Báo cáo",
+          "target": "driver-report",
+          "fixed": true,
+          "x": 113,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "✎ Cập nhật",
+          "target": "driver-edit",
+          "fixed": true,
+          "x": 215,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "☷ Thông báo",
+          "target": "driver-notify",
+          "fixed": true,
+          "x": 318,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        }
+      ]
+    },
+    {
+      "key": "driver-notify-bell",
+      "name": "DRIVER - Bell toast - notify",
+      "file": "driver-notify-bell.png",
+      "nav": {
+        "x": 0,
+        "y": 864,
+        "w": 430,
+        "h": 68,
+        "file": "driver-notify-bell-nav.png"
+      },
+      "width": 430,
+      "height": 1285,
+      "viewportHeight": 932,
+      "buttonCount": 5,
+      "hotspotCount": 5,
+      "fixedHotspotCount": 4,
+      "hotspots": [
+        {
+          "name": "bell-button",
+          "target": "driver-notify-bell",
+          "fixed": false,
+          "x": 378,
+          "y": 9,
+          "w": 36,
+          "h": 36
+        },
+        {
+          "name": "⌂ Trang chủ",
+          "target": "driver-home",
+          "fixed": true,
+          "x": 10,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "△ Báo cáo",
+          "target": "driver-report",
+          "fixed": true,
+          "x": 113,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "✎ Cập nhật",
+          "target": "driver-edit",
+          "fixed": true,
+          "x": 215,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "☷ Thông báo",
+          "target": "driver-notify",
+          "fixed": true,
+          "x": 318,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        }
+      ]
+    },
+    {
+      "key": "driver-report-submitted",
+      "name": "DRIVER - Report submitted",
+      "file": "driver-report-submitted.png",
+      "nav": {
+        "x": 0,
+        "y": 864,
+        "w": 430,
+        "h": 68,
+        "file": "driver-report-submitted-nav.png"
+      },
+      "width": 430,
+      "height": 1592,
+      "viewportHeight": 932,
+      "buttonCount": 6,
+      "hotspotCount": 6,
+      "fixedHotspotCount": 4,
+      "hotspots": [
+        {
+          "name": "bell-button",
+          "target": "driver-report-bell",
+          "fixed": false,
+          "x": 378,
+          "y": 9,
+          "w": 36,
+          "h": 36
+        },
+        {
+          "name": "Gửi báo cáo",
+          "target": "driver-report-submitted",
+          "fixed": false,
+          "x": 29,
+          "y": 762,
+          "w": 372,
+          "h": 47
+        },
+        {
+          "name": "⌂ Trang chủ",
+          "target": "driver-home",
+          "fixed": true,
+          "x": 10,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "△ Báo cáo",
+          "target": "driver-report",
+          "fixed": true,
+          "x": 113,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "✎ Cập nhật",
+          "target": "driver-edit",
+          "fixed": true,
+          "x": 215,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "☷ Thông báo",
+          "target": "driver-notify",
+          "fixed": true,
+          "x": 318,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        }
+      ]
+    },
+    {
+      "key": "driver-edit-saved",
+      "name": "DRIVER - Edit saved",
+      "file": "driver-edit-saved.png",
+      "nav": {
+        "x": 0,
+        "y": 864,
+        "w": 430,
+        "h": 68,
+        "file": "driver-edit-saved-nav.png"
+      },
+      "width": 430,
+      "height": 932,
+      "viewportHeight": 932,
+      "buttonCount": 6,
+      "hotspotCount": 6,
+      "fixedHotspotCount": 4,
+      "hotspots": [
+        {
+          "name": "bell-button",
+          "target": "driver-edit-bell",
+          "fixed": false,
+          "x": 378,
+          "y": 9,
+          "w": 36,
+          "h": 36
+        },
+        {
+          "name": "Lưu cập nhật",
+          "target": "driver-edit-saved",
+          "fixed": false,
+          "x": 29,
+          "y": 703,
+          "w": 149,
+          "h": 47
+        },
+        {
+          "name": "⌂ Trang chủ",
+          "target": "driver-home",
+          "fixed": true,
+          "x": 10,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "△ Báo cáo",
+          "target": "driver-report",
+          "fixed": true,
+          "x": 113,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "✎ Cập nhật",
+          "target": "driver-edit",
+          "fixed": true,
+          "x": 215,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "☷ Thông báo",
+          "target": "driver-notify",
+          "fixed": true,
+          "x": 318,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        }
+      ]
+    },
+    {
+      "key": "tech-home",
+      "name": "TECH - home",
+      "file": "tech-home.png",
+      "nav": {
+        "x": 0,
+        "y": 864,
+        "w": 430,
+        "h": 68,
+        "file": "tech-home-nav.png"
+      },
+      "width": 430,
+      "height": 1246,
+      "viewportHeight": 932,
+      "buttonCount": 8,
+      "hotspotCount": 8,
+      "fixedHotspotCount": 4,
+      "hotspots": [
+        {
+          "name": "bell-button",
+          "target": "tech-home-dispatch-modal",
+          "fixed": false,
+          "x": 378,
+          "y": 9,
+          "w": 36,
+          "h": 36
+        },
+        {
+          "name": "Xác nhận tiếp nhận",
+          "target": "tech-home-accept-INC-9823",
+          "fixed": false,
+          "x": 27,
+          "y": 336,
+          "w": 207,
+          "h": 47
+        },
+        {
+          "name": "Xác nhận tiếp nhận",
+          "target": "tech-home-accept-INC-9844",
+          "fixed": false,
+          "x": 27,
+          "y": 609,
+          "w": 209,
+          "h": 47
+        },
+        {
+          "name": "Xác nhận tiếp nhận",
+          "target": "tech-home-accept-INC-9851",
+          "fixed": false,
+          "x": 27,
+          "y": 882,
+          "w": 209,
+          "h": 47
+        },
+        {
+          "name": "⌂ Trang chủ",
+          "target": "tech-home",
+          "fixed": true,
+          "x": 10,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "△ Sự cố",
+          "target": "tech-incidents",
+          "fixed": true,
+          "x": 113,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▣ Nghiệm thu",
+          "target": "tech-inspections",
+          "fixed": true,
+          "x": 215,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▤ Hóa đơn",
+          "target": "tech-invoices",
+          "fixed": true,
+          "x": 318,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        }
+      ]
+    },
+    {
+      "key": "tech-incidents",
+      "name": "TECH - incidents",
+      "file": "tech-incidents.png",
+      "nav": {
+        "x": 0,
+        "y": 864,
+        "w": 430,
+        "h": 68,
+        "file": "tech-incidents-nav.png"
+      },
+      "width": 430,
+      "height": 932,
+      "viewportHeight": 932,
+      "buttonCount": 5,
+      "hotspotCount": 5,
+      "fixedHotspotCount": 4,
+      "hotspots": [
+        {
+          "name": "bell-button",
+          "target": "tech-incidents-dispatch-modal",
+          "fixed": false,
+          "x": 378,
+          "y": 9,
+          "w": 36,
+          "h": 36
+        },
+        {
+          "name": "⌂ Trang chủ",
+          "target": "tech-home",
+          "fixed": true,
+          "x": 10,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "△ Sự cố",
+          "target": "tech-incidents",
+          "fixed": true,
+          "x": 113,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▣ Nghiệm thu",
+          "target": "tech-inspections",
+          "fixed": true,
+          "x": 215,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▤ Hóa đơn",
+          "target": "tech-invoices",
+          "fixed": true,
+          "x": 318,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        }
+      ]
+    },
+    {
+      "key": "tech-inspections",
+      "name": "TECH - inspections",
+      "file": "tech-inspections.png",
+      "nav": {
+        "x": 0,
+        "y": 864,
+        "w": 430,
+        "h": 68,
+        "file": "tech-inspections-nav.png"
+      },
+      "width": 430,
+      "height": 932,
+      "viewportHeight": 932,
+      "buttonCount": 6,
+      "hotspotCount": 6,
+      "fixedHotspotCount": 4,
+      "hotspots": [
+        {
+          "name": "bell-button",
+          "target": "tech-inspections-dispatch-modal",
+          "fixed": false,
+          "x": 378,
+          "y": 9,
+          "w": 36,
+          "h": 36
+        },
+        {
+          "name": "Thêm phiếu nghiệm thu",
+          "target": "tech-inspections-add",
+          "fixed": false,
+          "x": 12,
+          "y": 141,
+          "w": 406,
+          "h": 47
+        },
+        {
+          "name": "⌂ Trang chủ",
+          "target": "tech-home",
+          "fixed": true,
+          "x": 10,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "△ Sự cố",
+          "target": "tech-incidents",
+          "fixed": true,
+          "x": 113,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▣ Nghiệm thu",
+          "target": "tech-inspections",
+          "fixed": true,
+          "x": 215,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▤ Hóa đơn",
+          "target": "tech-invoices",
+          "fixed": true,
+          "x": 318,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        }
+      ]
+    },
+    {
+      "key": "tech-invoices",
+      "name": "TECH - invoices",
+      "file": "tech-invoices.png",
+      "nav": {
+        "x": 0,
+        "y": 864,
+        "w": 430,
+        "h": 68,
+        "file": "tech-invoices-nav.png"
+      },
+      "width": 430,
+      "height": 932,
+      "viewportHeight": 932,
+      "buttonCount": 6,
+      "hotspotCount": 6,
+      "fixedHotspotCount": 4,
+      "hotspots": [
+        {
+          "name": "bell-button",
+          "target": "tech-invoices-dispatch-modal",
+          "fixed": false,
+          "x": 378,
+          "y": 9,
+          "w": 36,
+          "h": 36
+        },
+        {
+          "name": "Thêm hóa đơn",
+          "target": "tech-invoices-add",
+          "fixed": false,
+          "x": 12,
+          "y": 141,
+          "w": 406,
+          "h": 47
+        },
+        {
+          "name": "⌂ Trang chủ",
+          "target": "tech-home",
+          "fixed": true,
+          "x": 10,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "△ Sự cố",
+          "target": "tech-incidents",
+          "fixed": true,
+          "x": 113,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▣ Nghiệm thu",
+          "target": "tech-inspections",
+          "fixed": true,
+          "x": 215,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▤ Hóa đơn",
+          "target": "tech-invoices",
+          "fixed": true,
+          "x": 318,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        }
+      ]
+    },
+    {
+      "key": "tech-home-dispatch-modal",
+      "name": "TECH - Dispatch modal - home",
+      "file": "tech-home-dispatch-modal.png",
+      "nav": null,
+      "width": 430,
+      "height": 1246,
+      "viewportHeight": 932,
+      "buttonCount": 2,
+      "hotspotCount": 2,
+      "fixedHotspotCount": 2,
+      "hotspots": [
+        {
+          "name": "Nhận",
+          "target": "tech-home-modal-accepted",
+          "fixed": true,
+          "x": 38,
+          "y": 473,
+          "w": 354,
+          "h": 47
+        },
+        {
+          "name": "Đóng",
+          "target": "tech-home",
+          "fixed": true,
+          "x": 38,
+          "y": 534,
+          "w": 354,
+          "h": 47
+        }
+      ]
+    },
+    {
+      "key": "tech-home-modal-accepted",
+      "name": "TECH - Dispatch accepted - home",
+      "file": "tech-home-modal-accepted.png",
+      "nav": {
+        "x": 0,
+        "y": 864,
+        "w": 430,
+        "h": 68,
+        "file": "tech-home-modal-accepted-nav.png"
+      },
+      "width": 430,
+      "height": 1246,
+      "viewportHeight": 932,
+      "buttonCount": 8,
+      "hotspotCount": 8,
+      "fixedHotspotCount": 4,
+      "hotspots": [
+        {
+          "name": "bell-button",
+          "target": "tech-home-dispatch-modal",
+          "fixed": false,
+          "x": 378,
+          "y": 9,
+          "w": 36,
+          "h": 36
+        },
+        {
+          "name": "Đã tiếp nhận",
+          "target": "tech-home-accept-INC-9823",
+          "fixed": false,
+          "x": 27,
+          "y": 336,
+          "w": 150,
+          "h": 47
+        },
+        {
+          "name": "Xác nhận tiếp nhận",
+          "target": "tech-home-accept-INC-9844",
+          "fixed": false,
+          "x": 27,
+          "y": 609,
+          "w": 209,
+          "h": 47
+        },
+        {
+          "name": "Xác nhận tiếp nhận",
+          "target": "tech-home-accept-INC-9851",
+          "fixed": false,
+          "x": 27,
+          "y": 882,
+          "w": 209,
+          "h": 47
+        },
+        {
+          "name": "⌂ Trang chủ",
+          "target": "tech-home",
+          "fixed": true,
+          "x": 10,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "△ Sự cố",
+          "target": "tech-incidents",
+          "fixed": true,
+          "x": 113,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▣ Nghiệm thu",
+          "target": "tech-inspections",
+          "fixed": true,
+          "x": 215,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▤ Hóa đơn",
+          "target": "tech-invoices",
+          "fixed": true,
+          "x": 318,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        }
+      ]
+    },
+    {
+      "key": "tech-incidents-dispatch-modal",
+      "name": "TECH - Dispatch modal - incidents",
+      "file": "tech-incidents-dispatch-modal.png",
+      "nav": null,
+      "width": 430,
+      "height": 932,
+      "viewportHeight": 932,
+      "buttonCount": 2,
+      "hotspotCount": 2,
+      "fixedHotspotCount": 2,
+      "hotspots": [
+        {
+          "name": "Nhận",
+          "target": "tech-incidents-modal-accepted",
+          "fixed": true,
+          "x": 38,
+          "y": 473,
+          "w": 354,
+          "h": 47
+        },
+        {
+          "name": "Đóng",
+          "target": "tech-incidents",
+          "fixed": true,
+          "x": 38,
+          "y": 534,
+          "w": 354,
+          "h": 47
+        }
+      ]
+    },
+    {
+      "key": "tech-incidents-modal-accepted",
+      "name": "TECH - Dispatch accepted - incidents",
+      "file": "tech-incidents-modal-accepted.png",
+      "nav": {
+        "x": 0,
+        "y": 864,
+        "w": 430,
+        "h": 68,
+        "file": "tech-incidents-modal-accepted-nav.png"
+      },
+      "width": 430,
+      "height": 932,
+      "viewportHeight": 932,
+      "buttonCount": 5,
+      "hotspotCount": 5,
+      "fixedHotspotCount": 4,
+      "hotspots": [
+        {
+          "name": "bell-button",
+          "target": "tech-incidents-dispatch-modal",
+          "fixed": false,
+          "x": 378,
+          "y": 9,
+          "w": 36,
+          "h": 36
+        },
+        {
+          "name": "⌂ Trang chủ",
+          "target": "tech-home",
+          "fixed": true,
+          "x": 10,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "△ Sự cố",
+          "target": "tech-incidents",
+          "fixed": true,
+          "x": 113,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▣ Nghiệm thu",
+          "target": "tech-inspections",
+          "fixed": true,
+          "x": 215,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▤ Hóa đơn",
+          "target": "tech-invoices",
+          "fixed": true,
+          "x": 318,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        }
+      ]
+    },
+    {
+      "key": "tech-inspections-dispatch-modal",
+      "name": "TECH - Dispatch modal - inspections",
+      "file": "tech-inspections-dispatch-modal.png",
+      "nav": null,
+      "width": 430,
+      "height": 932,
+      "viewportHeight": 932,
+      "buttonCount": 2,
+      "hotspotCount": 2,
+      "fixedHotspotCount": 2,
+      "hotspots": [
+        {
+          "name": "Nhận",
+          "target": "tech-inspections-modal-accepted",
+          "fixed": true,
+          "x": 38,
+          "y": 473,
+          "w": 354,
+          "h": 47
+        },
+        {
+          "name": "Đóng",
+          "target": "tech-inspections",
+          "fixed": true,
+          "x": 38,
+          "y": 534,
+          "w": 354,
+          "h": 47
+        }
+      ]
+    },
+    {
+      "key": "tech-inspections-modal-accepted",
+      "name": "TECH - Dispatch accepted - inspections",
+      "file": "tech-inspections-modal-accepted.png",
+      "nav": {
+        "x": 0,
+        "y": 864,
+        "w": 430,
+        "h": 68,
+        "file": "tech-inspections-modal-accepted-nav.png"
+      },
+      "width": 430,
+      "height": 932,
+      "viewportHeight": 932,
+      "buttonCount": 6,
+      "hotspotCount": 6,
+      "fixedHotspotCount": 4,
+      "hotspots": [
+        {
+          "name": "bell-button",
+          "target": "tech-inspections-dispatch-modal",
+          "fixed": false,
+          "x": 378,
+          "y": 9,
+          "w": 36,
+          "h": 36
+        },
+        {
+          "name": "Thêm phiếu nghiệm thu",
+          "target": "tech-inspections-add",
+          "fixed": false,
+          "x": 12,
+          "y": 141,
+          "w": 406,
+          "h": 47
+        },
+        {
+          "name": "⌂ Trang chủ",
+          "target": "tech-home",
+          "fixed": true,
+          "x": 10,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "△ Sự cố",
+          "target": "tech-incidents",
+          "fixed": true,
+          "x": 113,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▣ Nghiệm thu",
+          "target": "tech-inspections",
+          "fixed": true,
+          "x": 215,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▤ Hóa đơn",
+          "target": "tech-invoices",
+          "fixed": true,
+          "x": 318,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        }
+      ]
+    },
+    {
+      "key": "tech-invoices-dispatch-modal",
+      "name": "TECH - Dispatch modal - invoices",
+      "file": "tech-invoices-dispatch-modal.png",
+      "nav": null,
+      "width": 430,
+      "height": 932,
+      "viewportHeight": 932,
+      "buttonCount": 2,
+      "hotspotCount": 2,
+      "fixedHotspotCount": 2,
+      "hotspots": [
+        {
+          "name": "Nhận",
+          "target": "tech-invoices-modal-accepted",
+          "fixed": true,
+          "x": 38,
+          "y": 473,
+          "w": 354,
+          "h": 47
+        },
+        {
+          "name": "Đóng",
+          "target": "tech-invoices",
+          "fixed": true,
+          "x": 38,
+          "y": 534,
+          "w": 354,
+          "h": 47
+        }
+      ]
+    },
+    {
+      "key": "tech-invoices-modal-accepted",
+      "name": "TECH - Dispatch accepted - invoices",
+      "file": "tech-invoices-modal-accepted.png",
+      "nav": {
+        "x": 0,
+        "y": 864,
+        "w": 430,
+        "h": 68,
+        "file": "tech-invoices-modal-accepted-nav.png"
+      },
+      "width": 430,
+      "height": 932,
+      "viewportHeight": 932,
+      "buttonCount": 6,
+      "hotspotCount": 6,
+      "fixedHotspotCount": 4,
+      "hotspots": [
+        {
+          "name": "bell-button",
+          "target": "tech-invoices-dispatch-modal",
+          "fixed": false,
+          "x": 378,
+          "y": 9,
+          "w": 36,
+          "h": 36
+        },
+        {
+          "name": "Thêm hóa đơn",
+          "target": "tech-invoices-add",
+          "fixed": false,
+          "x": 12,
+          "y": 141,
+          "w": 406,
+          "h": 47
+        },
+        {
+          "name": "⌂ Trang chủ",
+          "target": "tech-home",
+          "fixed": true,
+          "x": 10,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "△ Sự cố",
+          "target": "tech-incidents",
+          "fixed": true,
+          "x": 113,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▣ Nghiệm thu",
+          "target": "tech-inspections",
+          "fixed": true,
+          "x": 215,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▤ Hóa đơn",
+          "target": "tech-invoices",
+          "fixed": true,
+          "x": 318,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        }
+      ]
+    },
+    {
+      "key": "tech-home-accept-INC-9823",
+      "name": "TECH - Accept dispatch card - INC-9823",
+      "file": "tech-home-accept-INC-9823.png",
+      "nav": {
+        "x": 0,
+        "y": 864,
+        "w": 430,
+        "h": 68,
+        "file": "tech-home-accept-INC-9823-nav.png"
+      },
+      "width": 430,
+      "height": 1246,
+      "viewportHeight": 932,
+      "buttonCount": 8,
+      "hotspotCount": 8,
+      "fixedHotspotCount": 4,
+      "hotspots": [
+        {
+          "name": "bell-button",
+          "target": "tech-home-dispatch-modal",
+          "fixed": false,
+          "x": 378,
+          "y": 9,
+          "w": 36,
+          "h": 36
+        },
+        {
+          "name": "Đã tiếp nhận",
+          "target": "tech-home-accept-INC-9823",
+          "fixed": false,
+          "x": 27,
+          "y": 336,
+          "w": 150,
+          "h": 47
+        },
+        {
+          "name": "Xác nhận tiếp nhận",
+          "target": "tech-home-accept-INC-9844",
+          "fixed": false,
+          "x": 27,
+          "y": 609,
+          "w": 209,
+          "h": 47
+        },
+        {
+          "name": "Xác nhận tiếp nhận",
+          "target": "tech-home-accept-INC-9851",
+          "fixed": false,
+          "x": 27,
+          "y": 882,
+          "w": 209,
+          "h": 47
+        },
+        {
+          "name": "⌂ Trang chủ",
+          "target": "tech-home",
+          "fixed": true,
+          "x": 10,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "△ Sự cố",
+          "target": "tech-incidents",
+          "fixed": true,
+          "x": 113,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▣ Nghiệm thu",
+          "target": "tech-inspections",
+          "fixed": true,
+          "x": 215,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▤ Hóa đơn",
+          "target": "tech-invoices",
+          "fixed": true,
+          "x": 318,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        }
+      ]
+    },
+    {
+      "key": "tech-home-accept-INC-9844",
+      "name": "TECH - Accept dispatch card - INC-9844",
+      "file": "tech-home-accept-INC-9844.png",
+      "nav": {
+        "x": 0,
+        "y": 864,
+        "w": 430,
+        "h": 68,
+        "file": "tech-home-accept-INC-9844-nav.png"
+      },
+      "width": 430,
+      "height": 1246,
+      "viewportHeight": 932,
+      "buttonCount": 8,
+      "hotspotCount": 8,
+      "fixedHotspotCount": 4,
+      "hotspots": [
+        {
+          "name": "bell-button",
+          "target": "tech-home-dispatch-modal",
+          "fixed": false,
+          "x": 378,
+          "y": 9,
+          "w": 36,
+          "h": 36
+        },
+        {
+          "name": "Xác nhận tiếp nhận",
+          "target": "tech-home-accept-INC-9823",
+          "fixed": false,
+          "x": 27,
+          "y": 336,
+          "w": 207,
+          "h": 47
+        },
+        {
+          "name": "Đã tiếp nhận",
+          "target": "tech-home-accept-INC-9844",
+          "fixed": false,
+          "x": 27,
+          "y": 609,
+          "w": 150,
+          "h": 47
+        },
+        {
+          "name": "Xác nhận tiếp nhận",
+          "target": "tech-home-accept-INC-9851",
+          "fixed": false,
+          "x": 27,
+          "y": 882,
+          "w": 209,
+          "h": 47
+        },
+        {
+          "name": "⌂ Trang chủ",
+          "target": "tech-home",
+          "fixed": true,
+          "x": 10,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "△ Sự cố",
+          "target": "tech-incidents",
+          "fixed": true,
+          "x": 113,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▣ Nghiệm thu",
+          "target": "tech-inspections",
+          "fixed": true,
+          "x": 215,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▤ Hóa đơn",
+          "target": "tech-invoices",
+          "fixed": true,
+          "x": 318,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        }
+      ]
+    },
+    {
+      "key": "tech-home-accept-INC-9851",
+      "name": "TECH - Accept dispatch card - INC-9851",
+      "file": "tech-home-accept-INC-9851.png",
+      "nav": {
+        "x": 0,
+        "y": 864,
+        "w": 430,
+        "h": 68,
+        "file": "tech-home-accept-INC-9851-nav.png"
+      },
+      "width": 430,
+      "height": 1246,
+      "viewportHeight": 932,
+      "buttonCount": 8,
+      "hotspotCount": 8,
+      "fixedHotspotCount": 4,
+      "hotspots": [
+        {
+          "name": "bell-button",
+          "target": "tech-home-dispatch-modal",
+          "fixed": false,
+          "x": 378,
+          "y": 9,
+          "w": 36,
+          "h": 36
+        },
+        {
+          "name": "Xác nhận tiếp nhận",
+          "target": "tech-home-accept-INC-9823",
+          "fixed": false,
+          "x": 27,
+          "y": 22,
+          "w": 207,
+          "h": 47
+        },
+        {
+          "name": "Xác nhận tiếp nhận",
+          "target": "tech-home-accept-INC-9844",
+          "fixed": false,
+          "x": 27,
+          "y": 295,
+          "w": 209,
+          "h": 47
+        },
+        {
+          "name": "Đã tiếp nhận",
+          "target": "tech-home-accept-INC-9851",
+          "fixed": false,
+          "x": 27,
+          "y": 568,
+          "w": 150,
+          "h": 47
+        },
+        {
+          "name": "⌂ Trang chủ",
+          "target": "tech-home",
+          "fixed": true,
+          "x": 10,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "△ Sự cố",
+          "target": "tech-incidents",
+          "fixed": true,
+          "x": 113,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▣ Nghiệm thu",
+          "target": "tech-inspections",
+          "fixed": true,
+          "x": 215,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▤ Hóa đơn",
+          "target": "tech-invoices",
+          "fixed": true,
+          "x": 318,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        }
+      ]
+    },
+    {
+      "key": "tech-inspections-add",
+      "name": "TECH - Add inspection toast",
+      "file": "tech-inspections-add.png",
+      "nav": {
+        "x": 0,
+        "y": 864,
+        "w": 430,
+        "h": 68,
+        "file": "tech-inspections-add-nav.png"
+      },
+      "width": 430,
+      "height": 932,
+      "viewportHeight": 932,
+      "buttonCount": 6,
+      "hotspotCount": 6,
+      "fixedHotspotCount": 4,
+      "hotspots": [
+        {
+          "name": "bell-button",
+          "target": "tech-inspections-dispatch-modal",
+          "fixed": false,
+          "x": 378,
+          "y": 9,
+          "w": 36,
+          "h": 36
+        },
+        {
+          "name": "Thêm phiếu nghiệm thu",
+          "target": "tech-inspections-add",
+          "fixed": false,
+          "x": 12,
+          "y": 141,
+          "w": 406,
+          "h": 47
+        },
+        {
+          "name": "⌂ Trang chủ",
+          "target": "tech-home",
+          "fixed": true,
+          "x": 10,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "△ Sự cố",
+          "target": "tech-incidents",
+          "fixed": true,
+          "x": 113,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▣ Nghiệm thu",
+          "target": "tech-inspections",
+          "fixed": true,
+          "x": 215,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▤ Hóa đơn",
+          "target": "tech-invoices",
+          "fixed": true,
+          "x": 318,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        }
+      ]
+    },
+    {
+      "key": "tech-invoices-add",
+      "name": "TECH - Add invoice toast",
+      "file": "tech-invoices-add.png",
+      "nav": {
+        "x": 0,
+        "y": 864,
+        "w": 430,
+        "h": 68,
+        "file": "tech-invoices-add-nav.png"
+      },
+      "width": 430,
+      "height": 932,
+      "viewportHeight": 932,
+      "buttonCount": 6,
+      "hotspotCount": 6,
+      "fixedHotspotCount": 4,
+      "hotspots": [
+        {
+          "name": "bell-button",
+          "target": "tech-invoices-dispatch-modal",
+          "fixed": false,
+          "x": 378,
+          "y": 9,
+          "w": 36,
+          "h": 36
+        },
+        {
+          "name": "Thêm hóa đơn",
+          "target": "tech-invoices-add",
+          "fixed": false,
+          "x": 12,
+          "y": 141,
+          "w": 406,
+          "h": 47
+        },
+        {
+          "name": "⌂ Trang chủ",
+          "target": "tech-home",
+          "fixed": true,
+          "x": 10,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "△ Sự cố",
+          "target": "tech-incidents",
+          "fixed": true,
+          "x": 113,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▣ Nghiệm thu",
+          "target": "tech-inspections",
+          "fixed": true,
+          "x": 215,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        },
+        {
+          "name": "▤ Hóa đơn",
+          "target": "tech-invoices",
+          "fixed": true,
+          "x": 318,
+          "y": 873,
+          "w": 103,
+          "h": 51
+        }
+      ]
+    }
+  ]
+}

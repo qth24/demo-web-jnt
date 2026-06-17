@@ -8,6 +8,7 @@
   --bg: #f7f7f8;
   --green: #16b981;
   --amber: #f59e0b;
+  --app-header-height: 82px;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
 }
 
@@ -15,10 +16,20 @@
   box-sizing: border-box;
 }
 
+html {
+  min-height: 100%;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--bg);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 20px;
+  background:
+    radial-gradient(circle at 50% 0, rgba(230, 0, 18, 0.18), transparent 34%),
+    linear-gradient(145deg, #15171d, #2c3038);
   color: var(--ink);
 }
 
@@ -50,10 +61,98 @@ button {
   display: none !important;
 }
 
-.login-screen {
-  min-height: 100vh;
+.phone-stage {
+  width: min(430px, calc(100vw - 16px));
+  height: min(930px, calc(100vh - 16px));
+  min-height: 0;
   display: grid;
   place-items: center;
+  overflow: visible;
+}
+
+.phone-device {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+  padding: 10px;
+  border-radius: 44px;
+  background:
+    linear-gradient(145deg, #3a3f49, #08090d 42%, #262b34),
+    #111318;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+    inset 0 0 0 5px rgba(0, 0, 0, 0.82),
+    0 30px 78px rgba(0, 0, 0, 0.46);
+}
+
+.phone-device::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  pointer-events: none;
+  border-radius: 39px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.phone-side-button {
+  position: absolute;
+  z-index: -1;
+  width: 4px;
+  border-radius: 999px;
+  background: #242832;
+}
+
+.phone-side-button-left {
+  left: -3px;
+  top: 150px;
+  height: 78px;
+}
+
+.phone-side-button-right {
+  right: -3px;
+  top: 188px;
+  height: 112px;
+}
+
+.phone-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 36px;
+  background: var(--bg);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.16),
+    inset 0 0 0 2px rgba(0, 0, 0, 0.04);
+}
+
+.phone-island {
+  position: absolute;
+  top: 11px;
+  left: 50%;
+  z-index: 80;
+  width: 118px;
+  height: 34px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: #111318;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+}
+
+.login-screen {
+  height: 100%;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
   padding: 22px;
   background:
     linear-gradient(rgba(230, 0, 18, 0.9), rgba(230, 0, 18, 0.78)),
@@ -210,22 +309,28 @@ textarea:focus {
 }
 
 .app {
-  max-width: 430px;
-  min-height: 100vh;
-  margin: 0 auto;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  overflow: hidden;
   background: #fff;
-  box-shadow: 0 0 0 1px #eee;
+  box-shadow: none;
 }
 
 .app-header {
-  position: sticky;
+  flex: 0 0 var(--app-header-height);
+  position: relative;
   top: 0;
   z-index: 10;
-  height: 54px;
+  height: var(--app-header-height);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
+  padding: 28px 16px 0;
   background: rgba(255, 255, 255, 0.96);
   border-bottom: 1px solid #f1d3d6;
   backdrop-filter: blur(14px);
@@ -277,7 +382,13 @@ textarea:focus {
 }
 
 .view {
-  min-height: calc(100vh - 54px);
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
   padding: 16px 12px 92px;
   background: #fafafa;
 }
@@ -645,15 +756,14 @@ textarea:focus {
 }
 
 .bottom-nav {
-  position: fixed;
-  left: 50%;
+  position: absolute;
+  left: 0;
   bottom: 0;
   z-index: 20;
-  width: min(430px, 100%);
-  transform: translateX(-50%);
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+  padding: 8px 10px 10px;
   background: rgba(255, 255, 255, 0.96);
   border-top: 1px solid #f0d6d9;
   backdrop-filter: blur(14px);
@@ -682,7 +792,7 @@ textarea:focus {
 }
 
 .toast {
-  position: fixed;
+  position: absolute;
   left: 50%;
   bottom: 86px;
   z-index: 30;
@@ -697,7 +807,7 @@ textarea:focus {
 }
 
 .success-pop {
-  position: fixed;
+  position: absolute;
   inset: 0;
   z-index: 60;
   display: grid;
@@ -732,7 +842,7 @@ textarea:focus {
 }
 
 .modal-root {
-  position: fixed;
+  position: absolute;
   inset: 0;
   z-index: 40;
   display: grid;
@@ -767,8 +877,32 @@ textarea:focus {
   line-height: 1.5;
 }
 
-@media (min-width: 560px) {
+@media (max-width: 480px) {
   body {
-    background: #e8eaee;
+    padding: 8px;
+  }
+
+  .phone-stage {
+    width: min(430px, calc(100vw - 8px));
+    height: min(930px, calc(100vh - 8px));
+  }
+
+  .phone-device {
+    padding: 8px;
+    border-radius: 34px;
+  }
+
+  .phone-device::before {
+    inset: 5px;
+    border-radius: 30px;
+  }
+
+  .phone-screen {
+    border-radius: 28px;
+  }
+
+  .phone-island {
+    width: 96px;
+    height: 28px;
   }
 }

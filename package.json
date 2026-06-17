@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "build:figma-prototype": "node tools/build-figma-prototype.js",
+    "build:figma-mobile-prototype": "node tools/build-figma-mobile-prototype.js",
     "test": "echo \"No automated tests configured\" && exit 0"
   },
   "repository": {

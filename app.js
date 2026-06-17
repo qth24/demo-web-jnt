@@ -953,7 +953,6 @@ function getCurrentAccount() {
 function renderAccountProfile(account) {
   const role = account.role || "Quản lý đội xe";
   const joinedAt = role === "Tài xế" ? "12/4/2023" : role.includes("Nhân viên") ? "22/9/2022" : "18/7/2022";
-  const handled = role === "Tài xế" ? "87" : role.includes("Nhân viên") ? "143" : "169";
   const code = account.employeeCode || account.driverCode || "QL001";
   return `
     <section class="account-profile-card">
@@ -972,7 +971,6 @@ function renderAccountProfile(account) {
           <strong>Số điện thoại:</strong><span>${escapeHtml(account.phone || "0987654321")}</span>
           <strong>Email:</strong><span>${escapeHtml(account.email || "nguyenvanthong@jtexpress.vn")}</span>
           <strong>Mã số nhân viên:</strong><span>${escapeHtml(code)}</span>
-          <strong>Số đơn hàng đã xử lý:</strong><span>${handled}</span>
         </div>
         <button type="button" class="secondary-btn">Sửa</button>
       </div>
