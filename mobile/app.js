@@ -4,6 +4,8 @@ const state = {
   accepted: new Set(),
 };
 
+const mobileRoles = ["driver", "tech"];
+
 const dispatches = [
   { id: "INC-9823", severity: "Khẩn cấp", tone: "high", title: "Hỏng động cơ - Cháy nổ nhẹ", plate: "29C-458.21", distance: "1.2 KM", place: "Quốc lộ 1A, Km 15 + 200", staff: "Nguyễn Văn A" },
   { id: "INC-9844", severity: "Trung bình", tone: "medium", title: "Lỗi hệ thống điện - Đèn tín hiệu", plate: "51D-122.90", distance: "3.8 KM", place: "Cầu Sài Gòn, hướng về Quận 1", staff: "Trần Thị B" },
@@ -72,22 +74,26 @@ document.addEventListener("click", (event) => {
 els.backRole.addEventListener("click", () => {
   els.loginScreen.classList.add("hidden");
   els.roleScreen.classList.remove("hidden");
+  pushRoute("role");
 });
 
 els.openRegister.addEventListener("click", () => {
   els.loginScreen.classList.add("hidden");
   els.registerScreen.classList.remove("hidden");
+  pushRoute(`register/${state.role}`);
 });
 
 els.backLogin.addEventListener("click", () => {
   els.registerScreen.classList.add("hidden");
   els.loginScreen.classList.remove("hidden");
+  pushRoute(`login/${state.role}`);
 });
 
 els.submitRegister.addEventListener("click", () => {
   toast("Đã gửi thông tin đăng ký tài khoản.");
   els.registerScreen.classList.add("hidden");
   els.loginScreen.classList.remove("hidden");
+  pushRoute(`login/${state.role}`);
 });
 
 els.loginForm.addEventListener("submit", (event) => {
@@ -100,6 +106,7 @@ els.loginForm.addEventListener("submit", (event) => {
   els.appTitle.textContent = state.role === "driver" ? "Trần Văn Bình" : "Hoàng Gia Phúc";
   renderNav();
   render();
+  pushRoute(`${state.role}/${state.view}`);
   toast(state.role === "driver" ? "Xin chào Trần Văn Bình" : "Xin chào Hoàng Gia Phúc");
 });
 
@@ -110,6 +117,7 @@ function chooseRole(role) {
   els.loginCode.value = role === "driver" ? "TX228" : "KT031";
   els.roleScreen.classList.add("hidden");
   els.loginScreen.classList.remove("hidden");
+  pushRoute(`login/${role}`);
 }
 
 els.nav.addEventListener("click", (event) => {
@@ -117,6 +125,7 @@ els.nav.addEventListener("click", (event) => {
   if (!button) return;
   state.view = button.dataset.view;
   render();
+  pushRoute(`${state.role}/${state.view}`);
 });
 
 els.bell.addEventListener("click", () => {
@@ -146,6 +155,7 @@ document.addEventListener("click", (event) => {
   if (go) {
     state.view = go.dataset.go;
     render();
+    pushRoute(`${state.role}/${state.view}`);
   }
   if (event.target.closest("[data-modal-close]")) closeModal();
   if (event.target.closest("[data-modal-accept]")) {
@@ -173,6 +183,85 @@ function render() {
   const driverViews = { home: renderDriverHome, report: renderReport, edit: renderEdit, notify: renderNotify };
   const techViews = { home: renderTechHome, incidents: renderIncidents, inspections: renderInspections, invoices: renderInvoices };
   els.view.innerHTML = (state.role === "driver" ? driverViews : techViews)[state.view]();
+}
+
+function routeBaseSegments() {
+  const segments = window.location.pathname.split("/").filter(Boolean);
+  const mobileIndex = segments.lastIndexOf("mobile");
+  if (mobileIndex >= 0) return segments.slice(0, mobileIndex + 1);
+  const routeStart = segments.findIndex((segment) => mobileRoles.includes(segment) || segment === "login" || segment === "register" || segment === "role");
+  return routeStart > 0 ? segments.slice(0, routeStart) : [];
+}
+
+function buildRoutePath(route) {
+  const base = routeBaseSegments();
+  const cleanRoute = route.replace(/^\/+|\/+$/g, "");
+  return `/${[...base, cleanRoute].filter(Boolean).join("/")}`;
+}
+
+function pushRoute(route) {
+  const nextPath = buildRoutePath(route);
+  if (window.location.pathname !== nextPath) {
+    window.history.pushState({}, "", nextPath);
+  }
+}
+
+function showRoleScreen() {
+  els.app.classList.add("hidden");
+  els.loginScreen.classList.add("hidden");
+  els.registerScreen.classList.add("hidden");
+  els.roleScreen.classList.remove("hidden");
+}
+
+function showLoginScreen(role) {
+  chooseRole(role);
+  els.registerScreen.classList.add("hidden");
+  els.loginScreen.classList.remove("hidden");
+  els.roleScreen.classList.add("hidden");
+  els.app.classList.add("hidden");
+}
+
+function showRegisterScreen(role) {
+  showLoginScreen(role);
+  els.loginScreen.classList.add("hidden");
+  els.registerScreen.classList.remove("hidden");
+}
+
+function showAppScreen(role, view) {
+  state.role = role;
+  const allowed = navByRole[role].map(([id]) => id);
+  state.view = allowed.includes(view) ? view : "home";
+  els.roleScreen.classList.add("hidden");
+  els.loginScreen.classList.add("hidden");
+  els.registerScreen.classList.add("hidden");
+  els.app.classList.remove("hidden");
+  els.appTitle.textContent = state.role === "driver" ? "Trần Văn Bình" : "Hoàng Gia Phúc";
+  renderNav();
+  render();
+}
+
+function applyRouteFromPath() {
+  const segments = window.location.pathname.split("/").filter(Boolean);
+  const mobileIndex = segments.lastIndexOf("mobile");
+  const route = mobileIndex >= 0 ? segments.slice(mobileIndex + 1) : segments;
+  const start = route.findIndex((segment) => mobileRoles.includes(segment) || segment === "login" || segment === "register" || segment === "role");
+  const [first, second] = start >= 0 ? route.slice(start) : [];
+
+  if (!first || first === "role") {
+    showRoleScreen();
+    return;
+  }
+  if (first === "login" && mobileRoles.includes(second)) {
+    showLoginScreen(second);
+    return;
+  }
+  if (first === "register" && mobileRoles.includes(second)) {
+    showRegisterScreen(second);
+    return;
+  }
+  if (mobileRoles.includes(first)) {
+    showAppScreen(first, second);
+  }
 }
 
 function renderDriverHome() {
@@ -327,3 +416,6 @@ function showSuccess() {
   clearTimeout(showSuccess.timer);
   showSuccess.timer = setTimeout(() => els.success.classList.add("hidden"), 1200);
 }
+
+applyRouteFromPath();
+window.addEventListener("popstate", applyRouteFromPath);

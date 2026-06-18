@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>J&T Driver Mobile</title>
+    <base href="../../" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="phone-stage">
+      <div class="phone-device" aria-label="Khung điện thoại iPhone 15 Pro">
+        <div class="phone-side-button phone-side-button-left"></div>
+        <div class="phone-side-button phone-side-button-right"></div>
+        <div class="phone-screen">
+          <div class="phone-island" aria-hidden="true"></div>
+          <main id="role-screen" class="login-screen">
+            <section class="login-card role-card">
+              <img src="../images/jnt-ngang.png" alt="J&T Express" class="login-logo" />
+              <h1>Chọn vai trò đăng nhập</h1>
+              <p>Vui lòng chọn tài khoản để hệ thống mở đúng luồng mobile.</p>
+              <div class="role-actions">
+                <button type="button" class="role-choice driver-role" data-role-choice="driver">
+                  <span>TX</span>
+                  Tài xế đăng nhập
+                </button>
+                <button type="button" class="role-choice tech-role" data-role-choice="tech">
+                  <span>NV</span>
+                  Nhân viên đăng nhập
+                </button>
+              </div>
+            </section>
+          </main>
+
+          <main id="login-screen" class="login-screen hidden">
+            <section class="login-card">
+              <img src="../images/jnt-ngang.png" alt="J&T Express" class="login-logo" />
+              <h1>Đăng nhập</h1>
+              <p>Chọn tài khoản tài xế hoặc nhân viên để vào đúng luồng xử lý.</p>
+              <button type="button" class="back-button" id="back-role">← Quay lại chọn vai trò</button>
+              <form id="login-form" class="login-form">
+                <label>
+                  <span>Vai trò</span>
+                  <div class="readonly-field" id="login-role-display">Tài xế - Trần Văn Bình</div>
+                  <input id="login-role" type="hidden" value="driver" />
+                </label>
+                <label>
+                  <span>Mã đăng nhập</span>
+                  <input id="login-code" value="TX228" autocomplete="username" />
+                </label>
+                <label>
+                  <span>Mật khẩu</span>
+                  <input value="123" type="password" autocomplete="current-password" />
+                </label>
+                <button type="submit">Đăng nhập</button>
+                <button type="button" class="register-link" id="open-register">Bạn chưa có tài khoản? <strong>Đăng kí</strong></button>
+              </form>
+            </section>
+          </main>
+
+          <main id="register-screen" class="login-screen hidden">
+            <section class="login-card">
+              <img src="../images/jnt-ngang.png" alt="J&T Express" class="login-logo" />
+              <h1>Đăng ký tài khoản</h1>
+              <p>Nhập thông tin để tạo tài khoản tài xế hoặc nhân viên.</p>
+              <button type="button" class="back-button" id="back-login">← Quay lại đăng nhập</button>
+              <form class="login-form">
+                <label><span>Vai trò</span><select><option>Tài xế</option><option>Nhân viên</option></select></label>
+                <label><span>Mã tài xế / Nhân viên</span><input placeholder="VD: TX228 hoặc NV014" /></label>
+                <label><span>Tên</span><input /></label>
+                <label><span>CCCD</span><input /></label>
+                <label><span>Số điện thoại</span><input /></label>
+                <label><span>Email (Đối với khối văn phòng)</span><input type="email" /></label>
+                <label><span>Hạng GPLX</span><input /></label>
+                <label><span>Hạn GPLX</span><input type="date" /></label>
+                <label><span>Chi nhánh</span><select><option>HCM-01</option><option>BD-02</option><option>HN-03</option></select></label>
+                <label><span>Mật khẩu mặc định</span><input value="123" /></label>
+                <button type="button" id="submit-register">Đăng kí</button>
+              </form>
+            </section>
+          </main>
+
+          <main id="app" class="app hidden">
+            <header class="app-header">
+              <div>
+                <img src="../images/jnt-ngang.png" alt="" />
+                <strong id="app-title">J&T Express</strong>
+              </div>
+              <button type="button" class="icon-button" id="bell-button" aria-label="Thông báo">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9" />
+                  <path d="M10 20a2 2 0 0 0 4 0" />
+                </svg>
+              </button>
+            </header>
+
+            <section id="view" class="view"></section>
+
+            <nav class="bottom-nav" aria-label="Điều hướng"></nav>
+          </main>
+
+          <div id="toast" class="toast hidden"></div>
+          <div id="success-pop" class="success-pop hidden" aria-live="polite">
+            <div class="success-icon">✓</div>
+          </div>
+          <div id="modal-root" class="modal-root hidden"></div>
+        </div>
+      </div>
+    </div>
+    <script src="./app.js"></script>
+  </body>
+</html>

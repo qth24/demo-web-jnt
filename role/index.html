@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>J&T Fleet Incident Control</title>
+    <base href="../" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="role-screen" class="role-screen">
+      <main class="role-shell">
+        <section class="role-left">
+          <div class="role-topline">
+            <img src="./images/jnt-ngang.png" alt="J&T Express" class="role-logo" />
+            <label class="language-inline">
+              <span>◎</span>
+              <select id="role-language-select" aria-label="Language">
+                <option value="vi">Tiếng Việt</option>
+                <option value="en">English</option>
+                <option value="zh">中文</option>
+              </select>
+            </label>
+          </div>
+          <div class="role-picker">
+            <h1 data-i18n="choose_login">Vui lòng chọn vị trí đăng nhập:</h1>
+            <button type="button" class="role-choice driver-choice" data-role-choice="driver" data-i18n="driver_login">Tài xế đăng nhập</button>
+            <button type="button" class="role-choice staff-choice" data-role-choice="safety" data-i18n="staff_login">Nhân viên đăng nhập</button>
+            <button type="button" class="role-choice manager-choice" data-role-choice="fleet" data-i18n="manager_login">Quản lý đăng nhập</button>
+          </div>
+        </section>
+        <section class="role-visual">
+          <div>
+            <h2 data-i18n-html="hero_title">Giao hàng nhanh chóng<br />Kết nối thành công</h2>
+            <p data-i18n="hero_desc">Đăng nhập để quản lý sự cố, theo dõi đội xe và trải nghiệm dịch vụ tốt nhất từ J&T Express.</p>
+          </div>
+          <img src="./images/xetaijnt.png" alt="J&T Express truck" class="role-truck" />
+        </section>
+        <footer class="role-footer">
+          <span>© 2026 J&T Express. <span data-i18n="copyright">Tất cả quyền được bảo lưu</span></span>
+          <nav>
+            <a href="#" data-i18n="terms">Điều khoản sử dụng</a>
+            <a href="#" data-i18n="privacy">Chính sách bảo mật</a>
+            <a href="#" data-i18n="support">Trung tâm hỗ trợ</a>
+          </nav>
+        </footer>
+      </main>
+    </div>
+
+    <div id="login-screen" class="login-screen hidden">
+      <section class="login-panel">
+        <div class="login-topline">
+          <img src="./images/jnt-ngang.png" alt="J&T Express" class="login-logo" />
+          <label class="language-inline">
+            <span>◎</span>
+            <select id="login-language-select" aria-label="Language">
+              <option value="vi">Tiếng Việt</option>
+              <option value="en">English</option>
+              <option value="zh">中文</option>
+            </select>
+          </label>
+        </div>
+        <div class="login-copy">
+          <button type="button" id="back-role-btn" class="link-btn back-login">← <span data-i18n="back">Quay lại</span></button>
+          <h1 data-i18n="login_title">Đăng nhập</h1>
+          <p data-i18n="login_welcome">Chào mừng bạn quay trở lại!</p>
+        </div>
+        <form id="login-form" class="login-form">
+          <label>
+            <span data-i18n="account_label">Số điện thoại / Email</span>
+            <div class="input-shell">
+              <span class="input-icon">♡</span>
+              <input id="login-code" value="QL001" autocomplete="username" data-i18n-placeholder="account_placeholder" placeholder="Nhập số điện thoại hoặc email" />
+            </div>
+          </label>
+          <label>
+            <span data-i18n="password_label">Mật khẩu</span>
+            <div class="input-shell">
+              <span class="input-icon">□</span>
+              <input id="login-password" value="123456" type="password" autocomplete="current-password" data-i18n-placeholder="password_placeholder" placeholder="Nhập mật khẩu" />
+              <button id="toggle-password" class="icon-btn" type="button" aria-label="Hiện mật khẩu">⌕</button>
+            </div>
+          </label>
+          <label>
+            <span data-i18n="role">Vai trò</span>
+            <select id="login-role">
+              <option value="fleet">Quản lý đội xe</option>
+              <option value="branch">Quản lý chi nhánh</option>
+              <option value="safety">Nhân viên an toàn</option>
+              <option value="driver">Tài xế</option>
+              <option value="tech">Bộ phận kỹ thuật</option>
+            </select>
+          </label>
+          <button class="primary-btn login-submit" type="submit"><span data-i18n="login">Đăng nhập</span> <span>→</span></button>
+          <button class="link-btn" type="button" data-i18n="forgot_password">Quên mật khẩu?</button>
+          <p class="signup-copy">Bạn chưa có tài khoản? <button class="link-btn inline-link" id="open-register-btn" type="button">Đăng kí</button></p>
+        </form>
+      </section>
+      <section class="login-visual" aria-label="J&T Express visual">
+        <div class="login-hero-content">
+          <h2 data-i18n-html="hero_title">Giao hàng nhanh chóng<br />Kết nối thành công</h2>
+          <p data-i18n="hero_desc">Đăng nhập để quản lý sự cố, theo dõi đội xe và trải nghiệm dịch vụ tốt nhất từ J&T Express.</p>
+        </div>
+        <div class="hero-illustration" aria-hidden="true">
+          <img src="./images/xetaijnt.png" alt="" class="hero-truck-photo" />
+        </div>
+      </section>
+    </div>
+
+    <div id="app" class="app hidden">
+      <aside class="sidebar">
+        <div class="brand-lockup compact">
+          <img src="./images/jnt-ngang.png" alt="J&T Express" class="app-logo" />
+          <div>
+            <strong id="app-brand-title">Fleet Control</strong>
+            <span id="user-role-label">Quản lý đội xe</span>
+          </div>
+        </div>
+        <nav id="nav" class="nav"></nav>
+        <div class="sidebar-footer">
+          <select id="language-select" aria-label="Language">
+            <option value="vi">Tiếng Việt</option>
+            <option value="en">English</option>
+            <option value="zh">中文</option>
+          </select>
+          <button id="logout-btn" class="ghost-btn" type="button">Đăng xuất</button>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow" id="section-eyebrow">Vận hành đội xe</p>
+            <h2 id="section-title">Dashboard sự cố</h2>
+          </div>
+          <div class="topbar-actions">
+            <button id="quick-incident-btn" class="danger-btn" type="button">Báo cáo sự cố</button>
+            <button id="export-btn" class="secondary-btn" type="button">Xuất báo cáo</button>
+          </div>
+        </header>
+
+        <section id="dashboard-view" class="view active"></section>
+        <section id="accounts-view" class="view"></section>
+        <section id="trucks-view" class="view"></section>
+        <section id="drivers-view" class="view"></section>
+        <section id="employees-view" class="view"></section>
+        <section id="branches-view" class="view"></section>
+        <section id="incidents-view" class="view"></section>
+        <section id="inspections-view" class="view"></section>
+        <section id="trips-view" class="view"></section>
+        <section id="garages-view" class="view"></section>
+        <section id="invoices-view" class="view"></section>
+        <section id="categories-view" class="view"></section>
+      </main>
+    </div>
+
+    <div id="modal-root" class="modal-root hidden" aria-live="polite"></div>
+    <div id="toast-root" class="toast-root"></div>
+    <script src="./app.js"></script>
+  </body>
+</html>

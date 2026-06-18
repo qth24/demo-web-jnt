@@ -604,6 +604,9 @@ let gpsTick = 0;
 let activeFormKey = "";
 let activeDriverTab = "home";
 
+const desktopRoles = ["fleet", "branch", "safety", "driver", "tech"];
+const driverRouteViews = ["home", "report", "edit", "notify"];
+
 const incidentNameMap = {
   "Thủng lốp": "Sự cố nhỏ",
   "Cháy bóng đèn": "Sự cố nhỏ",
@@ -658,7 +661,12 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("toggle-password").addEventListener("click", togglePassword);
   document.addEventListener("click", handleDocumentClick);
   applyLanguage(null, true);
+  applyRouteFromPath();
   renderAll();
+  window.addEventListener("popstate", () => {
+    applyRouteFromPath();
+    renderAll();
+  });
   setInterval(updateGps, 1800);
 });
 
@@ -688,7 +696,9 @@ function handleLogin(event) {
   els.roleScreen.classList.add("hidden");
   els.loginScreen.classList.add("hidden");
   els.app.classList.remove("hidden");
-  currentView = navItems.find((item) => item.roles.includes(currentRole)).id;
+  currentView = defaultViewForRole(currentRole);
+  activeDriverTab = currentRole === "driver" ? "home" : activeDriverTab;
+  pushRoute(routeForCurrentState());
   renderAll();
   toast(`Đăng nhập với vai trò ${roleLabels[currentRole]}`);
 }
@@ -707,12 +717,14 @@ function logout() {
   els.app.classList.add("hidden");
   els.loginScreen.classList.add("hidden");
   els.roleScreen.classList.remove("hidden");
+  pushRoute("role");
 }
 
 function showRoleScreen() {
   els.loginScreen.classList.add("hidden");
   els.app.classList.add("hidden");
   els.roleScreen.classList.remove("hidden");
+  pushRoute("role");
 }
 
 function chooseLoginRole(role) {
@@ -723,6 +735,81 @@ function chooseLoginRole(role) {
   els.roleScreen.classList.add("hidden");
   els.loginScreen.classList.remove("hidden");
   updateRoleOptions();
+  pushRoute(`login/${role}`);
+}
+
+function defaultViewForRole(role) {
+  if (role === "driver") return "incidents";
+  return navItems.find((item) => item.roles.includes(role))?.id || "dashboard";
+}
+
+function routeBaseSegments() {
+  const segments = window.location.pathname.split("/").filter(Boolean);
+  const routeStart = segments.findIndex((segment) => desktopRoles.includes(segment) || segment === "login" || segment === "role");
+  return routeStart > 0 ? segments.slice(0, routeStart) : [];
+}
+
+function buildRoutePath(route) {
+  const base = routeBaseSegments();
+  const cleanRoute = route.replace(/^\/+|\/+$/g, "");
+  return `/${[...base, cleanRoute].filter(Boolean).join("/")}`;
+}
+
+function pushRoute(route) {
+  const nextPath = buildRoutePath(route);
+  if (window.location.pathname !== nextPath) {
+    window.history.pushState({}, "", nextPath);
+  }
+}
+
+function routeForCurrentState() {
+  if (currentRole === "driver") return `driver/${activeDriverTab}`;
+  return `${currentRole}/${currentView}`;
+}
+
+function showAppForRoute() {
+  updateAppIdentity();
+  els.roleScreen.classList.add("hidden");
+  els.loginScreen.classList.add("hidden");
+  els.app.classList.remove("hidden");
+}
+
+function applyRouteFromPath() {
+  const segments = window.location.pathname.split("/").filter(Boolean);
+  const start = segments.findIndex((segment) => desktopRoles.includes(segment) || segment === "login" || segment === "role");
+  const route = start >= 0 ? segments.slice(start) : [];
+  const [first, second] = route;
+
+  if (!first || first === "role") {
+    els.app.classList.add("hidden");
+    els.loginScreen.classList.add("hidden");
+    els.roleScreen.classList.remove("hidden");
+    return;
+  }
+
+  if (first === "login" && desktopRoles.includes(second)) {
+    currentRole = second;
+    els.loginRole.value = second;
+    updateRoleOptions();
+    els.app.classList.add("hidden");
+    els.roleScreen.classList.add("hidden");
+    els.loginScreen.classList.remove("hidden");
+    return;
+  }
+
+  if (!desktopRoles.includes(first)) return;
+  currentRole = first;
+  els.loginRole.value = first;
+
+  if (currentRole === "driver") {
+    activeDriverTab = driverRouteViews.includes(second) ? second : "home";
+    currentView = "incidents";
+  } else {
+    const allowed = navItems.filter((item) => item.roles.includes(currentRole)).map((item) => item.id);
+    currentView = allowed.includes(second) ? second : defaultViewForRole(currentRole);
+  }
+
+  showAppForRoute();
 }
 
 function renderAll() {
@@ -776,6 +863,7 @@ function navIcon(id) {
 
 function switchView(viewId) {
   currentView = viewId;
+  if (currentRole !== "driver" && !els.app.classList.contains("hidden")) pushRoute(routeForCurrentState());
   document.querySelectorAll(".view").forEach((view) => view.classList.toggle("active", view.id === `${viewId}-view`));
   if (currentRole === "driver") {
     renderNav();
@@ -1245,6 +1333,7 @@ function handleDocumentClick(event) {
   if (target.dataset.roleChoice) chooseLoginRole(target.dataset.roleChoice);
   if (target.dataset.driverTab) {
     activeDriverTab = target.dataset.driverTab;
+    pushRoute(routeForCurrentState());
     renderNav();
     renderEntity("incidents");
     els.sectionTitle.textContent = { home: "Trang chủ", report: "Báo cáo sự cố", edit: "Cập nhật sự cố", notify: "Thông báo hướng dẫn" }[activeDriverTab];
